@@ -747,9 +747,9 @@ useEffect(() => {
       </div>
 
       {/* Weather details of both cities side by side */}
-      <div className="bg-gray-50 rounded-lg p-4 card5">
+      <div className="grid grid-cols-2 gap-6 card5">
         {/* Source City Weather Details */}
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-50 rounded-lg p-4 card5">
           <h4 className="font-semibold text-gray-700 mb-3 text-center">
             {sourceName} Details
           </h4>
