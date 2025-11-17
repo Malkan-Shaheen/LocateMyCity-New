@@ -114,64 +114,111 @@ const specificPageData = allPagesData.page;
     fetchBackgroundImage();
   }, [from, to]);
 
-  // Function to fetch real-time weather data for both locations
-  const fetchRealTimeWeather = async () => {
-    if (!pageData?.weather_locations) return;
+// Function to fetch real-time weather data for both locations
+// Function to fetch real-time weather data for both locations
+const fetchRealTimeWeather = async () => {
+  console.log('🔍 [DEBUG] fetchRealTimeWeather called');
+  console.log('🔍 [DEBUG] sourceName:', sourceName);
+  console.log('🔍 [DEBUG] destinationName:', destinationName);
+  
+  // Generate weather locations from URL parameters since JSON doesn't have them
+  const sourceLocation = sourceName || capitalizeFirst(from);
+  const destinationLocation = destinationName || capitalizeFirst(to);
+  
+  console.log('🔍 [DEBUG] Generated locations - Source:', sourceLocation, 'Destination:', destinationLocation);
+  
+  if (!sourceLocation || !destinationLocation) {
+    console.error('❌ [ERROR] Cannot generate weather locations - missing source or destination names');
+    setDynamicWeather({
+      source: { 
+        temp: 'N/A', 
+        wind_speed: 'N/A', 
+        visibility: 'N/A',
+        humidity: 'N/A',
+        conditions: 'Location not found'
+      },
+      destination: { 
+        temp: 'N/A', 
+        wind_speed: 'N/A', 
+        visibility: 'N/A',
+        humidity: 'N/A',
+        conditions: 'Location not found'
+      }
+    });
+    setWeatherLoading(false);
+    return;
+  }
+  
+  try {
+    setWeatherLoading(true);
+    console.log('🔄 [DEBUG] Starting weather API calls...');
     
-    try {
-      setWeatherLoading(true);
-      
-      // Fetch weather data for both locations simultaneously
-      const [sourceWeather, destinationWeather] = await Promise.all([
-        fetchWeatherData(pageData.weather_locations.source),
-        fetchWeatherData(pageData.weather_locations.destination)
-      ]);
+    // Fetch weather data for both locations simultaneously
+    const [sourceWeather, destinationWeather] = await Promise.all([
+      fetchWeatherData(sourceLocation),
+      fetchWeatherData(destinationLocation)
+    ]);
 
-      // Format and update weather data
-      setDynamicWeather({
-        source: {
-          temp: sourceWeather.temp || `${Math.round(sourceWeather.main?.temp || 0)}°C`,
-          wind_speed: sourceWeather.wind_speed || `${Math.round(sourceWeather.wind?.speed || 0)} km/h`,
-          visibility: sourceWeather.visibility || `${(sourceWeather.visibility / 1000 || 0).toFixed(1)} km`,
-          humidity: sourceWeather.humidity || `${sourceWeather.main?.humidity || 0}%`,
-          conditions: sourceWeather.conditions || sourceWeather.weather?.[0]?.description || 'Clear'
-        },
-        destination: {
-          temp: destinationWeather.temp || `${Math.round(destinationWeather.main?.temp || 0)}°C`,
-          wind_speed: destinationWeather.wind_speed || `${Math.round(destinationWeather.wind?.speed || 0)} km/h`,
-          visibility: destinationWeather.visibility || `${(destinationWeather.visibility / 1000 || 0).toFixed(1)} km`,
-          humidity: destinationWeather.humidity || `${destinationWeather.main?.humidity || 0}%`,
-          conditions: destinationWeather.conditions || destinationWeather.weather?.[0]?.description || 'Clear'
-        }
-      });
+    console.log('📡 [DEBUG] Source weather API response:', sourceWeather);
+    console.log('📡 [DEBUG] Destination weather API response:', destinationWeather);
 
-      setLastUpdated(new Date().toLocaleTimeString());
-      
-    } catch (error) {
-      console.error('Error fetching real-time weather:', error);
-      
-      // Fallback to static weather data if API fails
-      setDynamicWeather({
-        source: {
-          temp: '26°C',
-          wind_speed: '18 km/h',
-          visibility: '16.0 km',
-          humidity: '78%',
-          conditions: 'Partly Cloudy'
-        },
-        destination: {
-          temp: '27°C',
-          wind_speed: '22 km/h',
-          visibility: '15.5 km',
-          humidity: '75%',
-          conditions: 'Sunny'
-        }
-      });
-    } finally {
-      setWeatherLoading(false);
+    // Check if API responses are valid
+    if (!sourceWeather || !destinationWeather) {
+      console.error('❌ [ERROR] Weather API returned null or undefined responses');
+      throw new Error('Weather API returned invalid data');
     }
-  };
 
+    // Format and update weather data - API already returns formatted strings!
+    const formattedWeather = {
+      source: {
+        temp: sourceWeather.temp || 'N/A',
+        wind_speed: sourceWeather.wind_speed || 'N/A',
+        visibility: sourceWeather.visibility || 'N/A',
+        humidity: sourceWeather.humidity || 'N/A', // Note: humidity might not be in response
+        conditions: sourceWeather.description || sourceWeather.conditions || 'No data'
+      },
+      destination: {
+        temp: destinationWeather.temp || 'N/A',
+        wind_speed: destinationWeather.wind_speed || 'N/A',
+        visibility: destinationWeather.visibility || 'N/A',
+        humidity: destinationWeather.humidity || 'N/A', // Note: humidity might not be in response
+        conditions: destinationWeather.description || destinationWeather.conditions || 'No data'
+      }
+    };
+
+    console.log('✅ [DEBUG] Formatted weather data:', formattedWeather);
+    setDynamicWeather(formattedWeather);
+    setLastUpdated(new Date().toLocaleTimeString());
+    console.log('✅ [DEBUG] Weather data successfully updated');
+    
+  } catch (error) {
+    console.error('❌ [ERROR] Error fetching real-time weather:', error);
+    
+    // Fallback to static weather data if API fails
+    const fallbackWeather = {
+      source: {
+        temp: '26°C',
+        wind_speed: '18 km/h',
+        visibility: '16.0 km',
+        humidity: '78%',
+        conditions: 'Partly Cloudy'
+      },
+      destination: {
+        temp: '27°C',
+        wind_speed: '22 km/h',
+        visibility: '15.5 km',
+        humidity: '75%',
+        conditions: 'Sunny'
+      }
+    };
+    
+    console.log('🔄 [DEBUG] Using fallback weather data:', fallbackWeather);
+    setDynamicWeather(fallbackWeather);
+  } finally {
+    setWeatherLoading(false);
+    console.log('🔚 [DEBUG] Weather loading completed');
+  }
+};
   // Function to fetch background image
   const fetchBackgroundImage = async () => {
     try {
@@ -198,18 +245,29 @@ const specificPageData = allPagesData.page;
   };
 
   // Effect to fetch real-time weather data when page data is loaded
-  useEffect(() => {
-    if (pageData) {
-      fetchRealTimeWeather();
-      
-      // Set up interval to refresh weather data every 5 minutes
-      const weatherInterval = setInterval(fetchRealTimeWeather, 5 * 60 * 1000);
-      
-      return () => {
-        clearInterval(weatherInterval);
-      };
-    }
-  }, [pageData]);
+  // Effect to fetch real-time weather data when page data is loaded
+useEffect(() => {
+  console.log('🔍 [DEBUG] useEffect triggered - pageData:', pageData);
+  
+  if (pageData && sourceName && destinationName) {
+    console.log('✅ [DEBUG] Conditions met, calling fetchRealTimeWeather');
+    fetchRealTimeWeather();
+    
+    // Set up interval to refresh weather data every 5 minutes
+    const weatherInterval = setInterval(fetchRealTimeWeather, 5 * 60 * 1000);
+    
+    return () => {
+      console.log('🧹 [DEBUG] Cleaning up weather interval');
+      clearInterval(weatherInterval);
+    };
+  } else {
+    console.log('❌ [DEBUG] Conditions not met for weather fetch:', {
+      hasPageData: !!pageData,
+      hasSourceName: !!sourceName,
+      hasDestinationName: !!destinationName
+    });
+  }
+}, [pageData, sourceName, destinationName]);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -650,11 +708,21 @@ const specificPageData = allPagesData.page;
   </div>
 
   {weatherLoading ? (
-    <div className="flex justify-center items-center py-8">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-      <span className="ml-2 text-gray-600">Loading weather...</span>
-    </div>
-  ) : (
+  <div className="flex justify-center items-center py-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+    <span className="ml-2 text-gray-600">Loading weather...</span>
+  </div>
+) : dynamicWeather.source.temp === 'Loading...' ? (
+  <div className="text-center py-8">
+    <p className="text-red-500 mb-2">Failed to load weather data</p>
+    <button 
+      onClick={fetchRealTimeWeather}
+      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    >
+      Retry
+    </button>
+  </div>
+) :(
     <>
       {/* Top temperature display */}
       <div className="grid grid-cols-2 text-center mb-6">
