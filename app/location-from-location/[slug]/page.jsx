@@ -386,81 +386,90 @@ export default function DistanceResult() {
       return;
     }
 
-    const fetchLocations = async () => {
-      setIsLoading(true);
-      addDebugInfo('Starting location fetch process');
+   // In your page.jsx, update the fetchLocations function
+const fetchLocations = async () => {
+  setIsLoading(true);
+  addDebugInfo('Starting location fetch process');
+  
+  try {
+    const sourceQuery = encodeURIComponent(sourceName.replace(/-/g, ' '));
+    const destQuery = encodeURIComponent(destinationName.replace(/-/g, ' '));
+    
+    const sourceApiUrl = `/api/geocode?query=${sourceQuery}`;
+    const destApiUrl = `/api/geocode?query=${destQuery}`;
+    
+    addDebugInfo('Making geocode API requests:', { sourceApiUrl, destApiUrl });
+
+    const [sourceResponse, destResponse] = await Promise.all([
+      fetch(sourceApiUrl),
+      fetch(destApiUrl),
+    ]);
+
+    addDebugInfo('Geocode API responses:', {
+      sourceStatus: sourceResponse.status,
+      destStatus: destResponse.status
+    });
+
+    // Handle API errors gracefully
+    if (!sourceResponse.ok || !destResponse.ok) {
+      const sourceError = await sourceResponse.text();
+      const destError = await destResponse.text();
       
-      try {
-        const sourceQuery = encodeURIComponent(sourceName.replace(/-/g, ' '));
-        const destQuery = encodeURIComponent(destinationName.replace(/-/g, ' '));
-        
-        const sourceApiUrl = `/api/geocode?query=${sourceQuery}`;
-        const destApiUrl = `/api/geocode?query=${destQuery}`;
-        
-        addDebugInfo('Making geocode API requests:', { sourceApiUrl, destApiUrl });
-
-        const [sourceResponse, destResponse] = await Promise.all([
-          fetch(sourceApiUrl),
-          fetch(destApiUrl),
-        ]);
-
-        addDebugInfo('Geocode API responses:', {
-          sourceStatus: sourceResponse.status,
-          sourceUrl: sourceResponse.url,
-          destStatus: destResponse.status,
-          destUrl: destResponse.url
-        });
-
-        // Check if responses are OK before parsing JSON
-        if (!sourceResponse.ok) {
-          throw new Error(`Source geocode failed: ${sourceResponse.status}`);
-        }
-        if (!destResponse.ok) {
-          throw new Error(`Destination geocode failed: ${destResponse.status}`);
-        }
-
-        const [sourceData, destData] = await Promise.all([
-          sourceResponse.json(),
-          destResponse.json(),
-        ]);
-
-        addDebugInfo('Geocode data received:', { sourceData, destData });
-
-        // Check for API errors in response data
-        if (sourceData.error || destData.error) {
-          throw new Error(sourceData.error || destData.error);
-        }
-
-        if (sourceData && destData) {
-          addDebugInfo('Setting place data');
-          setSourcePlace({
-            lat: sourceData.lat,
-            lon: sourceData.lon,
-            display_name: sourceData.display_name,
-          });
-
-          setDestinationPlace({
-            lat: destData.lat,
-            lon: destData.lon,
-            display_name: destData.display_name,
-          });
-
-          calculateDistance(sourceData, destData);
-          fetchWeatherData(sourceData, destData);
-          fetchPopularRoutes(sourceData, destData);
-        } else {
-          addDebugInfo('No data received, redirecting');
-          router.push('/');
-        }
-      } catch (error) {
-        addDebugInfo('Error in location fetch process:', error.message);
-        console.error('Error fetching location data:', error);
-        router.push('/');
-      } finally {
-        setIsLoading(false);
-        addDebugInfo('Location fetch process completed');
+      addDebugInfo('API error details:', { sourceError, destError });
+      
+      // Don't redirect immediately, show error to user
+      if (sourceResponse.status === 503 || destResponse.status === 503) {
+        throw new Error('Service temporarily unavailable. Please try again in a few moments.');
       }
-    };
+      throw new Error(`Geocoding service error: ${sourceResponse.status}`);
+    }
+
+    const [sourceData, destData] = await Promise.all([
+      sourceResponse.json(),
+      destResponse.json(),
+    ]);
+
+    addDebugInfo('Geocode data received:', { sourceData, destData });
+
+    // Check for API errors in response data
+    if (sourceData.error || destData.error) {
+      throw new Error(sourceData.error || destData.error);
+    }
+
+    if (sourceData && destData) {
+      addDebugInfo('Setting place data');
+      setSourcePlace({
+        lat: sourceData.lat,
+        lon: sourceData.lon,
+        display_name: sourceData.display_name,
+      });
+
+      setDestinationPlace({
+        lat: destData.lat,
+        lon: destData.lon,
+        display_name: destData.display_name,
+      });
+
+      calculateDistance(sourceData, destData);
+      fetchWeatherData(sourceData, destData);
+      fetchPopularRoutes(sourceData, destData);
+    } else {
+      addDebugInfo('No data received from APIs');
+      // Show error state instead of redirecting
+      setSourcePlace(null);
+      setDestinationPlace(null);
+    }
+  } catch (error) {
+    addDebugInfo('Error in location fetch process:', error.message);
+    console.error('Error fetching location data:', error);
+    // Set error state instead of redirecting
+    setSourcePlace(null);
+    setDestinationPlace(null);
+  } finally {
+    setIsLoading(false);
+    addDebugInfo('Location fetch process completed');
+  }
+};
 
     fetchLocations();
   }, [

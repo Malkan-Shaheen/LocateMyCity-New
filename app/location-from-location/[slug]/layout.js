@@ -1,3 +1,4 @@
+// app/location-from-location/[slug]/layout.js
 import { notFound } from "next/navigation";
 
 // Function to calculate distance
@@ -20,40 +21,8 @@ function capitalize(str = "") {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Static metadata - remove dynamic API calls
-export async function generateMetadata({ params }) {
-  const slug = params?.slug || "";
-  
-  // Extract location names from slug without API calls
-  const parts = slug.replace("how-far-is-", "").split("-from-");
-  const from = parts[0]?.replace(/-/g, " ") || "Unknown Location";
-  const to = parts[1]?.replace(/-/g, " ") || "Unknown Location";
-
-  const fromShort = from.split(',')[0];
-  const toShort = to.split(',')[0];
-
-  const pageTitle = `How Far is ${capitalize(fromShort)} from ${capitalize(toShort)}? | LocateMyCity`;
-  
-  const metaDescription = `Calculate the distance from ${capitalize(fromShort)} to ${capitalize(toShort)} in miles, kilometers, and nautical miles. Use LocateMyCity for accurate distance calculations between locations worldwide.`;
-
-  return {
-    title: pageTitle,
-    description: metaDescription,
-    openGraph: {
-      title: pageTitle,
-      description: metaDescription,
-      type: "website",
-    },
-    alternates: {
-      canonical: `https://locatemycity.com/location-from-location/${slug}`,
-    },
-  };
-}
-
-export default function DistanceLayout({ children, params }) {
-  const slug = Array.isArray(params?.slug) ? params.slug[0] : (params?.slug || "");
-  
-  // Extract and format location names properly
+// Helper function to extract location names from slug
+function extractLocationNames(slug) {
   let sourceName = "Location A";
   let destinationName = "Location B";
   
@@ -63,6 +32,29 @@ export default function DistanceLayout({ children, params }) {
     destinationName = parts[1]?.replace(/-/g, " ") || "Location B";
   }
 
+  return { sourceName, destinationName };
+}
+
+// Static metadata
+export async function generateMetadata({ params }) {
+  // Await the params first
+  const awaitedParams = await params;
+  const slug = awaitedParams?.slug || "";
+
+  // Extract location names from slug
+  const { sourceName, destinationName } = extractLocationNames(slug);
+
+  return {
+    title: `How Far is ${sourceName} from ${destinationName}? | Distance Calculator`,
+    description: `Calculate the distance between ${sourceName} and ${destinationName}. Get accurate measurements in miles, kilometers, and nautical miles with travel time estimates.`,
+  };
+}
+
+export default function DistanceLayout({ children, params }) {
+  // Extract location names for JSON-LD
+  const slug = params?.slug || "";
+  const { sourceName, destinationName } = extractLocationNames(slug);
+  
   // Get short names (first part before comma)
   const sourceShortName = sourceName.split(',')[0];
   const destinationShortName = destinationName.split(',')[0];

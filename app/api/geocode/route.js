@@ -1,82 +1,73 @@
 // app/api/geocode/route.js
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const query = searchParams.get("query") || "";
-  
+import { NextResponse } from 'next/server';
+
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('query');
+
   if (!query) {
-    return new Response(JSON.stringify({ error: "Missing query" }), { 
-      status: 400,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    return NextResponse.json(
+      { error: 'Query parameter is required' },
+      { status: 400 }
+    );
   }
 
-  const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&addressdetails=1&q=${encodeURIComponent(query)}`;
-
   try {
-    const res = await fetch(url, {
+    // Add delay to respect rate limits (1 request per second)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1&addressdetails=1`;
+    
+    const response = await fetch(nominatimUrl, {
       headers: {
-        "User-Agent": "LocateMyCity/1.0 (contact@example.com)",
-        Referer: "https://your-app.example",
-      },
-    });
-
-    if (!res.ok) {
-      return new Response(JSON.stringify({ error: "Geocoding service error" }), { 
-        status: 502,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
-    }
-
-    const data = await res.json();
-    const first = data?.[0];
-    
-    if (!first) {
-      return new Response(JSON.stringify({ error: "No results" }), { 
-        status: 404,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
-    }
-
-    const address = first.address || {};
-    let countryCode = null;
-    
-    if (address.country_code) {
-      countryCode = address.country_code.toUpperCase();
-    }
-
-    return new Response(
-      JSON.stringify({
-        lat: first.lat,
-        lon: first.lon,
-        display_name: first.display_name,
-        country_code: countryCode,
-        address: address
-      }),
-      { 
-        status: 200, 
-        headers: { 
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "public, s-maxage=3600", // Cache for 1 hour
-        } 
+        'User-Agent': 'LocateMyCity/1.0 (contact@locatemycity.com)',
+        'Accept-Language': 'en',
+        'Referer': 'http://localhost:3000'
       }
-    );
-  } catch (e) {
-    return new Response(JSON.stringify({ error: e.message }), { 
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
     });
+
+    if (!response.ok) {
+      // If we get 403, try with different approach
+      if (response.status === 403) {
+        return NextResponse.json(
+          { error: 'Service temporarily unavailable. Please try again later.' },
+          { status: 503 }
+        );
+      }
+      throw new Error(`Nominatim API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { error: 'Location not found' },
+        { status: 404 }
+      );
+    }
+
+    const location = data[0];
+    
+    const result = {
+      display_name: location.display_name,
+      lat: location.lat,
+      lon: location.lon,
+      address: {
+        city: location.address.city || location.address.town || location.address.village,
+        state: location.address.state,
+        country: location.address.country,
+        country_code: location.address.country_code?.toLowerCase()
+      },
+      boundingbox: location.boundingbox,
+      place_id: location.place_id
+    };
+
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error('Geocode API error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch location data' },
+      { status: 500 }
+    );
   }
 }
