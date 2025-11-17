@@ -565,7 +565,7 @@ const fetchLocations = async () => {
 
       <main id="main-content" role="main">
         {/* Debug panel - remove in production */}
-        <details className="debug-panel bg-yellow-100 p-4 mb-4 rounded">
+        {/* <details className="debug-panel bg-yellow-100 p-4 mb-4 rounded">
           <summary className="cursor-pointer font-bold">Debug Information</summary>
           <pre className="text-xs whitespace-pre-wrap mt-2">
             {JSON.stringify({
@@ -577,7 +577,7 @@ const fetchLocations = async () => {
               debugInfo: debugInfo.slice(-5)
             }, null, 2)}
           </pre>
-        </details>
+        </details> */}
 
         <section
           className="distance-result__header"
