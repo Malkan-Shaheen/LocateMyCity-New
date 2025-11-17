@@ -1055,7 +1055,7 @@ useEffect(() => {
 
           {/* 📍 RADIUS SELECTOR */}
           <section className="text-center mb-12 s">
-            <RadiusSelector location={destinationName.toLowerCase()} />
+            <RadiusSelector location={destinationName} />
           </section>
         </div>
       </main>
