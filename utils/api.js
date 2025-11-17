@@ -49,6 +49,7 @@ export async function fetchWeatherData(location) {
       temp: '25°C', 
       wind_speed: '10 km/h', 
       visibility: '8 km',
+      humidity: '78%',
       description: 'Clear'
     };
   } catch (error) {
