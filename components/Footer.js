@@ -13,7 +13,42 @@ export default function Footer() {
           <p className="footer-description">
             Helping you explore cities smarter. Fast, accurate, and user-friendly.
           </p>
+        <div className="footer-social">
+            <a 
+              href="https://www.facebook.com/locatemycity" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link1"
+              aria-label="Follow us on Facebook"
+            >
+              <FaFacebook className="social-icon" />
+            </a>
+            <a 
+              href="https://www.instagram.com/locatemycitynow" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link1"
+              aria-label="Follow us on Instagram"
+            >
+              <FaInstagram className="social-icon" />
+            </a>
+          </div>
         </div>
+
+        {/* Center: Links */}
+        <div className="footer-section">
+          <h2 className="footer-heading">Quick Links</h2>
+          <ul className="footer-links">
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/about">About Us</Link></li>
+            <li><Link href="/faq">FAQ</Link></li>
+            <li><Link href="/contact">Contact</Link></li>
+          </ul>
+        </div>
+       
+
+       
+        
 
         {/* Center: Links */}
         <div className="footer-section">

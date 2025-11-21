@@ -37,7 +37,10 @@
             "best_travel_time": "Nov – Apr",
             "currency": "BSD (Bahamian Dollar)",
             "language": "English",
-            "time_zone": "EST (UTC-5)"
+            "time_zone": "EST (UTC-5)",
+            "main_airport":"North Eleuthera Airport (ELH)",
+            "population":"8,000 to 9,104"
+
         },
         "about_destination": {
             "description": [
@@ -50,6 +53,46 @@
                 "/get-from-to-images/eleuthera3.webp"
             ]
         },
+          "top_things": [
+            {
+                "title": "Pink Sand Beaches",
+                "image": "/get-from-to-images/pink-sand-beach.webp"
+            },
+            {
+                "title": "Glass Window Bridge",
+                "image": "/get-from-to-images/glass-window-bridge.webp"
+            },
+            {
+                "title": "Surfer's Beach",
+                "image": "/get-from-to-images/surfers-beach.webp"
+            },
+            {
+                "title": "Hatchet Bay Caves",
+                "image": "/get-from-to-images/hatchet-bay-caves.webp"
+            }
+        ],
+        "places_to_stay": [
+            {
+                "title": "French Leave Resort",
+                "description": "Luxury beachfront resort with stunning ocean views and premium amenities",
+                "image": "/get-from-to-images/french-leave-resort.webp"
+            },
+            {
+                "title": "The Cove Eleuthera",
+                "description": "Boutique hotel offering private villas and exceptional dining experiences",
+                "image": "/get-from-to-images/the-cove-eleuthera.webp"
+            },
+            {
+                "title": "Hilton at The Current Club",
+                "description": "World-class resort with golf course, spa, and multiple dining options",
+                "image": "/get-from-to-images/hilton-current-club.webp"
+            },
+            {
+                "title": "Tarpum Bay Oceanfront Villas",
+                "description": "Private villas with direct beach access and fully equipped kitchens",
+                "image": "/get-from-to-images/tarpum-bay-villas.webp"
+            }
+        ],
         "best_overall_way": {
             "heading": "Best Overall Way to Get to Eleuthera from Nassau",
             "description": "The best and most efficient way to reach Eleuthera from Nassau is by plane. Daily flights operated by Bahamasair and Pineapple Air make it quick, reliable, and affordable — with travel times under 30 minutes. For travelers who value convenience and stunning aerial views, flying is the clear winner."
@@ -231,7 +274,9 @@
             "best_travel_time": "Nov – Apr",
             "currency": "BSD (Bahamian Dollar)",
             "language": "English",
-            "time_zone": "EST (UTC-5)"
+            "time_zone": "EST (UTC-5)",
+            "main_airport":"North Eleuthera Airport (ELH)",
+            "population":"8,000 to 9,104"
         },
         "about_destination": {
             "description": [
@@ -244,6 +289,70 @@
                 "/get-from-to-images/eleuthera3.webp"
             ]
         },
+          "top_things": [
+            {
+                "title": "Governor's Harbour",
+                "image": "/get-from-to-images/top1.jpg"
+            },
+            {
+                "title": "Hatchet Bay Caves",
+                "image": "/get-from-to-images/top2.jpg"
+            },
+            {
+                "title": "Lighthouse Beach",
+                "image": "/get-from-to-images/top3.jpg"
+            },
+            {
+                "title": "Glass Window Bridge",
+                "image": "/get-from-to-images/top4.jpg"
+            }
+        ],
+        "places_to_stay": [
+           {
+    "title": "French Leave Resort, Autograph Collection",
+    "description": [
+        "Luxury beachfront resort with stunning ocean views",
+        "Pink sand beaches access", 
+        "Two infinity pools",
+        "On-site restaurant and premium amenities",
+        "Located in Governor's Harbour"
+    ],
+    "image": "/get-from-to-images/places_to_stay1.jpg"
+},
+{
+    "title": "The Cove Eleuthera",
+    "description": [
+        "Boutique hotel offering private villas",
+        "Exceptional dining experiences",
+        "Personalized service",
+        "Intimate atmosphere", 
+        "Scenic oceanfront location"
+    ],
+    "image": "/get-from-to-images/places_to_stay2.jpg"
+},
+{
+    "title": "Hilton at The Current Club", 
+    "description": [
+        "World-class resort with championship golf course",
+        "Full-service spa and wellness center",
+        "Multiple dining options and restaurants",
+        "Luxury accommodations",
+        "Comprehensive resort amenities"
+    ],
+    "image": "/get-from-to-images/places_to_stay3.jpg"
+},
+{
+    "title": "Tarpum Bay Oceanfront Villas",
+    "description": [
+        "Private villas with direct beach access",
+        "Fully equipped kitchens", 
+        "Perfect for extended stays",
+        "Oceanfront views",
+        "Self-catering accommodations"
+    ],
+    "image": "/get-from-to-images/places_to_stay4.jpg"
+}
+        ],
         "best_overall_way": {
             "heading": "Best Overall Way to Get to Eleuthera from Nassau",
             "description": "The best and most efficient way to reach Eleuthera from Nassau is by plane. Daily flights operated by Bahamasair and Pineapple Air make it quick, reliable, and affordable — with travel times under 30 minutes. For travelers who value convenience and stunning aerial views, flying is the clear winner."

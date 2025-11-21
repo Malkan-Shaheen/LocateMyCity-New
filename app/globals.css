@@ -167,6 +167,11 @@ a, button {
   min-height: 48px;
 }
 
+social-link1{
+  min-width: 15px !important;
+  min-height: 48px;
+}
+
 /* --- DistanceCalculator Styles --- */
 /* ------------------- Animations ------------------- */
 @keyframes fadeIn {
@@ -5471,4 +5476,40 @@ body.popup-open {
       font-weight: 500;
       font-size: 14px;
     }
+s
+  /* Add these styles to make dropdown wider */
+  .dropdown-content {
+    width: 100% !important;
+    max-width: none !important;
+  }
   
+  .dropdown-inner {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .airlines-container, 
+  .ferry-routes-container {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .airline-card,
+  .ferry-route-card {
+    width: 100% !important;
+  }
+  
+  .routes-grid {
+    width: 100% !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  }
+  
+  .ferry-schedule-grid {
+    width: 100% !important;
+  }
+
+  /* Also add this to your existing ScheduleDropdown component */
+  .dropdown-container {
+    width: 100% !important;
+    max-width: none !important;
+  }

@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { getRouteCoordinates, fetchWeatherData, fetchRouteMap } from '../../../../utils/api';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import { CheckCircle, Zap, DollarSign, Shield } from 'lucide-react';
+
 
 // Import JSON directly
 import allPagesData from '../../../../data/cities_info';
@@ -21,6 +23,8 @@ export default function HowToGetToPage() {
   const params = useParams();
   const from = params.from; // This will be 'nassau', 'moscow', etc.
   const to = params.to; // This will be 'eleuthera', 'berlin', etc.
+
+
 
   // State to manage the background image
   const [background, setBackground] = React.useState({
@@ -71,6 +75,10 @@ export default function HowToGetToPage() {
   // Set destination country dynamically
   const [destinationCountry, setDestinationCountry] = useState('');
 
+  
+  const topThings = pageData?.top_things || [];
+const placesToStay = pageData?.places_to_stay || [];
+
   // Helper function to capitalize first letter
   function capitalizeFirst(str) {
     return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
@@ -113,6 +121,7 @@ const specificPageData = allPagesData.page;
     loadPageData();
     fetchBackgroundImage();
   }, [from, to]);
+
 
 // Function to fetch real-time weather data for both locations
 // Function to fetch real-time weather data for both locations
@@ -309,8 +318,8 @@ useEffect(() => {
     return (
       <ul className="routes-list">
         {fallbackCountries.map((country, index) => {
-          const destSlug = destinationName 
-            ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+          const destSlug = sourceName 
+            ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
             : to || 'destination';
             
           const countrySlug = country.name
@@ -325,14 +334,14 @@ useEffect(() => {
                 className="route-link"
                 prefetch={false}
               >
-                How far is {country.name} from {destinationName || 'Destination'}?
+                How far is {country.name} from {sourceName || 'Destination'}?
               </Link>
             </li>
           );
         })}
       </ul>
     );
-  }, [loadingNeighbors, destinationName, to]);
+  }, [loadingNeighbors, sourceName, to]);
 
   // Memoized popular routes
   const popularRoutes = useMemo(() => (
@@ -343,8 +352,8 @@ useEffect(() => {
         'Toronto',
         'London'
       ].map((city, index) => {
-        const destSlug = destinationName
-          ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+        const destSlug = sourceName
+          ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
           : to || 'destination';
           
         const citySlug = city
@@ -358,18 +367,18 @@ useEffect(() => {
               href={`/location-from-location/how-far-is-${citySlug}-from-${destSlug}`}
               prefetch={false}
             >
-              {city} to {destinationName || 'Destination'}
+              {city} to {sourceName || 'Destination'}
             </Link>
           </li>
         );
       })}
     </ul>
-  ), [destinationName, to]);
+  ), [sourceName, to]);
 
   // Schedule Dropdown Component
-  const ScheduleDropdown = ({ type, title, data, icon }) => (
-    <div className="dropdown-container mb-6">
-      <button 
+   const ScheduleDropdown = ({ type, title, data, icon }) => (
+    <div className="dropdown-container mb-6 w-full"> {/* Add w-full here */}
+     <br/> <button 
         className={`w-full flex items-center justify-between p-4 hover:cursor-pointer hover:bg-[#eeeaea] rounded-xl border-2 transition-all duration-300 hover:shadow-lg ${
           openDropdown === type 
             ? 'border-blue-500 bg-blue-50 shadow-md' 
@@ -394,13 +403,13 @@ useEffect(() => {
 
       {/* Dropdown Content */}
      <div 
-  className={`dropdown-content ${openDropdown === type ? 'dropdown-open' : 'dropdown-closed'}`}
+  className={`dropdown-content w-full ${openDropdown === type ? 'dropdown-open' : 'dropdown-closed'}`} 
 >
-  <div className="dropdown-inner">
+  <div className="dropdown-inner w-full"> {/* Add w-full here */}
     {type === 'plane' ? (
-      <div className="airlines-container">
+      <div className="airlines-container w-full"> {/* Add w-full here */}
         {data.schedule.airlines.map((airline, airlineIndex) => (
-          <div key={airlineIndex} className="airline-card">
+          <div key={airlineIndex} className="airline-card w-full"> {/* Add w-full here */}
             <div className="airline-header">
               <div className="airline-accent"></div>
               <div className="airline-info">
@@ -411,9 +420,9 @@ useEffect(() => {
               </div>
             </div>
             
-            <div className="routes-grid">
+            <div className="routes-grid w-full"> {/* Add w-full here */}
               {airline.routes.map((route, routeIndex) => (
-                <div key={routeIndex} className="route-card">
+                <div key={routeIndex} className="route-card w-full"> {/* Add w-full here */}
                   <div className="route-header">
                     <span className="route-from">{route.from}</span>
                   </div>
@@ -423,11 +432,9 @@ useEffect(() => {
                         <span className="departure-bullet"></span>
                         <span className="departure-time">{time}</span>
                       </div>
-
                     ))}
                   </div>
-       <p className="route-days">{route.days}</p>
-
+                  <p className="route-days">{route.days}</p>
                 </div>
               ))}
             </div>
@@ -435,9 +442,9 @@ useEffect(() => {
         ))}
       </div>
     ) : (
-      <div className="ferry-routes-container">
+      <div className="ferry-routes-container w-full"> {/* Add w-full here */}
         {data.schedule.routes.map((route, routeIndex) => (
-          <div key={routeIndex} className="ferry-route-card">
+          <div key={routeIndex} className="ferry-route-card w-full"> {/* Add w-full here */}
             <div className="ferry-route-header">
               <div className="ferry-accent"></div>
               <div className="ferry-route-info">
@@ -446,7 +453,7 @@ useEffect(() => {
               </div>
             </div>
             
-            <div className="ferry-schedule-grid">
+            <div className="ferry-schedule-grid w-full"> {/* Add w-full here */}
               <div className="schedule-column">
                 <h5 className="schedule-title">Departures</h5>
                 <div className="schedule-list">
@@ -476,6 +483,7 @@ useEffect(() => {
 </div>
     </div>
   );
+   
 
   // Fallback background image
   const fallbackBackground = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
@@ -603,8 +611,8 @@ useEffect(() => {
   <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full">
     <div className="max-w-2xl bg-opacity-20 rounded-xl p-6 sm:p-8 mx-auto hero1">
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-lg text-left">
-        How to Get to <span className="text-yellow-400">{destinationName}</span> from{' '}
-        <span className="block">{sourceName}</span>
+        How to Get from <span className="text-yellow-400">{sourceName}</span>  to<span className="block"></span> <span className="text-yellow-400">{destinationName}</span> 
+        
       </h1>
 
       <p className="text-sm sm:text-base md:text-xl text-gray-200 leading-relaxed max-w-3xl mb-10 drop-shadow-md text-left">
@@ -646,15 +654,35 @@ useEffect(() => {
           
           {/* 🗺️ TRAVEL ROUTE OVERVIEW */}
           <section className="bg-transparent mb-12">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3">
-                Travel Route Overview
-              </h2>
-              <br/>
-              <p className="text-lg text-gray-600">
-                Route from {sourceName} to {destinationName}
-              </p><br/>
-            </div>
+           <div className="text-center mb-8">
+  <h2 className="text-2xl font-bold text-gray-800 mb-3">
+    Quick Answer: How to get to {destinationName} from {sourceName}
+  </h2>
+  <br/>
+  <div className="space-y-3 text-lg text-gray-600 flex flex-col items-center">
+  <p className="flex items-center w-full max-w-4xl">
+    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+    <strong className="w-45 flex-shrink-0">Best overall route:</strong>
+    <span className="ml-2">Direct flight on Bahamas Air, Western Air or Southern Air</span>
+  </p>
+  <p className="flex items-center w-full max-w-4xl">
+    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+    <strong className="w-45 flex-shrink-0">Fastest:</strong>
+    <span className="ml-2">15–20 min flight</span>
+  </p>
+  <p className="flex items-center w-full max-w-4xl">
+    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+    <strong className="w-45 flex-shrink-0">Cheapest:</strong>
+    <span className="ml-2">Eleuthera Express, Current Pride, Bahamas Daybreak, Bahamas Fast Ferries</span>
+  </p>
+  <p className="flex items-center w-full max-w-4xl">
+    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+    <strong className="w-45 flex-shrink-0">Most reliable:</strong>
+    <span className="ml-2">Direct flight</span>
+  </p>
+</div>
+  <br/>
+</div>
 
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div className="overflow-hidden rounded-lg shadow-md">
@@ -812,12 +840,68 @@ useEffect(() => {
 
                 <div className="text-gray-500">Time Zone</div>
                 <div className="text-gray-800 font-bold text-right">{general_info.time_zone}</div>
+
+                 <div className="text-gray-500">Main Airport</div>
+                <div className="text-gray-800 font-bold text-right">{general_info.main_airport}</div>
+
+                 <div className="text-gray-500">Population</div>
+                <div className="text-gray-800 font-bold text-right">{general_info.population}</div>
               </div>
             </div>
           </section>
 
+          <div className="mb-12">
+  <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+    Top Things to Do in {sourceName}
+  </h2>
+  
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-self-center">
+    {topThings.map((item, index) => (
+      <div key={index} className="flex flex-col items-center">
+        <img 
+          src={item.image} 
+          alt={item.title}
+          className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md justify-center"
+        />
+        <h3 className="text-lg font-semibold text-gray-800 mt-3 text-center">
+          {item.title}
+        </h3>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+{placesToStay.length > 0 && (
+  <div className="mb-12">
+    <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+      Places to Stay in {destinationName}
+    </h2>
+    
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-self-center">
+      {placesToStay.map((place, index) => (
+        <div key={index} className="flex flex-col items-left">
+          <img 
+            src={place.image} 
+            alt={place.title}
+            className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md"
+          /><br/>
+          <h3 className="text-lg font-semibold text-gray-800 mt-3 text-left">
+            {place.title}
+          </h3>
+         {place.description.map((point, idx) => (
+  <p key={idx}>• {point}</p>
+))}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+
           {/* ✈️ BY PLANE */}
-          <section className="bg-transparent p-4 sm:p-8 mb-8 transition-all plane-route">
+        <br/><br/>  <section className="bg-transparent p-4 sm:p-8 mb-8 transition-all plane-route">
             <div className="grid md:grid-cols-2 gap-8 items-start">
               {/* Content Section - Comes First */}
               <div className="by-plane order-2 md:order-1">
@@ -854,12 +938,7 @@ useEffect(() => {
                 </ul>
 
                 {/* Flight Schedules Dropdown */}
-                <ScheduleDropdown
-                  type="plane"
-                  title="✈️ Flight Schedules & Timetables"
-                  data={by_plane}
-                //   icon={<FaPlane className="text-blue-600" />}
-                />
+               
               </div>
 
               {/* Image Section - Comes Second on Mobile */}
@@ -873,6 +952,12 @@ useEffect(() => {
                 />
               </div>
             </div>
+             <ScheduleDropdown
+                  type="plane"
+                  title="✈️ Flight Schedules & Timetables"
+                  data={by_plane}
+                //   icon={<FaPlane className="text-blue-600" />}
+                />
           </section>
           <br/><br/><br/><br/>
 
@@ -928,14 +1013,14 @@ useEffect(() => {
                 </ul>
 
                 {/* Ferry Schedules Dropdown */}
-                <ScheduleDropdown
+               
+              </div>
+            </div> <ScheduleDropdown
                   type="ferry"
                   title="⛴️ Ferry Schedules & Timetables"
                   data={by_ferry}
                 //   icon={<FaShip className="text-blue-600" />}
                 />
-              </div>
-            </div>
           </section>
           <br/><br/><br/><br/>
 
@@ -1055,7 +1140,7 @@ useEffect(() => {
 
           {/* 📍 RADIUS SELECTOR */}
           <section className="text-center mb-12 s">
-            <RadiusSelector location={destinationName} />
+            <RadiusSelector location={sourceName} />
           </section>
         </div>
       </main>
@@ -1063,11 +1148,11 @@ useEffect(() => {
       {/* 🗺️ DISCOVER CITIES & POPULAR ROUTES */}
     <footer className="page-footer">
         <div className="footer-section card3">
-          <h4>How far is {destinationName} from neighboring countries?</h4>
+          <h4>How far is {sourceName} from neighboring countries?</h4>
           {neighboringCountriesList}
         </div>
         <div className="footer-section card3">
-          <h4>Popular Routes to {destinationName}</h4>
+          <h4>Popular Routes to {sourceName}</h4>
           {popularRoutes}
         </div>
       </footer>
