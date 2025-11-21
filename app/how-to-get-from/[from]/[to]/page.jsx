@@ -809,13 +809,13 @@ useEffect(() => {
           
           {/* 🗺️ TRAVEL ROUTE OVERVIEW */}
           <section className="bg-transparent mb-12">
-    <div className="compact-journey">
+    <div className="compact-journey w-full">
   <div className="journey-header">
     <h2>Travel from {sourceName} to {destinationName}</h2>
     <p>Choose your preferred option</p>
   </div>
 
-  <div className="options-grid">
+  <div className="options-grid w-full">
   <div className="option-card best">
     <div className="card-header card5">
       <div className="icon-wrapper">
@@ -1084,7 +1084,7 @@ useEffect(() => {
     </h2>
     
     {/* Slideshow Container */}
-    <div className="relative max-w-6xl mx-auto">
+    <div className="relative max-w-6xl mx-auto ">
       <div 
         ref={sliderRef}
         className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
@@ -1092,43 +1092,42 @@ useEffect(() => {
         {placesToStay.map((place, index) => (
           <div 
             key={index} 
-            className="flex-shrink-0 w-full snap-center relative rounded-xl overflow-hidden shadow-lg"
+            className="flex-shrink-0 w-full snap-center relative rounded-xl overflow-hidden shadow-lg bg-[#0776d8]"
           >
-            {/* Image taking full width */}
-            <img 
-              src={place.image} 
-              alt={place.title}
-              className="w-full h-96 object-cover brightness-105"
-            />
+           <img
+  src={place.image}
+  alt={place.title}
+  className="w-auto h-auto object-contain brightness-105 max-w-full max-h-full"
+/>
+
             
-            {/* Light Overlay on entire image */}
-            <div className="absolute inset-0 bg-blue-900/40"></div>
+            {/* <div className="absolute inset-0 bg-blue-900/40"></div> */}
             
-            {/* Content Overlay at Bottom */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4 sm:p-6">
-              <div className="flex flex-col md:flex-row justify-between items-start space-y-4 md:space-y-0">
-                
-                {/* Title Section - Left Side */}
-                <div className="flex-1 md:pr-4">
-                  <h3 className="text-xl sm:text-4xl md:text-3xl font-bold text-white mb-2 md:mb-3 drop-shadow-lg card5">
-                    {place.title}
-                  </h3>
-                </div>
-                
-                {/* Description Points - Right Side */}
-                <div className="flex-1 md:pl-4 md:text-right">
-                  <div className="space-y-1 sm:space-y-2 card5">
-                    {place.description.map((point, idx) => (
-                      <p 
-                        key={idx} 
-                        className="text-sm sm:text-base md:text-lg font-medium text-white opacity-95 leading-tight sm:leading-relaxed drop-shadow-md"
-                      >
-                        • {point}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-                
+<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent pb-0">
+  <div className="relative w-full h-full">
+    
+
+    <div className="absolute right-10 bottom-2 sm:bottom-4 sm:right-6 max-w-[45%]">
+      <div className="space-y-1 sm:space-y-2 card5 text-left">
+        <h3
+      className="absolute left-4 bottom-2 sm:bottom-4 sm:left-6 text-xl sm:text-4xl md:text-3xl font-bold text-white drop-shadow-lg mb-0 card11"
+      style={{ marginBottom: 160 }}
+    >
+      {place.title}
+    </h3>
+        {place.description.map((point, idx) => (
+          <p
+            key={idx}
+            className="text-sm sm:text-base md:text-lg font-medium text-white opacity-95 leading-tight sm:leading-relaxed drop-shadow-md mb-0 card11"
+            style={{ marginBottom: 0 }}
+          >
+            - {point}
+          </p>
+        ))}
+      </div>
+    </div>
+  
+
               </div>
             </div>
           </div>
@@ -1136,7 +1135,7 @@ useEffect(() => {
       </div>
       
       {/* Navigation Arrows */}
-      {/* <button 
+      <button 
         onClick={goToPrevious}
         className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
       >
@@ -1153,7 +1152,7 @@ useEffect(() => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
-     */}
+    
     </div>
   </div>
 )}
@@ -1600,9 +1599,7 @@ useEffect(() => {
 padding:10px !important;
 }
 .compact-journey {
-      max-width: 900px;
       margin: 0 auto;
-      padding: 20px;
     }
 
     .journey-header {
@@ -2077,6 +2074,10 @@ padding:10px !important;
     height: 18px;
   }
 }
+  .card11{
+  
+  padding-right:150px;
+  }
       `}</style>
     </div>
   );
