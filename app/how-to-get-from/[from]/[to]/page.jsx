@@ -863,14 +863,14 @@ useEffect(() => {
           src={item.image} 
           alt={item.title}
           className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md justify-center"
-        />
+        /><br/>
         <h3 className="text-lg font-semibold text-gray-800 mt-3 text-center">
           {item.title}
         </h3>
       </div>
     ))}
   </div>
-</div>
+</div><br/><br/>
 
 
 {placesToStay.length > 0 && (
