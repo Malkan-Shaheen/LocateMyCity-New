@@ -68,7 +68,7 @@ images: {
         { source: '/location-from-location/:slug', destination: '/location-from-location/:slug' },
         { source: '/location-to-location', destination: '/location-from-location/location-to-location' },
         { source: '/places-:radius-miles-from-:location', destination: '/find-places/places-:radius-miles-from-:location' },
-{ source: '/how-to-get-to-:from-from-:to', destination: '/how-to-get-to/:from/:to' },
+{ source: '/how-to-get-from-:from-to-:to', destination: '/how-to-get-from/:from/:to' },
         // { source: '/how-to-get-to-eleuthera-from-nassau', destination: '/how-to-get-to/eleuthera-from-nassau' },
 
       ],
