@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import React from 'react';
 import Head from 'next/head';
 import Header from '../../../../components/Header';
@@ -14,6 +14,7 @@ import { getRouteCoordinates, fetchWeatherData, fetchRouteMap } from '../../../.
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { CheckCircle, Zap, DollarSign, Shield } from 'lucide-react';
+import { Crown, Clock, TrendingUp, Star } from 'lucide-react';
 
 
 // Import JSON directly
@@ -37,6 +38,134 @@ export default function HowToGetToPage() {
   const [weatherData, setWeatherData] = useState({});
   const [loading, setLoading] = useState(true);
   const [pageData, setPageData] = useState(null);
+
+  // Add these state variables and functions at the top of your component
+const [currentSlide, setCurrentSlide] = useState(0);
+const sliderRef = useRef(null);
+const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const topThings = pageData?.top_things || [];
+const placesToStay = pageData?.places_to_stay || [];
+
+// Clone the first and last items for seamless looping
+const extendedPlacesToStay = useMemo(() => {
+  if (placesToStay.length === 0) return [];
+  
+  // Add the last item to the beginning and first item to the end
+  return [
+    placesToStay[placesToStay.length - 1], // Last item
+    ...placesToStay,                       // All original items
+    placesToStay[0]                        // First item
+  ];
+}, [placesToStay]);
+
+const totalSlides = extendedPlacesToStay.length;
+
+const goToSlide = (index) => {
+  if (isTransitioning || totalSlides === 0) return;
+  
+  setIsTransitioning(true);
+  setCurrentSlide(index);
+  
+  if (sliderRef.current) {
+    sliderRef.current.scrollTo({
+      left: sliderRef.current.clientWidth * index,
+      behavior: 'smooth'
+    });
+  }
+  
+  // Reset transitioning state after animation
+  setTimeout(() => setIsTransitioning(false), 500);
+};
+
+const goToNext = () => {
+  if (totalSlides === 0 || isTransitioning) return;
+  
+  const nextSlide = currentSlide + 1;
+  
+  if (nextSlide >= totalSlides - 1) {
+    // If we're at the cloned last item, instantly jump to the real first item
+    setTimeout(() => {
+      setCurrentSlide(1);
+      sliderRef.current.scrollTo({
+        left: sliderRef.current.clientWidth * 1,
+        behavior: 'instant'
+      });
+    }, 500);
+  }
+  
+  goToSlide(nextSlide);
+};
+
+const goToPrevious = () => {
+  if (totalSlides === 0 || isTransitioning) return;
+  
+  const prevSlide = currentSlide - 1;
+  
+  if (prevSlide <= 0) {
+    // If we're at the cloned first item, instantly jump to the real last item
+    setTimeout(() => {
+      setCurrentSlide(totalSlides - 2);
+      sliderRef.current.scrollTo({
+        left: sliderRef.current.clientWidth * (totalSlides - 2),
+        behavior: 'instant'
+      });
+    }, 500);
+  }
+  
+  goToSlide(prevSlide);
+};
+
+// Handle scroll to detect current slide
+useEffect(() => {
+  const handleScroll = () => {
+    if (sliderRef.current && !isTransitioning) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const slideWidth = sliderRef.current.clientWidth;
+      const newSlide = Math.round(scrollLeft / slideWidth);
+      
+      // Adjust for cloned items
+      let adjustedSlide = newSlide;
+      if (newSlide === 0) {
+        adjustedSlide = placesToStay.length - 1;
+      } else if (newSlide === totalSlides - 1) {
+        adjustedSlide = 0;
+      } else {
+        adjustedSlide = newSlide - 1;
+      }
+      
+      setCurrentSlide(adjustedSlide);
+    }
+  };
+
+  const slider = sliderRef.current;
+  if (slider) {
+    slider.addEventListener('scroll', handleScroll);
+    return () => slider.removeEventListener('scroll', handleScroll);
+  }
+}, [isTransitioning, placesToStay.length, totalSlides]);
+
+// Auto-slide every 5 seconds
+useEffect(() => {
+  if (placesToStay.length === 0) return;
+  
+  const interval = setInterval(() => {
+    goToNext();
+  }, 5000);
+  
+  return () => clearInterval(interval);
+}, [currentSlide, placesToStay.length, isTransitioning]);
+
+// Initialize slider position
+useEffect(() => {
+  if (sliderRef.current && totalSlides > 0) {
+    // Start at the first real item (index 1 because we added a clone at the beginning)
+    sliderRef.current.scrollTo({
+      left: sliderRef.current.clientWidth * 1,
+      behavior: 'instant'
+    });
+  }
+}, [totalSlides]);
 
   // Replace popup with dropdown state
   const [openDropdown, setOpenDropdown] = useState(null); // 'plane', 'ferry', or null
@@ -76,13 +205,39 @@ export default function HowToGetToPage() {
   const [destinationCountry, setDestinationCountry] = useState('');
 
   
-  const topThings = pageData?.top_things || [];
-const placesToStay = pageData?.places_to_stay || [];
+
 
   // Helper function to capitalize first letter
   function capitalizeFirst(str) {
     return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
   }
+
+
+
+
+// Auto-slide every 5 seconds
+useEffect(() => {
+  const interval = setInterval(goToNext, 5000);
+  return () => clearInterval(interval);
+}, [currentSlide, placesToStay.length]);
+
+// Update current slide on scroll
+useEffect(() => {
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const slideWidth = sliderRef.current.clientWidth;
+      const newSlide = Math.round(scrollLeft / slideWidth);
+      setCurrentSlide(newSlide);
+    }
+  };
+
+  const slider = sliderRef.current;
+  if (slider) {
+    slider.addEventListener('scroll', handleScroll);
+    return () => slider.removeEventListener('scroll', handleScroll);
+  }
+}, []);
 
   // Load page data based on route parameters
   useEffect(() => {
@@ -654,35 +809,84 @@ useEffect(() => {
           
           {/* 🗺️ TRAVEL ROUTE OVERVIEW */}
           <section className="bg-transparent mb-12">
-           <div className="text-center mb-8">
-  <h2 className="text-2xl font-bold text-gray-800 mb-3">
-    Quick Answer: How to get to {destinationName} from {sourceName}
-  </h2>
-  <br/>
-  <div className="space-y-3 text-lg text-gray-600 flex flex-col items-center">
-  <p className="flex items-center w-full max-w-4xl">
-    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-    <strong className="w-45 flex-shrink-0">Best overall route:</strong>
-    <span className="ml-2">Direct flight on Bahamas Air, Western Air or Southern Air</span>
-  </p>
-  <p className="flex items-center w-full max-w-4xl">
-    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-    <strong className="w-45 flex-shrink-0">Fastest:</strong>
-    <span className="ml-2">15–20 min flight</span>
-  </p>
-  <p className="flex items-center w-full max-w-4xl">
-    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-    <strong className="w-45 flex-shrink-0">Cheapest:</strong>
-    <span className="ml-2">Eleuthera Express, Current Pride, Bahamas Daybreak, Bahamas Fast Ferries</span>
-  </p>
-  <p className="flex items-center w-full max-w-4xl">
-    <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-    <strong className="w-45 flex-shrink-0">Most reliable:</strong>
-    <span className="ml-2">Direct flight</span>
-  </p>
+    <div className="compact-journey">
+  <div className="journey-header">
+    <h2>Travel from {sourceName} to {destinationName}</h2>
+    <p>Choose your preferred option</p>
+  </div>
+
+  <div className="options-grid">
+  <div className="option-card best">
+    <div className="card-header card5">
+      <div className="icon-wrapper">
+        <Crown className="icon" />
+      </div>
+      <div className="card-title ">
+        <h3>Best Route</h3>
+        <span className="badge">Recommended</span>
+      </div>
+    </div>
+    <p className="card-description">Direct flights with:</p>
+    <div className="tags">
+      <span className="tag">Bahamas Air</span>
+      <span className="tag">Western Air</span>
+      <span className="tag">Southern Air</span>
+    </div>
+  </div>
+
+  <div className="option-card fastest">
+    <div className="card-header">
+      <div className="icon-wrapper">
+        <Zap className="icon" />
+      </div>
+      <div className="card-title">
+        <h3>Fastest</h3>
+      </div>
+    </div>
+    <div className="time-display">
+      <span className="time">15-20 min</span>
+      <span className="time-label">Direct flight</span>
+    </div>
+  </div>
+
+  <div className="option-card cheapest">
+    <div className="card-header">
+      <div className="icon-wrapper">
+        <DollarSign className="icon" />
+      </div>
+      <div className="card-title">
+        <h3>Cheapest</h3>
+      </div>
+    </div>
+    <p className="card-description">Ferry services:</p>
+    <div className="ferry-list">
+      <span>Eleuthera Express</span>
+      <span>Current Pride</span>
+      <span>Bahamas Daybreak</span>
+      <span>Bahamas Fast Ferries</span>
+    </div>
+  </div>
+
+  <div className="option-card reliable">
+    <div className="card-header">
+      <div className="icon-wrapper">
+        <Shield className="icon" />
+      </div>
+      <div className="card-title">
+        <h3>Most Reliable</h3>
+      </div>
+    </div>
+    <div className="reliability-info">
+      <p>Direct flight</p>
+      <div className="reliability-badge">
+        <CheckCircle className="check-icon" />
+        <span>99% on-time</span>
+      </div>
+    </div>
+  </div>
 </div>
-  <br/>
-</div>
+
+ </div>
 
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div className="overflow-hidden rounded-lg shadow-md">
@@ -879,29 +1083,88 @@ useEffect(() => {
       Places to Stay in {destinationName}
     </h2>
     
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-self-center">
-      {placesToStay.map((place, index) => (
-        <div key={index} className="flex flex-col items-left">
-          <img 
-            src={place.image} 
-            alt={place.title}
-            className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md"
-          /><br/>
-          <h3 className="text-lg font-semibold text-gray-800 mt-3 text-left">
-            {place.title}
-          </h3>
-         {place.description.map((point, idx) => (
-  <p key={idx}>• {point}</p>
-))}
-        </div>
-      ))}
+    {/* Slideshow Container */}
+    <div className="relative max-w-6xl mx-auto">
+      <div 
+        ref={sliderRef}
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+      >
+        {placesToStay.map((place, index) => (
+          <div 
+            key={index} 
+            className="flex-shrink-0 w-full snap-center relative rounded-xl overflow-hidden shadow-lg"
+          >
+            {/* Image taking full width */}
+            <img 
+              src={place.image} 
+              alt={place.title}
+              className="w-full h-96 object-cover brightness-105"
+            />
+            
+            {/* Light Overlay on entire image */}
+            <div className="absolute inset-0 bg-blue-900/40"></div>
+            
+            {/* Content Overlay at Bottom */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-4 sm:p-6">
+              <div className="flex flex-col md:flex-row justify-between items-start space-y-4 md:space-y-0">
+                
+                {/* Title Section - Left Side */}
+                <div className="flex-1 md:pr-4">
+                  <h3 className="text-xl sm:text-4xl md:text-3xl font-bold text-white mb-2 md:mb-3 drop-shadow-lg card5">
+                    {place.title}
+                  </h3>
+                </div>
+                
+                {/* Description Points - Right Side */}
+                <div className="flex-1 md:pl-4 md:text-right">
+                  <div className="space-y-1 sm:space-y-2 card5">
+                    {place.description.map((point, idx) => (
+                      <p 
+                        key={idx} 
+                        className="text-sm sm:text-base md:text-lg font-medium text-white opacity-95 leading-tight sm:leading-relaxed drop-shadow-md"
+                      >
+                        • {point}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Navigation Arrows */}
+      {/* <button 
+        onClick={goToPrevious}
+        className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
+      >
+        <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <button 
+        onClick={goToNext}
+        className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
+      >
+        <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+     */}
     </div>
   </div>
 )}
+<br/><br/>
+ <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+      Avaliable Routes & Modes
+    </h2>
 
 
           {/* ✈️ BY PLANE */}
-        <br/><br/>  <section className="bg-transparent p-4 sm:p-8 mb-8 transition-all plane-route">
+        <br/> <section className="bg-transparent p-4 sm:p-8 mb-8 transition-all plane-route">
             <div className="grid md:grid-cols-2 gap-8 items-start">
               {/* Content Section - Comes First */}
               <div className="by-plane order-2 md:order-1">
@@ -1336,7 +1599,484 @@ useEffect(() => {
 .card5{
 padding:10px !important;
 }
+.compact-journey {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .journey-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .journey-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .journey-header p {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .option-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .option-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .icon-wrapper {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+
+    .best .icon-wrapper { background: linear-gradient(135deg, #10b981, #3b82f6); }
+    .fastest .icon-wrapper { background: linear-gradient(135deg, #ef4444, #f97316); }
+    .cheapest .icon-wrapper { background: linear-gradient(135deg, #22c55e, #14b8a6); }
+    .reliable .icon-wrapper { background: linear-gradient(135deg, #3b82f6, #6366f1); }
+
+    .card-title {
+      flex: 1;
+    }
+
+    .card-title h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0 0 4px 0;
+    }
+
+    .badge {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-right:5px
+    }
+
+    .card-description {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .time-display {
+      text-align: center;
+    }
+
+    .time {
+      display: block;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .time-label {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .ferry-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ferry-list span {
+      font-size: 0.8rem;
+      color: #374151;
+      padding-left: 8px;
+      border-left: 2px solid #22c55e;
+    }
+
+    .reliability-info p {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .reliability-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #2563eb;
+    }
+
+    .check-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .compact-journey {
+        padding: 16px;
+      }
+      
+      .options-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .option-card {
+        padding: 16px;
+      }
+    }
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
  
+/* Mobile-first responsive adjustments */
+@media (max-width: 767px) {
+  .carousel-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .carousel-title {
+    margin-bottom: 12px;
+  }
+  
+  .carousel-description {
+    text-align: center;
+  }
+}
+
+/* Ensure proper spacing on all screens */
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+/* Better gradient overlay for mobile */
+@media (max-width: 640px) {
+  .absolute.inset-0.bg-blue-900\/40 {
+    background: linear-gradient(to bottom, rgba(30, 58, 138, 0.3), rgba(30, 58, 138, 0.6));
+  }
+}
+
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.option-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.option-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Soft Coral */
+.option-card.best::before {
+  background: linear-gradient(135deg, #FF9A8B, #FF6B9D);
+}
+
+.option-card.best .icon-wrapper {
+  background: linear-gradient(135deg, #FF9A8B, #FF6B9D);
+}
+
+.option-card.best .badge {
+  background: linear-gradient(135deg, #FF9A8B, #FF6B9D);
+  color: white;
+}
+
+.option-card.best .tag {
+  background: #FFF5F5;
+  color: #C53030;
+  border: 1px solid #FED7D7;
+}
+
+/* Soft Sky Blue */
+.option-card.fastest::before {
+  background: linear-gradient(135deg, #7DD3FC, #0EA5E9);
+}
+
+.option-card.fastest .icon-wrapper {
+  background: linear-gradient(135deg, #7DD3FC, #0EA5E9);
+}
+
+.option-card.fastest .time {
+  background: linear-gradient(135deg, #0EA5E9, #0369A1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Soft Mint Green */
+.option-card.cheapest::before {
+  background: linear-gradient(135deg, #6EE7B7, #10B981);
+}
+
+.option-card.cheapest .icon-wrapper {
+  background: linear-gradient(135deg, #6EE7B7, #10B981);
+}
+
+.option-card.cheapest .ferry-list span {
+  background: #F0FDF4;
+  color: #065F46;
+  border-left: 3px solid #10B981;
+}
+
+/* Soft Lavender */
+.option-card.reliable::before {
+  background: linear-gradient(135deg, #A5B4FC, #8B5CF6);
+}
+
+.option-card.reliable .icon-wrapper {
+  background: linear-gradient(135deg, #A5B4FC, #8B5CF6);
+}
+
+.option-card.reliable .reliability-badge {
+  background: #FAF5FF;
+  color: #7C3AED;
+  border: 1px solid #E9D5FF;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+.card-title {
+  flex: 1;
+}
+
+.card-title h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 6px 0;
+}
+
+.badge {
+  background: linear-gradient(135deg, #FF9A8B, #FF6B9D);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.card-description {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: #FFF5F5;
+  color: #C53030;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid #FED7D7;
+}
+
+.time-display {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.time {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #0EA5E9, #0369A1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.time-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.ferry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ferry-list span {
+  background: #F0FDF4;
+  color: #065F46;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #10B981;
+  font-weight: 500;
+}
+
+.reliability-info p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.reliability-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FAF5FF;
+  color: #7C3AED;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #E9D5FF;
+}
+
+.check-icon {
+  width: 16px;
+  height: 16px;
+  color: #10B981;
+}
+
+@media (max-width: 1024px) {
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .option-card {
+    padding: 20px;
+  }
+  
+  .card-header {
+    gap: 10px;
+  }
+  
+  .icon-wrapper {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
       `}</style>
     </div>
   );
