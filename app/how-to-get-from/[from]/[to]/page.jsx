@@ -629,12 +629,12 @@ useEffect(() => {
             <p className="text-gray-600 mb-8">
               Sorry, we couldn't find travel information for {from} to {to}.
             </p>
-            <button 
+            {/* <button 
               onClick={() => router.push('/')}
               className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors"
             >
               Go Back Home
-            </button>
+            </button> */}
           </div>
         </main>
         <Footer />
