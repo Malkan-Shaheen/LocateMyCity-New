@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { CheckCircle, Zap, DollarSign, Shield } from 'lucide-react';
 import { Crown, Clock, TrendingUp, Star } from 'lucide-react';
-
+import { useRouter } from 'next/navigation';
 
 // Import JSON directly
 import allPagesData from '../../../../data/cities_info';
@@ -24,6 +24,10 @@ export default function HowToGetToPage() {
   const params = useParams();
   const from = params.from; // This will be 'nassau', 'moscow', etc.
   const to = params.to; // This will be 'eleuthera', 'berlin', etc.
+
+
+    const [pageExists, setPageExists] = useState(true);
+  const [isChecking, setIsChecking] = useState(true);
 
 
 
@@ -184,44 +188,7 @@ useEffect(() => {
   }
 }, [])
 
-  // Load page data based on route parameters
-  useEffect(() => {
-    const loadPageData = () => {
-      if (!from || !to) return;
-      
-      try {
-        setLoading(true);
-        const routeKey = `${from}-${to}`;
-        
-        // Get the specific page data from our JSON
-const specificPageData = allPagesData.page;        
-        if (specificPageData) {
-          setPageData(specificPageData);
-          setDestinationName(capitalizeFirst(to));
-          setSourceName(capitalizeFirst(from));
-          // Set destination country based on the route
-          setDestinationCountry(specificPageData.general_info?.country_code || 'BS');
-        } else {
-          console.error(`No data found for route: ${routeKey}`);
-          // Fallback to first available page
-          const firstKey = Object.keys(allPagesData.pages)[0];
-          const fallbackData = allPagesData.pages[firstKey];
-          setPageData(fallbackData);
-          setDestinationName(capitalizeFirst(to));
-          setSourceName(capitalizeFirst(from));
-        }
-        
-      } catch (error) {
-        console.error('Error loading page data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPageData();
-    fetchBackgroundImage();
-  }, [from, to]);
-
+  
 
 // Function to fetch real-time weather data for both locations
 // Function to fetch real-time weather data for both locations
@@ -591,8 +558,88 @@ useEffect(() => {
   const fallbackBackground = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
   const backgroundImage = background.imageUrl || fallbackBackground;
 
+ // Load page data based on route parameters
+useEffect(() => {
+  const loadPageData = () => {
+    if (!from || !to) {
+      console.log('❌ [DEBUG] Missing from or to parameters');
+      setPageExists(false);
+      setIsChecking(false);
+      return;
+    }
+    
+    try {
+      setIsChecking(true);
+      const routeKey = `${from}-${to}`;
+      
+      console.log('🔍 [DEBUG] Looking for route:', routeKey);
+      console.log('🔍 [DEBUG] All pages data structure:', Object.keys(allPagesData));
+      
+      // CORRECTED: Handle the duplicate page key issue in your JSON
+      // Since your JSON has duplicate "page" keys, we need to handle this differently
+      
+      // Check if this is a known valid route
+      const validRoutes = {
+        'nassau-eleuthera': true,
+        'moscow-berlin': true
+        // Add other valid routes here as you create them
+      };
+      
+      if (validRoutes[routeKey]) {
+        // Use the page data (even though it's from duplicate keys)
+        setPageData(allPagesData.page);
+        setDestinationName(capitalizeFirst(to));
+        setSourceName(capitalizeFirst(from));
+        setDestinationCountry(allPagesData.page?.general_info?.country_code || 'BS');
+        setPageExists(true);
+        console.log(`✅ [DEBUG] Found valid route: ${routeKey}`);
+      } else {
+        console.log(`❌ [DEBUG] Invalid route: ${routeKey}`);
+        setPageExists(false);
+      }
+      
+    } catch (error) {
+      console.error('❌ [DEBUG] Error loading page data:', error);
+      setPageExists(false);
+    } finally {
+      setIsChecking(false);
+      setLoading(false);
+    }
+  };
+
+  if (from && to) {
+    console.log('🔄 [DEBUG] Starting data load for:', from, 'to', to);
+    loadPageData();
+    fetchBackgroundImage();
+  }
+}, [from, to]);
+
+  // Show 404 if page doesn't exist
+  if (!isChecking && !pageExists) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-50">
+        <Header />
+        <main className="flex-grow pt-16 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">404 - Page Not Found</h1>
+            <p className="text-gray-600 mb-8">
+              Sorry, we couldn't find travel information for {from} to {to}.
+            </p>
+            <button 
+              onClick={() => router.push('/')}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors"
+            >
+              Go Back Home
+            </button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   // Show loading state
-  if (loading || !pageData) {
+  if (loading || isChecking || !pageData) {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
