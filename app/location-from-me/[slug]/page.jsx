@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Footer from '@/components/Footer';
+import RadiusSelector from '@/components/RadiusSelector';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { 
   FaMapMarkerAlt, 
@@ -124,6 +125,46 @@ export default function DistanceResult() {
     languages: '--',
     timezone: '--'
   });
+  // Wikipedia summary data
+const [wiki, setWiki] = useState({
+  loading: true,
+  error: false,
+  extract: '',
+  thumbnail: '',
+  url: '',
+});
+
+useEffect(() => {
+  if (!destinationName) return;
+
+  const fetchWikiData = async () => {
+    try {
+      setWiki({ loading: true, error: false });
+      const res = await fetch(
+        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(destinationName)}`
+      );
+      const data = await res.json();
+
+      if (data.title && !data.title.includes('Not found')) {
+        setWiki({
+          loading: false,
+          error: false,
+          extract: data.extract,
+          thumbnail: data.thumbnail?.source || '',
+          url: data.content_urls?.desktop?.page || '',
+        });
+      } else {
+        setWiki({ loading: false, error: true });
+      }
+    } catch (err) {
+      console.error('Wikipedia fetch error:', err);
+      setWiki({ loading: false, error: true });
+    }
+  };
+
+  fetchWikiData();
+}, [destinationName]);
+
   const [neighboringCountries, setNeighboringCountries] = useState([]);
   const [loadingNeighbors, setLoadingNeighbors] = useState(false);
 
@@ -1153,6 +1194,59 @@ const getPlaceDetails = useCallback(async (address) => {
             </div>
           </div>
         </div>
+{/* Wikipedia Info Card */}
+<div className="info-card">
+  <h3>About {destinationName}</h3>
+
+  {wiki.loading ? (
+    <p>Loading information...</p>
+  ) : wiki.error ? (
+    <p>Sorry, no data available for this destination.</p>
+  ) : (
+    <>
+{wiki.thumbnail && (
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: '10px',
+    }}
+  >
+    <img
+      src={wiki.thumbnail}
+      alt={destinationName}
+      style={{
+        width: '50%',
+        aspectRatio: '1 / 1',          // Keeps the image square
+        objectFit: 'cover',            // Crops nicely
+        borderRadius: '10px',          // Smooth edges
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)', // Subtle depth
+      }}
+    />
+  </div>
+)}
+
+      <p style={{ fontSize: '0.95rem', color: '#555', marginBottom: '10px' }}>
+        {wiki.extract}
+      </p>
+      {wiki.url && (
+        <a
+          href={wiki.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#2563eb',
+            fontWeight: 500,
+            textDecoration: 'none',
+          }}
+        >
+          Read more on Wikipedia →
+        </a>
+      )}
+    </>
+  )}
+</div>
 
         <section className="faq-page">
   <h1 className="faq-title">Frequently Asked Questions</h1>
@@ -1194,6 +1288,8 @@ const getPlaceDetails = useCallback(async (address) => {
     ))}
   </div>
 </section>
+        {/* Discover Cities CTA */}
+<RadiusSelector location={destinationName} />
 
         <footer className="page-footer">
           <div className="footer-section">

@@ -6,7 +6,8 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Earth's radius in km
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
+  const a =
+    Math.sin(dLat / 2) ** 2 +
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
@@ -16,124 +17,91 @@ const kmToMiles = (km) => km * 0.621371;
 const kmToNauticalMiles = (km) => km * 0.539957;
 
 export async function generateMetadata({ params }) {
-  // Slug extraction
   let slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || "";
 
-  if (!slug) {
-    slug = "unknown-location-from-unknown-location";
-  }
+  if (!slug) slug = "unknown-location-from-unknown-location";
 
-  // Extract source and destination
   const parts = slug.replace("how-far-is-", "").split("-from-");
   let from = parts[0]?.replace(/-/g, " ") || "Unknown Location";
   let to = parts[1]?.replace(/-/g, " ") || "Unknown Location";
 
-  if (to === "me") {
-    to = "Your Location";
-  }
+  if (to === "me") to = "Your Location";
 
-  // Dynamic distance calculation with real data
   let miles = null;
   let km = null;
   let destinationDetails = null;
   let fullDestinationName = from;
 
   try {
-    // Only calculate if we have a real destination
     if (to !== "Your Location" && from !== "Unknown Location") {
-      // Use the correct API URL - remove the base URL to use relative path
       const apiUrl = `/api/geocode?query=${encodeURIComponent(from)}`;
-      
-      console.log('🔍 Fetching coordinates for:', from);
-      
-      // Use fetch with no-cache to ensure fresh data
       const destResponse = await fetch(apiUrl, {
-        cache: 'no-store', // Don't cache for metadata generation
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (destResponse.ok) {
         const destData = await destResponse.json();
-        console.log('✅ API Response:', destData);
-        
         if (destData && destData.lat && destData.lon) {
           destinationDetails = destData;
           fullDestinationName = destData.display_name || from;
-          
-          // Calculate distance from major cities to give users context
-          const majorCities = [
-            { lat: 40.7128, lon: -74.0060, name: "New York" }, // East Coast US
-            { lat: 43.6532, lon: -79.3832, name: "Toronto" },  // Canada
-            { lat: 51.5074, lon: -0.1278, name: "London" },    // Europe
-            { lat: 53.5461, lon: -113.4938, name: "Edmonton" }, // Western Canada
-          ];
-          
-          // Use Toronto as the primary reference for Canadian locations
+
           const torontoRef = { lat: 43.6532, lon: -79.3832, name: "Toronto" };
-          
           const distanceInKm = calculateDistance(
             torontoRef.lat,
             torontoRef.lon,
             parseFloat(destData.lat),
             parseFloat(destData.lon)
           );
-          
+
           if (distanceInKm && !isNaN(distanceInKm)) {
             miles = kmToMiles(distanceInKm).toFixed(1);
             km = distanceInKm.toFixed(1);
-            
-            console.log(`📏 Distance from ${torontoRef.name}: ${miles} miles (${km} km)`);
           }
         }
-      } else {
-        console.log('❌ API request failed:', destResponse.status);
       }
     }
   } catch (error) {
-    console.error('💥 Error in metadata generation:', error.message);
-    // Don't throw error, just use fallback metadata
+    console.error("💥 Error in metadata generation:", error.message);
   }
 
-  // Extract meaningful destination name
-  const shortDestinationName = fullDestinationName.split(',')[0];
+  const shortDestinationName = fullDestinationName.split(",")[0];
   const displayDestinationName = shortDestinationName || capitalize(from);
 
-  // Get additional location context from the API response
-  let locationContext = '';
+  let locationContext = "";
   if (destinationDetails?.address) {
     const addr = destinationDetails.address;
     if (addr.state) locationContext = ` in ${addr.state}`;
-    if (addr.country && addr.country !== 'Canada') locationContext += `, ${addr.country}`;
+    if (addr.country && addr.country !== "Canada")
+      locationContext += `, ${addr.country}`;
   }
 
-  // Dynamic title and description
-  const pageTitle = `How Far is ${capitalize(displayDestinationName)} from ${capitalize(to)}? | LocateMyCity`;
+  const pageTitle = `How Far is ${capitalize(
+    displayDestinationName
+  )} from ${capitalize(to)}? | LocateMyCity`;
 
-  // Create dynamic description based on available data
-  let metaDescription = '';
-  
+  let metaDescription = "";
+
   if (miles && km) {
-    // Case 1: We have real distance data
-    metaDescription = `Marystown${locationContext} is approximately ${miles} miles (${km} km) from major Canadian cities. Calculate the exact distance from your location to Marystown and get detailed geographical information.`;
-  } else if (destinationDetails && destinationDetails.lat && destinationDetails.lon) {
-    // Case 2: We have coordinates but no distance
+    metaDescription = `${capitalize(
+      displayDestinationName
+    )}${locationContext} is approximately ${miles} miles (${km} km) from major Canadian cities. Calculate the exact distance from your location to ${capitalize(
+      displayDestinationName
+    )} and get detailed geographical information.`;
+  } else if (destinationDetails?.lat && destinationDetails?.lon) {
     const lat = parseFloat(destinationDetails.lat).toFixed(4);
     const lon = parseFloat(destinationDetails.lon).toFixed(4);
-    metaDescription = `Marystown, Newfoundland and Labrador is located at ${lat}°N, ${lon}°W. Calculate the exact distance from your location and explore comprehensive geographical data.`;
+    metaDescription = `${capitalize(
+      displayDestinationName
+    )}${locationContext} is located at ${lat}°N, ${lon}°W. Calculate the exact distance from your location and explore comprehensive geographical data.`;
   } else {
-    // Case 3: Fallback
-    metaDescription = `Calculate the exact distance from your location to Marystown, Newfoundland and Labrador. Get precise coordinates, travel information, and comprehensive geographical data.`;
+    metaDescription = `Calculate the exact distance from your location to ${capitalize(
+      displayDestinationName
+    )}${locationContext}. Get precise coordinates, travel information, and detailed geographical data.`;
   }
 
-  console.log('🎯 Final Metadata:', { 
-    title: pageTitle, 
-    description: metaDescription 
-  });
+  const primaryDomain = "https://locatemycity.com";
 
-  const primaryDomain = 'https://locatemycity.com';
-  
   return {
     title: pageTitle,
     description: metaDescription,
@@ -142,9 +110,10 @@ export async function generateMetadata({ params }) {
       description: metaDescription,
       type: "website",
       url: `${primaryDomain}/location-from-me/${slug}`,
+      images: [`${primaryDomain}/og-images/${slug}.jpg`],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: pageTitle,
       description: metaDescription,
     },
@@ -156,35 +125,32 @@ export async function generateMetadata({ params }) {
 
 function capitalize(str = "") {
   if (!str) return "";
-  return str.split(' ').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-  ).join(' ');
+  return str
+    .split(" ")
+    .map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    )
+    .join(" ");
 }
 
-// Rest of your layout component remains the same...
+// ✅ Enhanced Layout with all schema types
 export default function DistanceLayout({ children, params }) {
   const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || "";
-  
-  // Extract destination name from slug
-  let destinationName = '';
-  let sourceName = 'Your Location';
-  
-  if (slug && slug.includes('how-far-is-') && slug.includes('-from-me')) {
+  let destinationName = "";
+  let sourceName = "Your Location";
+
+  if (slug && slug.includes("how-far-is-") && slug.includes("-from-me")) {
     destinationName = slug
-      .replace('how-far-is-', '')
-      .replace('-from-me', '')
-      .replace(/-/g, ' ');
-    
-    sourceName = 'Your Current Location';
+      .replace("how-far-is-", "")
+      .replace("-from-me", "")
+      .replace(/-/g, " ");
+    sourceName = "Your Current Location";
   }
 
-  // Get short name for destination (before any commas)
-  const destinationShortName = destinationName.split(',')[0];
+  const destinationShortName = destinationName.split(",")[0];
+  const primaryDomain = "https://locatemycity.com";
 
-  // Use primary domain for structured data
-  const primaryDomain = 'https://locatemycity.com';
-
-  // Create structured data with dynamic values
+  // ✅ FAQ Schema
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -208,6 +174,7 @@ export default function DistanceLayout({ children, params }) {
     ]
   };
 
+  // ✅ Breadcrumb Schema
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -233,9 +200,61 @@ export default function DistanceLayout({ children, params }) {
     ]
   };
 
+  // ✅ Place Schema (dynamic coordinates)
+  const placeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Place",
+    "name": capitalize(destinationShortName),
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "",
+      "longitude": ""
+    },
+    "url": `${primaryDomain}/location-from-me/${slug}`
+  };
+
+  // ✅ WebPage Schema (main entity is the Place)
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `Distance from Your Location to ${capitalize(destinationShortName)}`,
+    "description": `Find out how far ${capitalize(destinationShortName)} is from your current location in miles, kilometers, and nautical miles using LocateMyCity’s interactive distance calculator.`,
+    "url": `${primaryDomain}/location-from-me/${slug}`,
+    "mainEntity": placeJsonLd
+  };
+
+  // ✅ SoftwareApplication Schema (Distance Calculator Web App)
+const appJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "LocateMyCity Distance Calculator",
+  "operatingSystem": "Web",
+  "applicationCategory": "TravelApplication",
+  "description": "An interactive distance calculator that helps users find how far cities and attractions are from their location in miles, kilometers, and nautical miles.",
+  "url": primaryDomain,
+  "creator": {
+    "@type": "Organization",
+    "name": "LocateMyCity",
+    "url": primaryDomain
+  }
+};
+
+
   return (
     <>
-      {/* Structured Data */}
+      {/* ✅ Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(placeJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -244,8 +263,8 @@ export default function DistanceLayout({ children, params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      
-      {/* Page Content */}
+
+      {/* ✅ Page Content */}
       {children}
     </>
   );
