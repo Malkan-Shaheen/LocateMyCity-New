@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Footer from '../../components/Footer'
 import Header from '../../components/Header';
 import { getSpringCities } from '@/actions';
+import SpringFAQSection from '../../components/SpringFAQSection';
 
 // Dynamically import Leaflet with loading state and higher priority
 const MapWithNoSSR = dynamic(() => import('../../components/MapComponent'), { 
@@ -461,6 +462,7 @@ export default function SpringLocationsExplorer() {
           )}
         </div>
       </section>
+       <SpringFAQSection />
       </main>
       
       <Footer />

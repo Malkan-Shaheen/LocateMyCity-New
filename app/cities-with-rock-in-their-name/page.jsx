@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { getRockCities } from '@/actions';
+import RockFAQSection from '../../components/RockFAQSection';
 
 const MapWithNoSSR = dynamic(() => import('../../components/MapComponent'), {
   ssr: false,
@@ -216,6 +217,65 @@ export default function RockyLocationsExplorer() {
         </noscript>
         {/* Removed duplicate/blocking Leaflet CSS links; MapComponent imports CSS */}
         
+       {/* --- JSON-LD Structured Data --- */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://locatemycity.com" },
+                { "@type": "ListItem", "position": 2, "name": "Cities with Rock", "item": "https://locatemycity.com/cities-with-rock" }
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Which U.S. state has the most cities with 'Rock' in the name?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Arkansas and Texas have the most cities with 'Rock' in their names, including Little Rock and Rockwall."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I see all 'Rock' cities on an interactive map?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The page includes an interactive map showing every U.S. city with 'Rock' in its name."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "US Cities with Rock in Their Names",
+              "itemListElement": allRockyLocations.slice(0, 10).map((loc, i) => ({
+                "@type": "Place",
+                "position": i + 1,
+                "name": loc.name,
+                "address": loc.state,
+                "geo": { "@type": "GeoCoordinates", "latitude": loc.lat, "longitude": loc.lon }
+              }))
+            })
+          }}
+        />
+               
       </Head>
 
       {/* Accessibility announcements for screen readers */}
@@ -233,7 +293,7 @@ export default function RockyLocationsExplorer() {
         <section className="hero-banner" aria-labelledby="main-heading">
           <div className="content-container">
             <h1 id="main-heading" className="main-heading">Cities with "Rock" in the Name</h1>
-            <p className="hero-subtitle">Discover unique U.S. cities celebrating America's geological heritage</p>
+            <p className="hero-subtitle">"Discover all U.S. cities and towns that have 'Rock' in their name. Explore detailed listings with states, population insights, and more.</p>
           </div>
         </section>
 
@@ -461,7 +521,8 @@ export default function RockyLocationsExplorer() {
             )}
           </div>
         </section>
-      </main>
+         <RockFAQSection />
+        </main>
 
       <Footer role="contentinfo" />
     </>
