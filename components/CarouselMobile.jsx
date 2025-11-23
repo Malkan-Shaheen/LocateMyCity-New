@@ -94,7 +94,7 @@ export default function CarouselMobile() {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-2 w-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 ${
+            className={`h-2 w-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50 ${
               currentIndex === index 
                 ? "bg-transparent scale-110" 
                 : "bg-transparent bg-opacity-60 hover:bg-opacity-80"
@@ -108,14 +108,14 @@ export default function CarouselMobile() {
       {/* Previous/Next Buttons for better UX */}
       <button
         onClick={() => goToSlide((currentIndex - 1 + images.length) % images.length)}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-50 text-black p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black"
         aria-label="Previous slide"
       >
         ‹
       </button>
       <button
         onClick={goToNext}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-50 text-black p-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
         aria-label="Next slide"
       >
         ›

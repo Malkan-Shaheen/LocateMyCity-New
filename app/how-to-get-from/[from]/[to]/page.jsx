@@ -418,8 +418,8 @@ useEffect(() => {
     return (
       <ul className="routes-list">
         {fallbackCountries.map((country, index) => {
-          const destSlug = sourceName 
-            ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+          const destSlug = destinationName 
+            ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
             : to || 'destination';
             
           const countrySlug = country.name
@@ -433,15 +433,16 @@ useEffect(() => {
                 href={`/location-from-location/how-far-is-${countrySlug}-from-${destSlug}`}
                 className="route-link"
                 prefetch={false}
+                target="_blank"
               >
-                How far is {country.name} from {sourceName || 'Destination'}?
+                How far is {country.name} from {destinationName || 'Destination'}?
               </Link>
             </li>
           );
         })}
       </ul>
     );
-  }, [loadingNeighbors, sourceName, to]);
+  }, [loadingNeighbors, destinationName, to]);
 
   // Memoized popular routes
   const popularRoutes = useMemo(() => (
@@ -452,8 +453,8 @@ useEffect(() => {
         'Toronto',
         'London'
       ].map((city, index) => {
-        const destSlug = sourceName
-          ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+        const destSlug = destinationName
+          ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
           : to || 'destination';
           
         const citySlug = city
@@ -466,14 +467,15 @@ useEffect(() => {
             <Link 
               href={`/location-from-location/how-far-is-${citySlug}-from-${destSlug}`}
               prefetch={false}
+              target="_blank"
             >
-              {city} to {sourceName || 'Destination'}
+              {city} to {destinationName || 'Destination'}
             </Link>
           </li>
         );
       })}
     </ul>
-  ), [sourceName, to]);
+  ), [destinationName, to]);
 
   // Schedule Dropdown Component
    const ScheduleDropdown = ({ type, title, data, icon }) => (
@@ -1042,6 +1044,7 @@ useEffect(() => {
             key={index} 
             className="flex-shrink-0 w-full snap-center relative rounded-xl overflow-hidden shadow-lg bg-[#0776d8]"
           >
+             <div className="absolute inset-0 bg-black/40"></div> 
             <img
               src={place.image}
               alt={place.title}
@@ -1358,7 +1361,7 @@ style={{ lineHeight: '1.6' }}
 
           {/* 📍 RADIUS SELECTOR */}
           <section className="text-center mb-12 s">
-            <RadiusSelector location={sourceName} />
+            <RadiusSelector location={destinationName} />
           </section>
         </div>
       </main>
@@ -1366,11 +1369,11 @@ style={{ lineHeight: '1.6' }}
       {/* 🗺️ DISCOVER CITIES & POPULAR ROUTES */}
     <footer className="page-footer">
         <div className="footer-section card3">
-          <h4>How far is {sourceName} from neighboring countries?</h4>
+          <h4>How far is {destinationName} from neighboring countries?</h4>
           {neighboringCountriesList}
         </div>
         <div className="footer-section card3">
-          <h4>Popular Routes to {sourceName}</h4>
+          <h4>Popular Routes to {destinationName}</h4>
           {popularRoutes}
         </div>
       </footer>
@@ -2049,10 +2052,11 @@ button:disabled:hover {
   .b1{
     min-height: 2px !important;
     min-width: 2px !important;
-    padding: 6px 10px !important;
+    padding: 5px 5px !important;
     font-size: 12px !important;
     font-weight: 550 !important;
     background-clip: padding-box !important;
+        margin:5px !important;
 
   }
     .img1{
