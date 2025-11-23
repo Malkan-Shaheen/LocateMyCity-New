@@ -559,10 +559,10 @@ useEffect(() => {
   const backgroundImage = background.imageUrl || fallbackBackground;
 
  // Load page data based on route parameters
+// Load page data based on route parameters
 useEffect(() => {
   const loadPageData = () => {
     if (!from || !to) {
-      console.log('❌ [DEBUG] Missing from or to parameters');
       setPageExists(false);
       setIsChecking(false);
       return;
@@ -571,35 +571,41 @@ useEffect(() => {
     try {
       setIsChecking(true);
       const routeKey = `${from}-${to}`;
+      const reverseRouteKey = `${to}-${from}`;
       
-      console.log('🔍 [DEBUG] Looking for route:', routeKey);
-      console.log('🔍 [DEBUG] All pages data structure:', Object.keys(allPagesData));
+      console.log('🔍 [DEBUG] Looking for routes:', routeKey, 'and reverse:', reverseRouteKey);
       
-      // CORRECTED: Handle the duplicate page key issue in your JSON
-      // Since your JSON has duplicate "page" keys, we need to handle this differently
-      
-      // Check if this is a known valid route
+      // CORRECTED: Check both directions since your JSON has duplicate page keys
       const validRoutes = {
         'nassau-eleuthera': true,
-        'moscow-berlin': true
-        // Add other valid routes here as you create them
+        'eleuthera-nassau': true, // Add reverse route
+        'moscow-berlin': true,
+        'berlin-moscow': true     // Add reverse route
       };
       
-      if (validRoutes[routeKey]) {
-        // Use the page data (even though it's from duplicate keys)
-        setPageData(allPagesData.page);
+      if (validRoutes[routeKey] || validRoutes[reverseRouteKey]) {
+        // Use the page data (we'll handle content swapping for reverse routes)
+        const pageDataToUse = allPagesData.page;
+        
+        // For reverse routes, we need to swap some content
+        if (validRoutes[reverseRouteKey]) {
+          console.log('🔄 [DEBUG] Using reverse route data, will swap content');
+          // We'll handle content adjustment below
+        }
+        
+        setPageData(pageDataToUse);
         setDestinationName(capitalizeFirst(to));
         setSourceName(capitalizeFirst(from));
-        setDestinationCountry(allPagesData.page?.general_info?.country_code || 'BS');
+        setDestinationCountry(pageDataToUse?.general_info?.country_code || '');
         setPageExists(true);
-        console.log(`✅ [DEBUG] Found valid route: ${routeKey}`);
+        console.log(`✅ [DEBUG] Found route: ${routeKey}`);
       } else {
-        console.log(`❌ [DEBUG] Invalid route: ${routeKey}`);
+        console.log(`❌ [DEBUG] Route not found: ${routeKey} or ${reverseRouteKey}`);
         setPageExists(false);
       }
       
     } catch (error) {
-      console.error('❌ [DEBUG] Error loading page data:', error);
+      console.error('Error loading page data:', error);
       setPageExists(false);
     } finally {
       setIsChecking(false);
@@ -607,12 +613,10 @@ useEffect(() => {
     }
   };
 
-  if (from && to) {
-    console.log('🔄 [DEBUG] Starting data load for:', from, 'to', to);
-    loadPageData();
-    fetchBackgroundImage();
-  }
+  loadPageData();
+  fetchBackgroundImage();
 }, [from, to]);
+
 
   // Show 404 if page doesn't exist
   if (!isChecking && !pageExists) {
