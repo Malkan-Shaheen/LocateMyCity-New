@@ -621,11 +621,11 @@ useEffect(() => {
   // Show 404 if page doesn't exist
   if (!isChecking && !pageExists) {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-50">
+      <div className="flex flex-col min-h-screen bg-gray-50 card5">
         <Header />
-        <main className="flex-grow pt-16 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">404 - Page Not Found</h1>
+        <main className="flex-grow pt-16 flex items-center justify-center card5">
+          <div className="text-center card5">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4 card5">404 - Page Not Found</h1>
             <p className="text-gray-600 mb-8">
               Sorry, we couldn't find travel information for {from} to {to}.
             </p>
