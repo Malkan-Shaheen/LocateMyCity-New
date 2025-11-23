@@ -1,19 +1,12 @@
 'use client';
 import { FaGlobe, FaPlane, FaAnchor } from 'react-icons/fa';
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import { MetricCard, WeatherPanel, FAQItem, RouteCard } from '../../../components/DistanceComponents';
 import Head from 'next/head';
-
-// Debug: Check if components exist
-console.log('=== DEBUG: Component Import Status ===');
-console.log('Header:', Header ? 'Loaded' : 'Missing');
-console.log('Footer:', Footer ? 'Loaded' : 'Missing');
-console.log('DistanceComponents:', MetricCard ? 'Loaded' : 'Missing');
-
 // Lazy load heavy components
 const LeafletMap = dynamic(() => import('../../../components/LeafletMap'), {
   ssr: false,
@@ -45,38 +38,52 @@ const kmToMiles = (km) => km * 0.621371;
 const kmToNauticalMiles = (km) => km * 0.539957;
 const calculateFlightTime = (km) => (km / 800).toFixed(1);
 
-const faqs = [
-  {
-    id: 'faq1',
-    question: 'What information can I find on LocateMyCity?',
-    answer:
-      'LocateMyCity provides detailed insights about locations, including city/town status, distance measurements, and unique geographical traits.',
-  },
-  {
-    id: 'faq2',
-    question: 'How do I use the distance calculator?',
-    answer:
-      'Either allow location access or manually enter locations to calculate real-time distances in miles or kilometers.',
-  },
-  {
-    id: 'faq3',
-    question: 'Can I compare multiple locations?',
-    answer:
-      'Yes, our Location to Location tool lets you compare multiple destinations for effective trip planning.',
-  },
-  {
-    id: 'faq4',
-    question: 'How current is the location data?',
-    answer:
-      'We update weekly using verified sources including satellite imagery and government data.',
-  },
-  {
-    id: 'faq5',
-    question: 'What makes LocateMyCity different?',
-    answer:
-      'We highlight unique natural features and cover both abandoned and active locations with faster search and data accuracy than traditional tools.',
-  },
-];
+// ────────────────────────────────
+// Dynamic FAQ Generator
+// ────────────────────────────────
+const generateDynamicFaqs = (fromCity, toCity, distanceKm) => {
+  const distanceMiles = kmToMiles(distanceKm).toFixed(1);
+  const nauticalMiles = kmToNauticalMiles(distanceKm).toFixed(1);
+  const flightHours = calculateFlightTime(distanceKm);
+
+  return [
+    {
+      id: 'faq1',
+      question: 'What information can I find on LocateMyCity?',
+      answer: `LocateMyCity provides detailed insights about locations like ${fromCity} and ${toCity}, including city/town status, distance data, and nearby attractions.`,
+    },
+    {
+      id: 'faq2',
+      question: 'How do I use the distance calculator?',
+      answer: `Simply enter two locations — for example, ${fromCity} and ${toCity} — or allow browser location access. The tool instantly calculates distances in miles, kilometers, and nautical miles.`,
+    },
+    {
+      id: 'faq3',
+      question: 'Can I compare multiple locations?',
+      answer: `Yes, the Location-to-Location feature lets you compare distances between multiple cities such as ${fromCity}, ${toCity}, and others for smarter trip planning.`,
+    },
+    {
+      id: 'faq4',
+      question: `How far is ${toCity} from ${fromCity}?`,
+      answer: `${toCity} is approximately ${distanceMiles} miles (${distanceKm.toFixed(1)} km / ${nauticalMiles} nautical miles) from ${fromCity}. The distance is calculated using the great-circle formula for accuracy.`,
+    },
+    {
+      id: 'faq5',
+      question: `How long does it take to fly from ${fromCity} to ${toCity}?`,
+      answer: `A direct flight from ${fromCity} to ${toCity} takes about ${flightHours} hours, assuming an average cruising speed of 800 km/h.`,
+    },
+    {
+      id: 'faq6',
+      question: `Can I travel by car or boat from ${fromCity} to ${toCity}?`,
+      answer: `Yes. LocateMyCity provides estimated driving and marine routes, helping you compare road, air, and sea travel options between ${fromCity} and ${toCity}.`,
+    },
+    {
+      id: 'faq7',
+      question: `What’s the best way to plan a trip between ${fromCity} and ${toCity}?`,
+      answer: `Use the LocateMyCity Distance Calculator to explore routes, nearby airports, travel times, and attractions between ${fromCity} and ${toCity}.`,
+    },
+  ];
+};
 
 export default function DistanceResult() {
   const [sourcePlace, setSourcePlace] = useState(null);
@@ -86,26 +93,6 @@ export default function DistanceResult() {
   const [activeFAQ, setActiveFAQ] = useState(null);
   const [popularRoutes, setPopularRoutes] = useState([]);
   const [metaDescription, setMetaDescription] = useState('');
-  const [debugInfo, setDebugInfo] = useState([]);
-  
-  // Use ref to track initial render and prevent infinite loops
-  const isInitialRender = useRef(true);
-  const debugLogRef = useRef([]);
-
-  // Safe debug function that doesn't cause re-renders
-  const addDebugInfo = useCallback((message, data = null) => {
-    const timestamp = new Date().toISOString();
-    const debugMessage = `[${timestamp}] ${message}`;
-    console.log(debugMessage, data);
-    
-    // Only update state if not in initial render to prevent loops
-    if (!isInitialRender.current) {
-      setDebugInfo(prev => [...prev.slice(-9), { message: debugMessage, data }]);
-    } else {
-      // Store in ref during initial render
-      debugLogRef.current.push({ message: debugMessage, data });
-    }
-  }, []);
 
   const sourceShortName = sourcePlace?.display_name?.split(',')[0];
   const destinationShortName = destinationPlace?.display_name?.split(',')[0];
@@ -127,27 +114,23 @@ export default function DistanceResult() {
   const [sourceWeather, setSourceWeather] = useState(initialWeatherState);
   const [destinationWeather, setDestinationWeather] =
     useState(initialWeatherState);
+  const [faqs, setFaqs] = useState([]);
+
+useEffect(() => {
+  if (distanceInKm && sourceShortName && destinationShortName) {
+    setFaqs(generateDynamicFaqs(sourceShortName, destinationShortName, distanceInKm));
+  }
+}, [distanceInKm, sourceShortName, destinationShortName]);
+
 
   const router = useRouter();
   const params = useParams();
-
-  // Move debug calls inside useEffect to prevent infinite re-renders
-  useEffect(() => {
-    addDebugInfo('Params received:', params);
-  }, [params, addDebugInfo]);
 
   const slug = Array.isArray(params.slug) ? params.slug : [params.slug];
   const [sourceName, destinationName] =
     Array.isArray(slug) && slug.length === 1
       ? slug[0].replace('how-far-is-', '').split('-from-')
       : [null, null];
-
-  // Move debug calls inside useEffect
-  useEffect(() => {
-    if (sourceName && destinationName) {
-      addDebugInfo('Parsed source and destination:', { sourceName, destinationName });
-    }
-  }, [sourceName, destinationName, addDebugInfo]);
 
   // Memoized calculation of distance metrics
   const distanceMetrics = useMemo(() => {
@@ -164,97 +147,67 @@ export default function DistanceResult() {
     setActiveFAQ(activeFAQ === index ? null : index);
   }, [activeFAQ]);
 
-  // Fetch helpers
-  const fetchCountryData = useCallback(async (lat, lon) => {
-    addDebugInfo('Fetching country data for coordinates:', { lat, lon });
+  // ---- Fetch helpers - FIXED: Remove next: { revalidate } ----
+  // In your page component, update the fetchCountryData function:
+const fetchCountryData = useCallback(async (lat, lon) => {
+  try {
+    const res = await fetch(
+      `/api/reverse-geocode?lat=${lat}&lon=${lon}`
+    );
     
-    try {
-      const apiUrl = `/api/reverse-geocode?lat=${lat}&lon=${lon}`;
-      addDebugInfo('Making API request to:', apiUrl);
-      
-      const res = await fetch(apiUrl);
-      
-      addDebugInfo('API response status:', res.status);
-      
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      
-      const geoData = await res.json();
-      addDebugInfo('Country data received:', geoData);
-      
-      if (geoData.error) {
-        addDebugInfo('Country data error:', geoData.error);
-        return { currency: 'N/A', language: 'N/A' };
-      }
-
-      const countryCode = geoData.country_code;
-      if (!countryCode) {
-        addDebugInfo('No country code found in response');
-        return { currency: 'N/A', language: 'N/A' };
-      }
-
-      addDebugInfo('Country code found:', countryCode);
-      const [currency, language] = await Promise.all([
-        fetchCurrency(countryCode),
-        fetchLanguage(countryCode),
-      ]);
-
-      addDebugInfo('Currency and language fetched:', { currency, language });
-      return { currency, language };
-    } catch (error) {
-      addDebugInfo('Error fetching country data:', error.message);
+    const geoData = await res.json();
+    
+    if (geoData.error) {
       return { currency: 'N/A', language: 'N/A' };
     }
-  }, [addDebugInfo]);
+
+    const countryCode = geoData.country_code;
+    if (!countryCode) return { currency: 'N/A', language: 'N/A' };
+
+    const [currency, language] = await Promise.all([
+      fetchCurrency(countryCode),
+      fetchLanguage(countryCode),
+    ]);
+
+    return { currency, language };
+  } catch {
+    return { currency: 'N/A', language: 'N/A' };
+  }
+}, []);
 
   const fetchCurrency = useCallback(async (countryCode) => {
     try {
-      addDebugInfo('Fetching currency for country:', countryCode);
       const res = await fetch(
         `https://restcountries.com/v3.1/alpha/${countryCode}`
       );
-      addDebugInfo('Currency API response status:', res.status);
-      
       const data = await res.json();
       if (data[0]?.currencies) {
         const code = Object.keys(data[0].currencies)[0];
-        addDebugInfo('Currency found:', code);
         return `${code}`;
       }
-      addDebugInfo('No currency found');
       return 'N/A';
-    } catch (error) {
-      addDebugInfo('Error fetching currency:', error.message);
+    } catch {
       return 'N/A';
     }
-  }, [addDebugInfo]);
+  }, []);
 
   const fetchLanguage = useCallback(async (countryCode) => {
     try {
-      addDebugInfo('Fetching language for country:', countryCode);
       const res = await fetch(
         `https://restcountries.com/v3.1/alpha/${countryCode}`
       );
-      addDebugInfo('Language API response status:', res.status);
-      
       const data = await res.json();
       if (data[0]?.languages) {
-        const language = Object.values(data[0].languages)[0];
-        addDebugInfo('Language found:', language);
-        return language;
+        return Object.values(data[0].languages)[0];
       }
-      addDebugInfo('No language found');
       return 'N/A';
-    } catch (error) {
-      addDebugInfo('Error fetching language:', error.message);
+    } catch {
       return 'N/A';
     }
-  }, [addDebugInfo]);
+  }, []);
 
   const fetchWeatherData = useCallback(
     async (src, dest) => {
-      addDebugInfo('Starting weather data fetch for:', { src, dest });
       try {
         const [
           sourceWeatherRes,
@@ -272,17 +225,11 @@ export default function DistanceResult() {
           fetchCountryData(dest.lat, dest.lon),
         ]);
 
-        addDebugInfo('Weather API responses:', {
-          sourceStatus: sourceWeatherRes.status,
-          destStatus: destWeatherRes.status
-        });
-
         if (!sourceWeatherRes.ok || !destWeatherRes.ok)
           throw new Error('Weather API failed');
 
         const sourceData = await sourceWeatherRes.json();
         const destData = await destWeatherRes.json();
-        addDebugInfo('Weather data received successfully');
 
         setSourceWeather({
           temp: `${Math.round(sourceData.main.temp)}°C`,
@@ -327,19 +274,15 @@ export default function DistanceResult() {
           currency: destCountryData.currency,
           language: destCountryData.language,
         });
-
-        addDebugInfo('Weather state updated successfully');
       } catch (error) {
-        addDebugInfo('Error fetching weather data:', error.message);
         console.error('Error fetching weather data:', error);
       }
     },
-    [fetchCountryData, addDebugInfo]
+    [fetchCountryData]
   );
 
-  // Distance calculation
+  // ---- Distance calculation ----
   const calculateDistance = useCallback((src, dest) => {
-    addDebugInfo('Calculating distance between:', { src, dest });
     const lat1 = parseFloat(src.lat);
     const lon1 = parseFloat(src.lon);
     const lat2 = parseFloat(dest.lat);
@@ -357,12 +300,10 @@ export default function DistanceResult() {
     const distance = R * c;
 
     setDistanceInKm(distance);
-    addDebugInfo('Distance calculated:', `${distance.toFixed(2)} km`);
-  }, [addDebugInfo]);
+  }, []);
 
   const fetchPopularRoutes = useCallback(async (src, dest) => {
     try {
-      addDebugInfo('Setting popular routes');
       setPopularRoutes([
         {
           id: 'route1',
@@ -374,113 +315,69 @@ export default function DistanceResult() {
         { id: 'route4', source: 'Paris', destination: 'Rome' },
       ]);
     } catch (error) {
-      addDebugInfo('Error fetching popular routes:', error.message);
       console.error('Error fetching popular routes:', error);
     }
-  }, [addDebugInfo]);
+  }, []);
 
-  // Main effect for fetching locations
-  useEffect(() => {
-    if (!sourceName || !destinationName) {
-      addDebugInfo('Missing source or destination name', { sourceName, destinationName });
-      return;
-    }
+  // ---- Effects - FIXED: Remove next: { revalidate } ----
+  // In your page component, replace the fetchLocations function:
+useEffect(() => {
+  if (!sourceName || !destinationName) return;
 
-   // In your page.jsx, update the fetchLocations function
-const fetchLocations = async () => {
-  setIsLoading(true);
-  addDebugInfo('Starting location fetch process');
-  
-  try {
-    const sourceQuery = encodeURIComponent(sourceName.replace(/-/g, ' '));
-    const destQuery = encodeURIComponent(destinationName.replace(/-/g, ' '));
-    
-    const sourceApiUrl = `/api/geocode?query=${sourceQuery}`;
-    const destApiUrl = `/api/geocode?query=${destQuery}`;
-    
-    addDebugInfo('Making geocode API requests:', { sourceApiUrl, destApiUrl });
+  const fetchLocations = async () => {
+    setIsLoading(true);
+    try {
+      const [sourceResponse, destResponse] = await Promise.all([
+        fetch(`/api/geocode?query=${encodeURIComponent(sourceName.replace(/-/g, ' '))}`),
+        fetch(`/api/geocode?query=${encodeURIComponent(destinationName.replace(/-/g, ' '))}`),
+      ]);
 
-    const [sourceResponse, destResponse] = await Promise.all([
-      fetch(sourceApiUrl),
-      fetch(destApiUrl),
-    ]);
+      const [sourceData, destData] = await Promise.all([
+        sourceResponse.json(),
+        destResponse.json(),
+      ]);
 
-    addDebugInfo('Geocode API responses:', {
-      sourceStatus: sourceResponse.status,
-      destStatus: destResponse.status
-    });
-
-    // Handle API errors gracefully
-    if (!sourceResponse.ok || !destResponse.ok) {
-      const sourceError = await sourceResponse.text();
-      const destError = await destResponse.text();
-      
-      addDebugInfo('API error details:', { sourceError, destError });
-      
-      // Don't redirect immediately, show error to user
-      if (sourceResponse.status === 503 || destResponse.status === 503) {
-        throw new Error('Service temporarily unavailable. Please try again in a few moments.');
+      // Check for API errors
+      if (sourceData.error || destData.error) {
+        throw new Error(sourceData.error || destData.error);
       }
-      throw new Error(`Geocoding service error: ${sourceResponse.status}`);
+
+      if (sourceData && destData) {
+        setSourcePlace({
+          lat: sourceData.lat,
+          lon: sourceData.lon,
+          display_name: sourceData.display_name,
+        });
+
+        setDestinationPlace({
+          lat: destData.lat,
+          lon: destData.lon,
+          display_name: destData.display_name,
+        });
+
+        calculateDistance(sourceData, destData);
+        fetchWeatherData(sourceData, destData);
+        fetchPopularRoutes(sourceData, destData);
+      } else {
+        router.push('/locationtolocation');
+      }
+    } catch (error) {
+      console.error('Error fetching location data:', error);
+      router.push('/locationtolocation');
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    const [sourceData, destData] = await Promise.all([
-      sourceResponse.json(),
-      destResponse.json(),
-    ]);
-
-    addDebugInfo('Geocode data received:', { sourceData, destData });
-
-    // Check for API errors in response data
-    if (sourceData.error || destData.error) {
-      throw new Error(sourceData.error || destData.error);
-    }
-
-    if (sourceData && destData) {
-      addDebugInfo('Setting place data');
-      setSourcePlace({
-        lat: sourceData.lat,
-        lon: sourceData.lon,
-        display_name: sourceData.display_name,
-      });
-
-      setDestinationPlace({
-        lat: destData.lat,
-        lon: destData.lon,
-        display_name: destData.display_name,
-      });
-
-      calculateDistance(sourceData, destData);
-      fetchWeatherData(sourceData, destData);
-      fetchPopularRoutes(sourceData, destData);
-    } else {
-      addDebugInfo('No data received from APIs');
-      // Show error state instead of redirecting
-      setSourcePlace(null);
-      setDestinationPlace(null);
-    }
-  } catch (error) {
-    addDebugInfo('Error in location fetch process:', error.message);
-    console.error('Error fetching location data:', error);
-    // Set error state instead of redirecting
-    setSourcePlace(null);
-    setDestinationPlace(null);
-  } finally {
-    setIsLoading(false);
-    addDebugInfo('Location fetch process completed');
-  }
-};
-
-    fetchLocations();
-  }, [
-    sourceName,
-    destinationName,
-    router,
-    calculateDistance,
-    fetchWeatherData,
-    fetchPopularRoutes,
-    addDebugInfo
-  ]);
+  fetchLocations();
+}, [
+  sourceName,
+  destinationName,
+  router,
+  calculateDistance,
+  fetchWeatherData,
+  fetchPopularRoutes,
+]);
 
   useEffect(() => {
     if (distanceMetrics && sourceShortName && destinationShortName) {
@@ -502,16 +399,7 @@ const fetchLocations = async () => {
     [router]
   );
 
-  // Mark initial render as complete after first render
-  useEffect(() => {
-    isInitialRender.current = false;
-    // Transfer any debug logs from ref to state
-    if (debugLogRef.current.length > 0) {
-      setDebugInfo(debugLogRef.current.slice(-9));
-    }
-  }, []);
-
-  // Loading screen
+  // ---- Loading screen ----
   if (!sourcePlace || !destinationPlace) {
     return (
       <div
@@ -530,30 +418,19 @@ const fetchLocations = async () => {
           <div className="sr-only">
             Loading distance information, please wait
           </div>
-          
-          {/* Debug Info Display */}
-          {/* <div className="mt-8 p-4 bg-gray-100 rounded-lg max-w-2xl mx-auto text-left">
-            <h3 className="font-bold mb-2">Debug Information:</h3>
-            <pre className="text-xs whitespace-pre-wrap">
-              {debugInfo.map((info, index) => (
-                <div key={index}>{info.message}</div>
-              ))}
-            </pre>
-          </div> */}
         </div>
       </div>
     );
   }
-
-  // Render
+  // ---- Render ----
   return (
-    <>
-      <Header />
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
+  <>
+    <Header />
+    <a href="#main-content" className="skip-link">
+      Skip to main content
+    </a>
 
-      <div className="static-content" style={{ display: 'none' }}>
+ <div className="static-content" style={{ display: 'none' }}>
         <h1>Distance from {sourceName} to {destinationName}</h1>
         <p>Calculate the distance between {sourceName} and {destinationName} using our accurate distance calculator.</p>
         <p>Results include measurements in miles, kilometers, and nautical miles with estimated travel times.</p>
@@ -563,22 +440,8 @@ const fetchLocations = async () => {
         <p>We provide accurate results with additional information like weather data and travel insights.</p>
       </div>
 
-      <main id="main-content" role="main">
-        {/* Debug panel - remove in production */}
-        {/* <details className="debug-panel bg-yellow-100 p-4 mb-4 rounded">
-          <summary className="cursor-pointer font-bold">Debug Information</summary>
-          <pre className="text-xs whitespace-pre-wrap mt-2">
-            {JSON.stringify({
-              sourceName,
-              destinationName,
-              sourcePlace: sourcePlace ? 'Set' : 'Not set',
-              destinationPlace: destinationPlace ? 'Set' : 'Not set',
-              isLoading,
-              debugInfo: debugInfo.slice(-5)
-            }, null, 2)}
-          </pre>
-        </details> */}
 
+      <main id="main-content" role="main">
         <section
           className="distance-result__header"
           role="banner"
@@ -605,7 +468,6 @@ const fetchLocations = async () => {
           </div>
         </section>
 
-        {/* ... rest of your JSX remains the same ... */}
         <section
           className="distance-result__container"
           role="region"
@@ -650,28 +512,28 @@ const fetchLocations = async () => {
               <MetricCard
                 icon={<FaGlobe aria-hidden="true" />}
                 title="Kilometers"
-                value={distanceMetrics?.km || '0.0'}
+                value={distanceMetrics.km}
                 unit="km"
                 variant="blue"
               />
               <MetricCard
                 icon={<FaGlobe aria-hidden="true" />}
                 title="Miles"
-                value={distanceMetrics?.miles || '0.0'}
+                value={distanceMetrics.miles}
                 unit="mi"
                 variant="green"
               />
               <MetricCard
                 icon={<FaAnchor aria-hidden="true" />}
                 title="Nautical Miles"
-                value={distanceMetrics?.nauticalMiles || '0.0'}
+                value={distanceMetrics.nauticalMiles}
                 unit="nmi"
                 variant="purple"
               />
               <MetricCard
                 icon={<FaPlane aria-hidden="true" />}
                 title="Flight Time"
-                value={distanceMetrics?.flightTime || '0.0'}
+                value={distanceMetrics.flightTime}
                 unit="hours"
                 variant="red"
               />
@@ -704,45 +566,48 @@ const fetchLocations = async () => {
             </div>
           </section>
 
-          <section className="faq-page" aria-labelledby="faq-section-title">
-            <h2 id="faq-section-title" className="faq-title">Frequently Asked Questions</h2>
-            <div className="faq-list">
-              {faqs.map((faq, index) => (
-                <div
-                  key={faq.id}
-                  className={`faq-card ${activeFAQ === index ? 'open' : ''}`}
-                  role="button"
-                  tabIndex={-1}
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setActiveFAQ(prev => {
-                      const newValue = prev === index ? null : index;
-                      return newValue;
-                    });
-                    requestAnimationFrame(() => window.scrollTo(0, window.scrollY));
-                  }}
-                  aria-expanded={activeFAQ === index}
-                  aria-controls={`faq-answer-${faq.id}`}
-                >
-                  <h3 className="faq-question">{faq.question}</h3>
-                  <div
-                    id={`faq-answer-${faq.id}`}
-                    className="faq-answer"
-                    role="region"
-                    aria-labelledby={`faq-question-${faq.id}`}
-                    hidden={activeFAQ !== index}
-                    style={{
-                      overflowAnchor: 'none'
-                    }}
-                  >
-                    <p>{faq.answer}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+         <section className="faq-page" aria-labelledby="faq-section-title">
+  <h2 id="faq-section-title" className="faq-title">Frequently Asked Questions</h2>
+  <div className="faq-list">
+    {faqs.map((faq, index) => (
+      <div
+        key={faq.id}
+        className={`faq-card ${activeFAQ === index ? 'open' : ''}`}
+        role="button"
+        tabIndex={-1}  // Prevent focus
+        onMouseDown={(e) => e.preventDefault()} // Additional prevention
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setActiveFAQ(prev => {
+            const newValue = prev === index ? null : index;
+            console.log('Setting FAQ from', prev, 'to', newValue);
+            return newValue;
+          });
+          // Force maintain scroll position
+          requestAnimationFrame(() => window.scrollTo(0, window.scrollY));
+        }}
+        aria-expanded={activeFAQ === index}
+        aria-controls={`faq-answer-${faq.id}`}
+      >
+        <h3 className="faq-question">{faq.question}</h3>
+        <div
+          id={`faq-answer-${faq.id}`}
+          className="faq-answer"
+          role="region"
+          aria-labelledby={`faq-question-${faq.id}`}
+          hidden={activeFAQ !== index}
+          style={{
+            overflowAnchor: 'none' // Prevent scroll anchoring
+          }}
+        >
+          <p>{faq.answer}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
 
           {/* Routes */}
           <section
@@ -771,3 +636,7 @@ const fetchLocations = async () => {
     </>
   );
 }
+
+
+
+
