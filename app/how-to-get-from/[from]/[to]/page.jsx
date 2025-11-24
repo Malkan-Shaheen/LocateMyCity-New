@@ -385,8 +385,8 @@ useEffect(() => {
     return (
       <ul className="routes-list">
         {fallbackCountries.map((country, index) => {
-          const destSlug = destinationName 
-            ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+          const destSlug = sourceName 
+            ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
             : to || 'destination';
             
           const countrySlug = country.name
@@ -402,14 +402,14 @@ useEffect(() => {
                 prefetch={false}
                 target="_blank"
               >
-                How far is {country.name} from {destinationName || 'Destination'}?
+                How far is {country.name} from {sourceName || 'Destination'}?
               </Link>
             </li>
           );
         })}
       </ul>
     );
-  }, [loadingNeighbors, destinationName, to]);
+  }, [loadingNeighbors, sourceName, to]);
 
   // Memoized popular routes
   const popularRoutes = useMemo(() => (
@@ -420,8 +420,8 @@ useEffect(() => {
         'Toronto',
         'London'
       ].map((city, index) => {
-        const destSlug = destinationName
-          ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+        const destSlug = sourceName
+          ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
           : to || 'destination';
           
         const citySlug = city
@@ -436,13 +436,13 @@ useEffect(() => {
               prefetch={false}
               target="_blank"
             >
-              {city} to {destinationName || 'Destination'}
+              {city} to {sourceName || 'Destination'}
             </Link>
           </li>
         );
       })}
     </ul>
-  ), [destinationName, to]);
+  ), [sourceName, to]);
 
   // Schedule Dropdown Component
    const ScheduleDropdown = ({ type, title, data, icon }) => (
@@ -826,9 +826,16 @@ useEffect(() => {
     </div>
     <p className="card-description">Direct flights with:</p>
     <div className="tags">
-      <span className="tag">Bahamas Air</span>
-      <span className="tag">Western Air</span>
-      <span className="tag">Southern Air</span>
+
+      <a href="https://www.bahamasair.com/" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Bahamas Air</span>
+</a>
+<a href="https://www.southernaircharter.com/" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Western Air</span>
+</a>
+<a href="https://www.westernairbahamas.com/" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Southern Air</span>
+</a>
     </div>
   </div>
 
@@ -842,8 +849,8 @@ useEffect(() => {
       </div>
     </div>
     <div className="time-display">
-      <span className="time">15-20 min</span>
-      <span className="time-label">Direct flight</span>
+      {/* <span className="time">15-20 min</span> */}
+      <span className="time-label">When you travel to Eleuthera from Nassau, the fastest option is a 15–20 minute direct flight, making it the quickest and most reliable way to get there</span>
     </div>
   </div>
 
@@ -856,12 +863,24 @@ useEffect(() => {
         <h3>Cheapest</h3>
       </div>
     </div>
-    <p className="card-description">Ferry services:</p>
+    <p className="card-description">Here are the top budget-friendly ways to travel to Eleuthera from Nassau:</p>
     <div className="ferry-list">
-      <span>Eleuthera Express</span>
-      <span>Current Pride</span>
-      <span>Bahamas Daybreak</span>
-      <span>Bahamas Fast Ferries</span>
+      <a href="https://www.briland.com/topmenu/mailboat.html" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Eleuthera Express</span>
+</a>
+
+      <a href="https://www.bahamas.com/plan-your-trip/things-to-do/mv-current-pride-e" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Current Pride</span>
+</a>
+
+      <a href="https://www.facebook.com/bahadaybreak/" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Bahamas Daybreak</span>
+</a>
+
+      <a href="https://www.bahamasferries.com/" target="_blank" rel="noopener noreferrer">
+  <span className="tag">Bahamas Fast Ferries</span>
+</a>
+
     </div>
   </div>
 
@@ -1060,18 +1079,29 @@ useEffect(() => {
   
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-self-center">
     {topThings.map((item, index) => (
-      <div key={index} className="flex flex-col items-center">
-        <img 
-          src={item.image} 
-          alt={item.title}
-          className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md justify-center"
-        />
-        
-        <br/>
-        <h3 className="text-lg font-semibold text-gray-800 mt-3 text-center">
-          {item.title}
-        </h3>
-      </div>
+      <a 
+  href={item.href} 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="block"
+><br/>
+  <div className="flex flex-col ">
+    <img 
+      src={item.image} 
+      alt={item.title}
+      className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md items-center"
+    />
+
+ <br/>  <h3 className="text-2xl font-semibold text-gray-800 mt-3 relative left-[15px] bottom-[5px]">
+  {item.title}
+</h3>
+
+
+   <p className="whitespace-pre-line">{item.description}</p>
+
+  </div>
+</a>
+
     ))}
   </div>
 </div><br/><br/>
@@ -1327,7 +1357,7 @@ style={{ lineHeight: '1.6' }}
           {/* 📖 ABOUT DESTINATION */}
           <section className="bg-transparent p-4 sm:p-8 mb-12 transition-all text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              About {destinationName}
+              About {sourceName}
             </h2>
 
             <div className="block sm:hidden mb-6">
@@ -1420,11 +1450,11 @@ style={{ lineHeight: '1.6' }}
       {/* 🗺️ DISCOVER CITIES & POPULAR ROUTES */}
     <footer className="page-footer">
         <div className="footer-section card3">
-          <h4>How far is {destinationName} from neighboring countries?</h4>
+          <h4>How far is {sourceName} from neighboring countries?</h4>
           {neighboringCountriesList}
         </div>
         <div className="footer-section card3">
-          <h4>Popular Routes to {destinationName}</h4>
+          <h4>Popular Routes to {sourceName}</h4>
           {popularRoutes}
         </div>
       </footer>
@@ -2112,7 +2142,7 @@ button:disabled:hover {
   }
     .img1{
     width:100%;
-    height:100%;
+    height:400px;
     }
 
       `}</style>

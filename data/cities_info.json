@@ -4,7 +4,7 @@
         "slug": "how-to-get-to-eleuthera-from-nassau",
         "intro": {
             "headline": "How to Get to Eleuthera from Nassau",
-            "description": "Discover the best ways to travel from Nassau to Eleuthera — by air, ferry, or private charter. Find routes, schedules, and weather insights to plan your trip smoothly.",
+            "description": "The best ways to travel to Eleuthera from Nassau are by air, ferry, or private charter. Each option offers different routes, schedules, and travel times, so you can choose the one that fits your plans. Use this guide to compare your choices, check weather conditions, and make your trip to Eleuthera as smooth as possible. Travel from Nassau to Eleuthera",
             "buttons": [
                 {
                     "text": "View Routes",
@@ -53,24 +53,32 @@
                 "/get-from-to-images/eleuthera3.webp"
             ]
         },
-          "top_things": [
-            {
-                "title": "Pink Sand Beaches",
-                "image": "/get-from-to-images/pink-sand-beach.webp"
-            },
-            {
-                "title": "Glass Window Bridge",
-                "image": "/get-from-to-images/glass-window-bridge.webp"
-            },
-            {
-                "title": "Surfer's Beach",
-                "image": "/get-from-to-images/surfers-beach.webp"
-            },
-            {
-                "title": "Hatchet Bay Caves",
-                "image": "/get-from-to-images/hatchet-bay-caves.webp"
-            }
-        ],
+        "top_things": [
+   {
+    "title": "Pink Sand Beaches",
+    "image": "/get-from-to-images/top3.jpg",
+    "description": "- Swim at Queen’s Bath\n - A natural rock pool heated by the sun — perfect for photos and a refreshing dip at low tide.",
+    "href": "https://www.bahamas.com/natural-wonders/queens-bath-eleuthera"
+  },
+  {
+    "title": "Glass Window Bridge",
+    "image": "/get-from-to-images/top1.jpg",
+    "description": "- Visit the Glass Window Bridge:\n- See the dramatic spot where the deep blue Atlantic meets the calm turquoise Caribbean.",
+    "href": "https://www.bahamas.com/natural-wonders/glass-window-bridge"
+  },
+  {
+    "title": "Surfer's Beach",
+    "image": "/get-from-to-images/top4.jpg",
+    "description": "- Explore Lighthouse Beach\n -One of the most stunning beaches in The Bahamas, known for soft pink sand and crystal-clear water.",
+    "href": "https://www.bahamas.com/natural-wonders/lighthouse-beach"
+  },
+  {
+    "title": "Hatchet Bay Caves",
+    "image": "/get-from-to-images/top2.jpg",
+    "description": "-Tour Hatchet Bay Caves.\n- Adventure through Eleuthera’s largest cave system filled with limestone formations and unique history.",
+    "href": "https://www.bahamas.com/plan-your-trip/things-to-do/hatchet-bay-cave"
+  }
+],
         "places_to_stay": [
             {
                 "title": "French Leave Resort",
@@ -289,23 +297,31 @@
                 "/get-from-to-images/eleuthera3.webp"
             ]
         },
-          "top_things": [
-            {
-                "title": "Governor's Harbour",
-                "image": "/get-from-to-images/top1.jpg"
-            },
-            {
-                "title": "Hatchet Bay Caves",
-                "image": "/get-from-to-images/top2.jpg"
-            },
-            {
-                "title": "Lighthouse Beach",
-                "image": "/get-from-to-images/top3.jpg"
-            },
-            {
-                "title": "Glass Window Bridge",
-                "image": "/get-from-to-images/top4.jpg"
-            }
+        "top_things": [
+    {
+    "title": "Pink Sand Beaches",
+    "image": "/get-from-to-images/top3.jpg",
+    "description": "- Swim at Queen’s Bath\n - A natural rock pool heated by the sun — perfect for photos and a refreshing dip at low tide.",
+    "href": "https://www.bahamas.com/natural-wonders/queens-bath-eleuthera"
+  },
+  {
+    "title": "Glass Window Bridge",
+    "image": "/get-from-to-images/top1.jpg",
+    "description": "- Visit the Glass Window Bridge:\n- See the dramatic spot where the deep blue Atlantic meets the calm turquoise Caribbean.",
+    "href": "https://www.bahamas.com/natural-wonders/glass-window-bridge"
+  },
+  {
+    "title": "Surfer's Beach",
+    "image": "/get-from-to-images/top4.jpg",
+    "description": "- Explore Lighthouse Beach\n -One of the most stunning beaches in The Bahamas, known for soft pink sand and crystal-clear water.",
+    "href": "https://www.bahamas.com/natural-wonders/lighthouse-beach"
+  },
+  {
+    "title": "Hatchet Bay Caves",
+    "image": "/get-from-to-images/top2.jpg",
+    "description": "-Tour Hatchet Bay Caves.\n- Adventure through Eleuthera’s largest cave system filled with limestone formations and unique history.",
+    "href": "https://www.bahamas.com/plan-your-trip/things-to-do/hatchet-bay-cave"
+  }
         ],
         "places_to_stay": [
            {
