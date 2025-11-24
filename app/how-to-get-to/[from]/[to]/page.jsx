@@ -385,8 +385,8 @@ useEffect(() => {
     return (
       <ul className="routes-list">
         {fallbackCountries.map((country, index) => {
-          const destSlug = sourceName 
-            ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+          const destSlug = destinationName 
+            ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
             : to || 'destination';
             
           const countrySlug = country.name
@@ -402,14 +402,14 @@ useEffect(() => {
                 prefetch={false}
                 target="_blank"
               >
-                How far is {country.name} from {sourceName || 'Destination'}?
+                How far is {country.name} from {destinationName || 'Destination'}?
               </Link>
             </li>
           );
         })}
       </ul>
     );
-  }, [loadingNeighbors, sourceName, to]);
+  }, [loadingNeighbors, destinationName, to]);
 
   // Memoized popular routes
   const popularRoutes = useMemo(() => (
@@ -420,8 +420,8 @@ useEffect(() => {
         'Toronto',
         'London'
       ].map((city, index) => {
-        const destSlug = sourceName
-          ? sourceName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+        const destSlug = destinationName
+          ? destinationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
           : to || 'destination';
           
         const citySlug = city
@@ -436,13 +436,13 @@ useEffect(() => {
               prefetch={false}
               target="_blank"
             >
-              {city} to {sourceName || 'Destination'}
+              {city} to {destinationName || 'Destination'}
             </Link>
           </li>
         );
       })}
     </ul>
-  ), [sourceName, to]);
+  ), [destinationName, to]);
 
   // Schedule Dropdown Component
    const ScheduleDropdown = ({ type, title, data, icon }) => (
@@ -558,44 +558,50 @@ useEffect(() => {
   const fallbackBackground = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
   const backgroundImage = background.imageUrl || fallbackBackground;
 
- // Load page data based on route parameters
-// Load page data based on route parameters
 useEffect(() => {
-  const loadPageData = () => {
-    if (!from || !to) {
+  const loadPageDataFromUrl = () => {
+    if (!window.location.pathname) {
       setPageExists(false);
       setIsChecking(false);
       return;
     }
-    
+
     try {
       setIsChecking(true);
-      const routeKey = `${from}-${to}`;
-      const reverseRouteKey = `${to}-${from}`;
-      
-      console.log('🔍 [DEBUG] Looking for routes:', routeKey, 'and reverse:', reverseRouteKey);
-      
-      // CORRECTED: Check both directions since your JSON has duplicate page keys
+
+      // Extract the route from the URL, e.g., "how-to-get-to-eleuthera-from-nassau"
+      const pathSegments = window.location.pathname.split('/');
+      const lastSegment = pathSegments[pathSegments.length - 1]; // get last part
+      // Extract "eleuthera" and "nassau"
+      const match = lastSegment.match(/how-to-get-to-(.*)-from-(.*)/);
+
+      if (!match) {
+        console.log('❌ [DEBUG] URL pattern does not match');
+        setPageExists(false);
+        return;
+      }
+
+      const [, toCity, fromCity] = match;
+      const routeKey = `${fromCity}-${toCity}`;
+      const reverseRouteKey = `${toCity}-${fromCity}`;
+
+      console.log('🔍 [DEBUG] Parsed route from URL:', routeKey, reverseRouteKey);
+
       const validRoutes = {
-        'nassau-eleuthera': true,
-        // 'eleuthera-nassau': true, // Add reverse route
+        'eleuthera-nassau': true,
         'moscow-berlin': true,
-        // 'berlin-moscow': true     // Add reverse route
       };
-      
+
       if (validRoutes[routeKey] || validRoutes[reverseRouteKey]) {
-        // Use the page data (we'll handle content swapping for reverse routes)
         const pageDataToUse = allPagesData.page;
-        
-        // For reverse routes, we need to swap some content
+
         if (validRoutes[reverseRouteKey]) {
           console.log('🔄 [DEBUG] Using reverse route data, will swap content');
-          // We'll handle content adjustment below
         }
-        
+
         setPageData(pageDataToUse);
-        setDestinationName(capitalizeFirst(to));
-        setSourceName(capitalizeFirst(from));
+        setDestinationName(capitalizeFirst(toCity));
+        setSourceName(capitalizeFirst(fromCity));
         setDestinationCountry(pageDataToUse?.general_info?.country_code || '');
         setPageExists(true);
         console.log(`✅ [DEBUG] Found route: ${routeKey}`);
@@ -603,7 +609,7 @@ useEffect(() => {
         console.log(`❌ [DEBUG] Route not found: ${routeKey} or ${reverseRouteKey}`);
         setPageExists(false);
       }
-      
+
     } catch (error) {
       console.error('Error loading page data:', error);
       setPageExists(false);
@@ -613,9 +619,11 @@ useEffect(() => {
     }
   };
 
-  loadPageData();
+  loadPageDataFromUrl();
   fetchBackgroundImage();
-}, [from, to]);
+
+}, [window.location.pathname]); // re-run when URL changes
+
 
 
   // Show 404 if page doesn't exist
@@ -764,7 +772,7 @@ useEffect(() => {
   <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full">
     <div className="max-w-2xl bg-opacity-20 rounded-xl p-6 sm:p-8 mx-auto hero1">
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-lg text-left">
-        How to Get from <span className="text-yellow-400">{sourceName}</span>  to<span className="block"></span> <span className="text-yellow-400">{destinationName}</span> 
+        How to Get to <span className="text-yellow-400">{sourceName}</span>  from<span className="block"></span> <span className="text-yellow-400">{destinationName}</span> 
         
       </h1>
 
@@ -1073,7 +1081,7 @@ useEffect(() => {
 
           <div className="mb-12 justify-items-center">
   <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-    Top Things to Do in {sourceName}
+    Top Things to Do in {destinationName}
   </h2>
   
   
@@ -1100,9 +1108,15 @@ useEffect(() => {
           <h3 className=" card5 text-xl md:text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
             {item.title}
           </h3>
-          <p className="card5 text-gray-700 text-sm md:text-base whitespace-pre-line">
-            {item.description}
-          </p>
+         
+ <p className="card5 text-gray-700 text-sm md:text-base">
+  {item.description.split('\n').map((line, index) => (
+    <div key={index} className="flex items-start mb-3 pr-4">
+      <div className="w-2 h-2 bg-gray-600 mr-3 mt-2 flex-shrink-0 bullets"></div>
+      <span>{line.replace(/^- /, ' ')}</span>
+    </div>
+  ))}
+</p>
         </div>
 
       </div>
@@ -1363,7 +1377,7 @@ style={{ lineHeight: '1.6' }}
           {/* 📖 ABOUT DESTINATION */}
           <section className="bg-transparent p-4 sm:p-8 mb-12 transition-all text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              About {sourceName}
+              About {destinationName}
             </h2>
 
             <div className="block sm:hidden mb-6">
@@ -1375,7 +1389,7 @@ style={{ lineHeight: '1.6' }}
                 <div key={i} className="flex-1 max-w-md">
                   <Image
                     src={img}
-                   alt={`${destinationName} image ${i + 1}`}  
+                   alt={`${sourceName} image ${i + 1}`}  
                     width={665}
                     height={503}
                     className="w-full h-auto object-cover rounded-lg shadow-md"
@@ -1456,11 +1470,11 @@ style={{ lineHeight: '1.6' }}
       {/* 🗺️ DISCOVER CITIES & POPULAR ROUTES */}
     <footer className="page-footer">
         <div className="footer-section card3">
-          <h4>How far is {sourceName} from neighboring countries?</h4>
+          <h4>How far is {destinationName} from neighboring countries?</h4>
           {neighboringCountriesList}
         </div>
         <div className="footer-section card3">
-          <h4>Popular Routes to {sourceName}</h4>
+          <h4>Popular Routes to {destinationName}</h4>
           {popularRoutes}
         </div>
       </footer>
@@ -1678,13 +1692,9 @@ padding:10px !important;
       padding: 20px;
       border: 1px solid #e5e7eb;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
     }
 
-    .option-card:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transform: translateY(-2px);
-    }
+
 
     .card-header {
       display: flex;
@@ -1784,7 +1794,6 @@ padding:10px !important;
       font-size: 0.8rem;
       color: #374151;
       padding-left: 8px;
-      border-left: 2px solid #22c55e;
     }
 
     .reliability-info p {
@@ -1885,10 +1894,6 @@ padding:10px !important;
   height: 4px;
 }
 
-.option-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
 
 /* Soft Coral */
 .option-card.best::before {
@@ -1938,7 +1943,6 @@ padding:10px !important;
 .option-card.cheapest .ferry-list span {
   background: #F0FDF4;
   color: #065F46;
-  border-left: 3px solid #10B981;
 }
 
 /* Soft Lavender */
@@ -2059,7 +2063,6 @@ padding:10px !important;
   font-size: 0.85rem;
   padding: 8px 12px;
   border-radius: 8px;
-  border-left: 3px solid #10B981;
   font-weight: 500;
 }
 
@@ -2149,6 +2152,10 @@ button:disabled:hover {
     .img1{
     width:100%;
     height:400px;
+    }
+    .bullets{
+    margin-right:10px;
+    margin-top:7px;
     }
 
       `}</style>
