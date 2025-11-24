@@ -578,9 +578,9 @@ useEffect(() => {
       // CORRECTED: Check both directions since your JSON has duplicate page keys
       const validRoutes = {
         'nassau-eleuthera': true,
-        'eleuthera-nassau': true, // Add reverse route
+        // 'eleuthera-nassau': true, // Add reverse route
         'moscow-berlin': true,
-        'berlin-moscow': true     // Add reverse route
+        // 'berlin-moscow': true     // Add reverse route
       };
       
       if (validRoutes[routeKey] || validRoutes[reverseRouteKey]) {
