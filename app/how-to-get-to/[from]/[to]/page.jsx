@@ -838,10 +838,10 @@ useEffect(() => {
       <a href="https://www.bahamasair.com/" target="_blank" rel="noopener noreferrer">
   <span className="tag">Bahamas Air</span>
 </a>
-<a href="https://www.southernaircharter.com/" target="_blank" rel="noopener noreferrer">
+<a href="https://www.westernairbahamas.com/" target="_blank" rel="noopener noreferrer">
   <span className="tag">Western Air</span>
 </a>
-<a href="https://www.westernairbahamas.com/" target="_blank" rel="noopener noreferrer">
+<a href="https://www.southernaircharter.com/" target="_blank" rel="noopener noreferrer">
   <span className="tag">Southern Air</span>
 </a>
     </div>
