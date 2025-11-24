@@ -1134,85 +1134,106 @@ useEffect(() => {
     </h2>
     
     {/* Slideshow Container */}
-    <div className="relative max-w-6xl mx-auto">
-      <div 
-        ref={sliderRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
-        style={{ scrollBehavior: isTransitioning ? 'auto' : 'smooth' }}
+   <div className="relative max-w-6xl mx-auto">
+  <div 
+    ref={sliderRef}
+    className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+    style={{ scrollBehavior: isTransitioning ? 'auto' : 'smooth' }}
+  >
+    {placesToStay.map((place, index) => (
+      <a 
+        key={index} 
+        href={place.href}
+        target="_blank"
+        className="flex-shrink-0 w-full snap-center relative rounded-xl overflow-hidden shadow-lg bg-[#0776d8] block cursor-pointer"
       >
-        {placesToStay.map((place, index) => (
-          <div 
-            key={index} 
-            className="flex-shrink-0 w-full snap-center relative rounded-xl overflow-hidden shadow-lg bg-[#0776d8]"
-          >
-             <div className="absolute inset-0 bg-black/40"></div> 
-            <img
-              src={place.image}
-              alt={place.title}
-              className="img1 object-cover"
-            />
-            
-            <div className="absolute bottom-10 left-5 right-0 p-4 ">
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white drop-shadow-lg mb-2">
-                {place.title}
-              </h3><br/>
-              <div className="space-y-1 absolute bottom-5 left-180 right-0 p-4">
-                {place.description.map((point, idx) => (
-                  <p
-                    key={idx}
-                    className="text-base sm:text-base text-white opacity-95 drop-shadow-md"
-style={{ lineHeight: '1.6' }}
-                  >
-                    - {point}
-                  </p>
-                ))}
-              </div>
+        <div className="absolute inset-0 bg-black/40"></div> 
+        <img
+          src={place.image}
+          alt={place.title}
+          className="img1 object-cover"
+        />
+        
+        <div className="absolute bottom-10 left-5 right-0 p-4 ">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white drop-shadow-lg mb-2">
+            {place.title}
+          </h3><br/>
+         <div className="space-y-3 absolute bottom-5 left-180 right-0 p-4">
+  {place.description.map((point, idx) => {
+    const parts = point.split(':');
+    const hasHeading = parts.length > 1;
+    
+    return (
+      <div
+        key={idx}
+        className="flex items-start space-x-3"
+        style={{ lineHeight: '1.6' }}
+      >
+        <span className="text-white opacity-90 mt-1 flex-shrink-0">•</span>
+        <div className="text-base sm:text-base text-white opacity-95 drop-shadow-md flex-1">
+          {hasHeading ? (
+            <div className="flex flex-col sm:flex-row sm:items-start">
+              <span className="font-bold text-white opacity-100 sm:w-32 flex-shrink-0">
+                {parts[0].trim()}:
+              </span>
+              <span className="font-normal text-white opacity-90 sm:ml-2 mt-1 sm:mt-0">
+                {parts.slice(1).join(':').trim()}
+              </span>
             </div>
-          </div>
-        ))}
-      </div>
-      
-      {/* Navigation Arrows */}
-      <button 
-        onClick={goToPrevious}
-        className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white hover:cursor-pointer text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20 border border-gray-300 hover:border-gray-400"
-        disabled={isTransitioning}
-        aria-label="Previous slide"
-      >
-        <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-
-      <button 
-        onClick={goToNext}
-        className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white hover:cursor-pointer text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20 border border-gray-300 hover:border-gray-400"
-        disabled={isTransitioning}
-        aria-label="Next slide"
-      >
-        <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-
-      {/* Slide Indicators */}
-      {totalSlides > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-          {placesToStay.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-1 h-1 rounded-full transition-all duration-300 b1 ${
-                index === currentSlide 
-                  ? 'bg-white scale-125' 
-                  : 'bg-white/50 hover:bg-white/80'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+          ) : (
+            <span className="text-white opacity-90">{point}</span>
+          )}
         </div>
-      )}
+      </div>
+    );
+  })}
+</div>
+        </div>
+      </a>
+    ))}
+  </div>
+  
+  {/* Navigation Arrows */}
+  <button 
+    onClick={goToPrevious}
+    className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white hover:cursor-pointer text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20 border border-gray-300 hover:border-gray-400"
+    disabled={isTransitioning}
+    aria-label="Previous slide"
+  >
+    <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <button 
+    onClick={goToNext}
+    className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/95 hover:bg-white hover:cursor-pointer text-gray-800 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20 border border-gray-300 hover:border-gray-400"
+    disabled={isTransitioning}
+    aria-label="Next slide"
+  >
+    <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+
+  {/* Slide Indicators */}
+  {totalSlides > 1 && (
+    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+      {placesToStay.map((_, index) => (
+        <button
+          key={index}
+          onClick={() => goToSlide(index)}
+          className={`w-1 h-1 rounded-full transition-all duration-300 b1 ${
+            index === currentSlide 
+              ? 'bg-white scale-125' 
+              : 'bg-white/50 hover:bg-white/80'
+          }`}
+          aria-label={`Go to slide ${index + 1}`}
+        />
+      ))}
     </div>
+  )}
+</div>
   </div>
 )}
 
@@ -2151,7 +2172,7 @@ button:disabled:hover {
   }
     .img1{
     width:100%;
-    height:400px;
+    height:450px;
     }
     .bullets{
     margin-right:10px;
