@@ -1071,39 +1071,45 @@ useEffect(() => {
             </div>
           </section>
 
-          <div className="mb-12">
+          <div className="mb-12 justify-items-center">
   <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
     Top Things to Do in {sourceName}
   </h2>
   
   
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-self-center">
-    {topThings.map((item, index) => (
-      <a 
-  href={item.href} 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  className="block"
-><br/>
-  <div className="flex flex-col ">
-    <img 
-      src={item.image} 
-      alt={item.title}
-      className="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-md items-center"
-    />
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto justify-items-center  ">
+  {topThings.map((item, index) => (
+    <a
+      key={index}
+      href={item.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block group"
+    >
+      <div className="flex flex-col bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+        
+        {/* Image */}
+        <img
+          src={item.image}
+          alt={item.title}
+          className="w-full h-64 object-cover"
+        />
 
- <br/>  <h3 className="text-2xl font-semibold text-gray-800 mt-3 relative left-[15px] bottom-[5px]">
-  {item.title}
-</h3>
+        {/* Content */}
+        <div className="p-4 flex flex-col gap-2">
+          <h3 className=" card5 text-xl md:text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+            {item.title}
+          </h3>
+          <p className="card5 text-gray-700 text-sm md:text-base whitespace-pre-line">
+            {item.description}
+          </p>
+        </div>
 
+      </div>
+    </a>
+  ))}
+</div>
 
-   <p className="whitespace-pre-line">{item.description}</p>
-
-  </div>
-</a>
-
-    ))}
-  </div>
 </div><br/><br/>
 
 
