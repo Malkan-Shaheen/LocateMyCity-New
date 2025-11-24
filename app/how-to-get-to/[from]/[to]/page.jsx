@@ -772,7 +772,7 @@ useEffect(() => {
   <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full">
     <div className="max-w-2xl bg-opacity-20 rounded-xl p-6 sm:p-8 mx-auto hero1">
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-lg text-left">
-        How to Get to <span className="text-yellow-400">{sourceName}</span>  from<span className="block"></span> <span className="text-yellow-400">{destinationName}</span> 
+        How to Get to <span className="text-yellow-400">{destinationName}</span>  from<span className="block"></span> <span className="text-yellow-400">{sourceName}</span> 
         
       </h1>
 
@@ -1157,8 +1157,11 @@ useEffect(() => {
         <div className="absolute bottom-10 left-5 right-0 p-4 ">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white drop-shadow-lg mb-2">
             {place.title}
-          </h3><br/>
-         <div className="space-y-3 absolute bottom-5 left-180 right-0 p-4">
+
+          </h3>
+          <p className="text-white max-w-100">{place.subtitle}</p>
+          <br/>
+         <div className="space-y-3 absolute bottom-10 left-180 right-0 p-4">
   {place.description.map((point, idx) => {
     const parts = point.split(':');
     const hasHeading = parts.length > 1;
@@ -1169,8 +1172,7 @@ useEffect(() => {
         className="flex items-start space-x-3"
         style={{ lineHeight: '1.6' }}
       >
-        <span className="text-white opacity-90 mt-1 flex-shrink-0">•</span>
-        <div className="text-base sm:text-base text-white opacity-95 drop-shadow-md flex-1">
+       <div className="text-base sm:text-base text-white opacity-95 drop-shadow-md flex-1">
           {hasHeading ? (
             <div className="flex flex-col sm:flex-row sm:items-start">
               <span className="font-bold text-white opacity-100 sm:w-32 flex-shrink-0">
@@ -1779,6 +1781,73 @@ padding:10px !important;
       gap: 6px;
     }
 
+    /* Add hover effects for airline buttons */
+.tags a .tag {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Bahamas Air - Blue theme */
+.tags a:first-child .tag:hover {
+  background: #ef4444!important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+/* Western Air - Red theme */
+.tags a:nth-child(2) .tag:hover {
+  background: #dc2626 !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Southern Air - Green theme */
+.tags a:nth-child(3) .tag:hover {
+  background: #ef4444 !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+      /* Add hover effects for ferry company buttons */
+.ferry-list a span {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: block;
+}
+
+/* Eleuthera Express - Teal theme */
+.ferry-list a:first-child span:hover {
+  background: #0f766e !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+}
+
+/* Current Pride - Purple theme */
+.ferry-list a:nth-child(2) span:hover {
+  background: #0f766e !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+/* Bahamas Daybreak - Orange theme */
+.ferry-list a:nth-child(3) span:hover {
+  background: #0f766e!important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+}
+
+/* Bahamas Fast Ferries - Blue theme */
+.ferry-list a:nth-child(4) span:hover {
+  background: #0f766e !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+}
     .tag {
       background: #dbeafe;
       color: #1e40af;

@@ -79,47 +79,39 @@
     "href": "https://www.bahamas.com/plan-your-trip/things-to-do/hatchet-bay-cave"
   }
 ],
-           "places_to_stay": [
+         "places_to_stay": [
     {
         "title": "The Cove Eleuthera",
+        "subtitle":"Luxury beachfront resort with private beaches, contemporary rooms and villas",
         "description": [
-            "Location: Queens Highway, Gregory Town, Eleuthera, Bahamas",
-            "Website: thecoveeleuthera.com",
-            "Description: Luxury beachfront resort with private beaches, contemporary rooms and villas",
-            "Good for: A high-end stay, couples, honeymooners, or anyone looking for a resort with full amenities"
+            "- A high-end stay, couples, honeymooners, or anyone looking for a resort with full amenities"
         ],
         "image": "/get-from-to-images/places_to_stay_a.jpg",
         "href":"https://thecoveeleuthera.com/"
     },
     {
         "title": "Mika's Resort",
+        "subtitle":"Small, modern beachfront hotel/casita style rooms, great for groups or families",
         "description": [
-            "Location: 3 Knowles Drive, Governor's Harbour, Eleuthera, Bahamas",
-            "Website: mikasresort.com",
-            "Description: Small, modern beachfront hotel/casita style rooms, great for groups or families",
-            "Good for: More accessibly-priced stay compared to larger luxury resorts, yet still very comfortable and well located"
+            "- More accessibly-priced stay compared to larger luxury resorts, yet still very comfortable and well located"
         ],
         "image": "/get-from-to-images/places_to_stay_b.jpg",
         "href":"http://mikasresort.com/"
     },
     {
         "title": "The Sunset Cove & Rainbow Room",
+        "subtitle":"Boutique-style resort with a focus on relaxed coastal living and local dining",
         "description": [
-            "Location: Rainbow Bay, Queens Highway, Eleuthera, Bahamas",
-            "Website: sunsetcoveeleuthera.com",
-            "Description: Boutique-style resort with a focus on relaxed coastal living and local dining",
-            "Good for: Travelers looking for a relaxing stay in a smaller setting, with good beach access and dining"
+            "- Travelers looking for a relaxing stay in a smaller setting, with good beach access and dining"
         ],
         "image": "/get-from-to-images/places_to_stay_c.jpg",
         "href":"https://sunsetcoveeleuthera.com/"
     },
     {
         "title": "French Leave Resort, Autograph Collection",
+        "subtitle":"High-end resort part of the Autograph Collection (Marriott), with spacious villas, beach access and full-service resort amenities",
         "description": [
-            "Location: Queen's Highway, Governor's Harbour, Eleuthera, Bahamas",
-            "Website: marriott.com/hotels/elhak-french-leave-resort-autograph-collection/overview",
-            "Description: High-end resort part of the Autograph Collection (Marriott), with spacious villas, beach access and full-service resort amenities",
-            "Good for: Guests seeking premium resort experience, possibly with larger groups or those who want resort-level amenities with villa-style accommodations"
+            "- Guests seeking premium resort experience, possibly with larger groups or those who want resort-level amenities with villa-style accommodations"
         ],
         "image": "/get-from-to-images/places_to_stay_d.jpg",
         "href":"https://www.marriott.com/en-us/hotels/elhak-french-leave-resort-autograph-collection/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
@@ -273,7 +265,7 @@
         "slug": "how-to-get-to-berlin-from-moscow",
         "intro": {
             "headline": "How to Get to berlin from moscow",
-            "description": "Discover the best ways to travel from Nassau to Berlin — by air, ferry, or private charter. Find routes, schedules, and weather insights to plan your trip smoothly.",
+            "description": "he best ways to travel to Eleuthera from Nassau are by air, ferry, or private charter. Each option offers different routes, schedules, and travel times, so you can choose the one that fits your plans. Use this guide to compare your choices, check weather conditions, and make your trip to Eleuthera as smooth as possible. Travel from Nassau to Eleuthera",
             "buttons": [
                 {
                     "text": "View Routes",
@@ -350,44 +342,36 @@
        "places_to_stay": [
     {
         "title": "The Cove Eleuthera",
+        "subtitle":"Luxury beachfront resort with private beaches, contemporary rooms and villas",
         "description": [
-            "Location: Queens Highway, Gregory Town, Eleuthera, Bahamas",
-            "Website: thecoveeleuthera.com",
-            "Description: Luxury beachfront resort with private beaches, contemporary rooms and villas",
-            "Good for: A high-end stay, couples, honeymooners, or anyone looking for a resort with full amenities"
+            "- A high-end stay, couples, honeymooners, or anyone looking for a resort with full amenities"
         ],
         "image": "/get-from-to-images/places_to_stay_a.jpg",
         "href":"https://thecoveeleuthera.com/"
     },
     {
         "title": "Mika's Resort",
+        "subtitle":"Small, modern beachfront hotel/casita style rooms, great for groups or families",
         "description": [
-            "Location: 3 Knowles Drive, Governor's Harbour, Eleuthera, Bahamas",
-            "Website: mikasresort.com",
-            "Description: Small, modern beachfront hotel/casita style rooms, great for groups or families",
-            "Good for: More accessibly-priced stay compared to larger luxury resorts, yet still very comfortable and well located"
+            "- More accessibly-priced stay compared to larger luxury resorts, yet still very comfortable and well located"
         ],
         "image": "/get-from-to-images/places_to_stay_b.jpg",
         "href":"http://mikasresort.com/"
     },
     {
         "title": "The Sunset Cove & Rainbow Room",
+        "subtitle":"Boutique-style resort with a focus on relaxed coastal living and local dining",
         "description": [
-            "Location: Rainbow Bay, Queens Highway, Eleuthera, Bahamas",
-            "Website: sunsetcoveeleuthera.com",
-            "Description: Boutique-style resort with a focus on relaxed coastal living and local dining",
-            "Good for: Travelers looking for a relaxing stay in a smaller setting, with good beach access and dining"
+            "- Travelers looking for a relaxing stay in a smaller setting, with good beach access and dining"
         ],
         "image": "/get-from-to-images/places_to_stay_c.jpg",
         "href":"https://sunsetcoveeleuthera.com/"
     },
     {
         "title": "French Leave Resort, Autograph Collection",
+        "subtitle":"High-end resort part of the Autograph Collection (Marriott), with spacious villas, beach access and full-service resort amenities",
         "description": [
-            "Location: Queen's Highway, Governor's Harbour, Eleuthera, Bahamas",
-            "Website: marriott.com/hotels/elhak-french-leave-resort-autograph-collection/overview",
-            "Description: High-end resort part of the Autograph Collection (Marriott), with spacious villas, beach access and full-service resort amenities",
-            "Good for: Guests seeking premium resort experience, possibly with larger groups or those who want resort-level amenities with villa-style accommodations"
+            "- Guests seeking premium resort experience, possibly with larger groups or those who want resort-level amenities with villa-style accommodations"
         ],
         "image": "/get-from-to-images/places_to_stay_d.jpg",
         "href":"https://www.marriott.com/en-us/hotels/elhak-french-leave-resort-autograph-collection/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
