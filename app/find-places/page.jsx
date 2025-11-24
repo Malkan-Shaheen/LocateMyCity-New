@@ -242,7 +242,7 @@ export default function FindPlacesPage() {
           <div className="card-border-bottom2" />
         </div>
       </main>
-
+ 
       <Footer />
     </div>
   );
