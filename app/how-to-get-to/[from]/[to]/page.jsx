@@ -18,7 +18,7 @@ import { Crown, Clock, TrendingUp, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Import JSON directly
-import allPagesData from '../../../../data/cities_info1.json';
+import allPagesData from '../../../../data/cities_info.json';
 
 export default function HowToGetToPage() {
   const params = useParams();
@@ -696,7 +696,7 @@ export default function HowToGetToPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 ">
       <Head>
-        <title>{title} | LocateMyCity</title>
+        <title>{title} </title>
         <meta name="description" content={intro.description} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`https://yourdomain.com/${slug}`} />
@@ -1496,55 +1496,53 @@ export default function HowToGetToPage() {
             </div>
           </section>
 
-          {/* ❓ FAQ SECTION */}
-          <section className="mb-16 px-4 justify-items-center">
-            <h2 className="text-2xl font-semibold text-center mb-8 text-gray-900">
-              Frequently Asked Questions
-            </h2><br/><br/>
+         {/* ❓ FAQ SECTION */}
+<section className="mb-16 px-4">
+  <h2 className="text-2xl font-semibold text-center mb-8 text-gray-900">
+    Frequently Asked Questions
+  </h2>
 
-            <div className="grid grid-cols-1 gap-4 max-w-4xl mx-auto justify-items-center">
-              {faqs.map(({ q, a }, i) => (
-                <div
-                  key={i}
-                  className={` min-w-full faq-card ${
-                    openIndex === i ? 'open' : ''
-                  } w-full sm:w-3/4 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200`}
-                  onClick={() => toggleFAQ(i)}
-                  role="button"
-                  tabIndex={0}
-                  aria-expanded={openIndex === i}
-                  aria-controls={`faq-answer-${i}`}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleFAQ(i);
-                    }
-                  }}
-                >
-                  <div className="p-4 sm:p-6 min-w-full">
-                    <h2>
-                      <button className="faq-question w-full text-left flex justify-between items-center" aria-hidden="true" tabIndex={-1}>
-                        <span className="text-lg font-medium text-gray-900 pr-4">{q}</span>
-                        <span className="text-transparent transform transition-transform duration-200">
-                          {openIndex === i ? '−' : '+'}
-                        </span>
-                      </button>
-                    </h2>
+  <div className="flex flex-col items-center gap-4">
+    {faqs.map(({ q, a }, i) => (
+      <div
+        key={i}
+        className={`faq-card w-full max-w-2xl bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 ${
+          openIndex === i ? 'open' : ''
+        }`}
+        onClick={() => toggleFAQ(i)}
+        role="button"
+        tabIndex={0}
+        aria-expanded={openIndex === i}
+        aria-controls={`faq-answer-${i}`}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleFAQ(i);
+          }
+        }}
+      >
+        <div className="p-6">
+          <h2>
+            <button className="faq-question w-full text-left flex justify-between items-center" aria-hidden="true" tabIndex={-1}>
+              <span className="text-lg font-medium text-gray-900 pr-4 flex-1">{q}</span>
+             
+            </button>
+          </h2>
 
-                    <div 
-                      id={`faq-answer-${i}`} 
-                      className={`faq-answer transition-all duration-200 overflow-hidden ${
-                        openIndex === i ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
-                      }`}
-                      role="region"
-                    >
-                      <p className="text-gray-700 leading-relaxed">{a}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+          <div 
+            id={`faq-answer-${i}`} 
+            className={`faq-answer transition-all duration-200 overflow-hidden ${
+              openIndex === i ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
+            }`}
+            role="region"
+          >
+            <p className="text-gray-700 leading-relaxed">{a}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
           {/* 📍 RADIUS SELECTOR */}
           <section className="text-center mb-12 s">
@@ -2158,6 +2156,14 @@ export default function HowToGetToPage() {
           margin-right:10px;
           margin-top:7px;
         }
+          .faq-card1 {
+  width: 100%; /* or specific width */
+  max-width: 800px; /* prevents over-stretching */
+  min-height: fit-content; /* consistent height */
+  transition: all 0.3s ease;
+padding: 1rem;
+    border-left: 4px solid #4b9cd3;
+}
       `}</style>
     </div>
   );
