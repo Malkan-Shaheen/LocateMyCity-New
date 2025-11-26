@@ -83,21 +83,28 @@ export default function BlogPage() {
       return "Duration not specified";
     };
 
-    const calculateTotalRoutes = (pageData) => {
-      let totalRoutes = 0;
-      
-      if (pageData.by_plane?.schedule?.airlines) {
-        pageData.by_plane.schedule.airlines.forEach(airline => {
-          totalRoutes += airline.routes?.length || 0;
-        });
-      }
-      
-      if (pageData.by_ferry?.schedule?.routes) {
-        totalRoutes += pageData.by_ferry.schedule.routes.length;
-      }
-      
-      return totalRoutes || 0;
-    };
+   const calculateTotalRoutes = (pageData) => {
+  let totalRoutes = 0;
+  
+  // Count plane routes
+  if (pageData.by_plane?.schedule?.airlines) {
+    pageData.by_plane.schedule.airlines.forEach(airline => {
+      totalRoutes += airline.routes?.length || 0;
+    });
+  }
+  
+  // Count ferry routes
+  if (pageData.by_ferry?.schedule?.routes) {
+    totalRoutes += pageData.by_ferry.schedule.routes.length;
+  }
+  
+  // Count train routes
+  if (pageData.by_train?.schedule?.routes) {
+    totalRoutes += pageData.by_train.schedule.routes.length;
+  }
+  
+  return totalRoutes || 0;
+};
 
     const extractDescription = (pageData) => {
       if (pageData.about_destination?.description?.[0]) {

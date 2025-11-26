@@ -1506,7 +1506,7 @@ export default function HowToGetToPage() {
               {faqs.map(({ q, a }, i) => (
                 <div
                   key={i}
-                  className={`faq-card ${
+                  className={` min-w-full faq-card ${
                     openIndex === i ? 'open' : ''
                   } w-full sm:w-3/4 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200`}
                   onClick={() => toggleFAQ(i)}
@@ -1521,7 +1521,7 @@ export default function HowToGetToPage() {
                     }
                   }}
                 >
-                  <div className="p-4 sm:p-6">
+                  <div className="p-4 sm:p-6 min-w-full">
                     <h2>
                       <button className="faq-question w-full text-left flex justify-between items-center" aria-hidden="true" tabIndex={-1}>
                         <span className="text-lg font-medium text-gray-900 pr-4">{q}</span>
