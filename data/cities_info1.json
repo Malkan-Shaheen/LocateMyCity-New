@@ -1,0 +1,455 @@
+[
+  {
+    "page": {
+      "title": "How to Get to Eleuthera from Nassau",
+      "slug": "how-to-get-to-eleuthera-from-nassau",
+      "intro": {
+        "headline": "How to Get to Eleuthera from Nassau",
+        "description": "The best ways to travel to Eleuthera from Nassau are by air, ferry, or private charter. Each option offers different routes, schedules, and travel times, so you can choose the one that fits your plans. Use this guide to compare your choices, check weather conditions, and make your trip to Eleuthera as smooth as possible. Travel from Nassau to Eleuthera",
+        "buttons": [
+          {
+            "text": "View Routes",
+            "action": "#routes"
+          },
+          {
+            "text": "Check Weather",
+            "action": "#weather"
+          }
+        ]
+      },
+      "route_overview": {
+        "distance": "58 miles (93 km)",
+        "duration": "~25 min by air | ~2 hrs by ferry",
+        "map": "/get-from-to-images/route.webp"
+      },
+      "weather": {
+        "nassau": {
+          "temp": "82°F",
+          "wind_speed": "12 mph",
+          "visibility": "10 miles"
+        },
+        "eleuthera": {
+          "temp": "79°F"
+        }
+      },
+      "general_info": {
+        "country": "Bahamas",
+        "population_2022_census": "Approximately 9,104",
+        "best_travel_time": "Nov – Apr",
+        "currency": "BSD (Bahamian Dollar)",
+        "language": "English",
+        "time_zone": "EST (UTC-5)",
+        "main_airport": "North Eleuthera Airport (ELH)",
+        "population": "8,000 to 9,104"
+      },
+      "about_destination": {
+        "description": [
+          "Eleuthera is one of the most picturesque islands in The Bahamas, renowned for its pink-sand beaches, pineapple fields, and laid-back island lifestyle. The island is long and thin, offering stunning Atlantic views on one side and calm Caribbean waters on the other.",
+          "It's ideal for travelers seeking tranquility, natural beauty, and authentic Bahamian culture. Don't miss the famous Glass Window Bridge, a natural wonder where the two oceans meet."
+        ],
+        "images": [
+          "/get-from-to-images/eleuthera1.webp",
+          "/get-from-to-images/eleuthera2.webp",
+          "/get-from-to-images/eleuthera3.webp"
+        ]
+      },
+      "top_things": [
+        {
+          "title": "Pink Sand Beaches",
+          "image": "/get-from-to-images/top3.jpg",
+          "description": "  Swim at Queen's Bath\n  A natural rock pool heated by the sun — perfect for photos and a refreshing dip at low tide.",
+          "href": "https://www.bahamas.com/natural-wonders/queens-bath-eleuthera"
+        },
+        {
+          "title": "Glass Window Bridge",
+          "image": "/get-from-to-images/top1.jpg",
+          "description": "  Visit the Glass Window Bridge:\n  See the dramatic spot where the deep blue Atlantic meets the calm turquoise Caribbean.",
+          "href": "https://www.bahamas.com/natural-wonders/glass-window-bridge"
+        },
+        {
+          "title": "Surfer's Beach",
+          "image": "/get-from-to-images/top4.jpg",
+          "description": "  Explore Lighthouse Beach\n   One of the most stunning beaches in The Bahamas, known for soft pink sand and crystal-clear water.",
+          "href": "https://www.bahamas.com/natural-wonders/lighthouse-beach"
+        },
+        {
+          "title": "Hatchet Bay Caves",
+          "image": "/get-from-to-images/top2.jpg",
+          "description": "  Tour Hatchet Bay Caves.\n  Adventure through Eleuthera's largest cave system filled with limestone formations and unique history.",
+          "href": "https://www.bahamas.com/plan-your-trip/things-to-do/hatchet-bay-cave"
+        }
+      ],
+      "places_to_stay": [
+        {
+          "title": "The Cove Eleuthera",
+          "subtitle": "Luxury beachfront resort with private beaches, contemporary rooms and villas",
+          "description": [
+            "- A high-end stay, couples, honeymooners, or anyone looking for a resort with full amenities"
+          ],
+          "image": "/get-from-to-images/places_to_stay_a.jpg",
+          "href": "https://thecoveeleuthera.com/"
+        },
+        {
+          "title": "Mika's Resort",
+          "subtitle": "Small, modern beachfront hotel/casita style rooms, great for groups or families",
+          "description": [
+            "- More accessibly-priced stay compared to larger luxury resorts, yet still very comfortable and well located"
+          ],
+          "image": "/get-from-to-images/places_to_stay_b.jpg",
+          "href": "http://mikasresort.com/"
+        },
+        {
+          "title": "The Sunset Cove & Rainbow Room",
+          "subtitle": "Boutique-style resort with a focus on relaxed coastal living and local dining",
+          "description": [
+            "- Travelers looking for a relaxing stay in a smaller setting, with good beach access and dining"
+          ],
+          "image": "/get-from-to-images/places_to_stay_c.jpg",
+          "href": "https://sunsetcoveeleuthera.com/"
+        },
+        {
+          "title": "French Leave Resort, Autograph Collection",
+          "subtitle": "High-end resort part of the Autograph Collection (Marriott), with spacious villas, beach access and full-service resort amenities",
+          "description": [
+            "- Guests seeking premium resort experience, possibly with larger groups or those who want resort-level amenities with villa-style accommodations"
+          ],
+          "image": "/get-from-to-images/places_to_stay_d.jpg",
+          "href": "https://www.marriott.com/en-us/hotels/elhak-french-leave-resort-autograph-collection/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
+        }
+      ],
+      "best_overall_way": {
+        "heading": "Best Overall Way to Get to Eleuthera from Nassau",
+        "description": "The best and most efficient way to reach Eleuthera from Nassau is by plane. Daily flights operated by Bahamasair and Pineapple Air make it quick, reliable, and affordable — with travel times under 30 minutes. For travelers who value convenience and stunning aerial views, flying is the clear winner."
+      },
+      "by_plane": {
+        "description": "Flying is the fastest way to reach Eleuthera from Nassau, with flights taking about 25 minutes. Bahamasair and Pineapple Air operate daily flights to Governor's Harbour (GHB), Rock Sound (RSD), and North Eleuthera (ELH) airports.",
+        "average_cost": "BSD $250–$400 roundtrip",
+        "travel_time": "~25 minutes",
+        "tip": "Car rentals available at all major airports.",
+        "image": "/get-from-to-images/plane-eleuthera.webp",
+        "schedule": {
+          "airlines": [
+            {
+              "operator": "Bahamasair",
+              "routes": [
+                {
+                  "from": "Nassau (NAS)",
+                  "to": "Governor's Harbour (GHB)",
+                  "days": "Mon–Sun",
+                  "departures": [
+                    "7:30 AM",
+                    "3:15 PM"
+                  ]
+                },
+                {
+                  "from": "Nassau (NAS)",
+                  "to": "Rock Sound (RSD)",
+                  "days": "Mon, Wed, Fri, Sun",
+                  "departures": [
+                    "8:00 AM"
+                  ]
+                },
+                {
+                  "from": "Nassau (NAS)",
+                  "to": "North Eleuthera (ELH)",
+                  "days": "Daily",
+                  "departures": [
+                    "7:00 AM",
+                    "10:30 AM",
+                    "4:45 PM"
+                  ]
+                }
+              ]
+            },
+            {
+              "operator": "Pineapple Air",
+              "routes": [
+                {
+                  "from": "Nassau (NAS)",
+                  "to": "Governor's Harbour (GHB)",
+                  "days": "Daily",
+                  "departures": [
+                    "7:00 AM",
+                    "9:30 AM",
+                    "1:45 PM",
+                    "5:00 PM"
+                  ]
+                },
+                {
+                  "from": "Nassau (NAS)",
+                  "to": "Rock Sound (RSD)",
+                  "days": "Mon–Sat",
+                  "departures": [
+                    "8:15 AM",
+                    "4:00 PM"
+                  ]
+                },
+                {
+                  "from": "Nassau (NAS)",
+                  "to": "North Eleuthera (ELH)",
+                  "days": "Daily",
+                  "departures": [
+                    "6:45 AM",
+                    "12:15 PM",
+                    "3:30 PM"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "by_ferry": {
+        "description": "Ferries to Eleuthera provide a scenic journey through turquoise Bahamian waters. Bahamas Ferries operates several weekly routes connecting Nassau's Potter's Cay Dock to multiple destinations across Eleuthera.",
+        "operator": "Bahamas Ferries (MV Bo Hengy III)",
+        "duration": "2–2.5 hours depending on destination",
+        "departure_location": "Potter's Cay Dock, Nassau",
+        "image": "/get-from-to-images/ferry-eleuthera.webp",
+        "schedule": {
+          "routes": [
+            {
+              "from": "Nassau (Potter's Cay Dock)",
+              "to": "Harbour Island / North Eleuthera",
+              "days": "Mon, Wed, Fri, Sun",
+              "departures": [
+                "8:00 AM"
+              ],
+              "return": "3:00 PM"
+            },
+            {
+              "from": "Nassau (Potter's Cay Dock)",
+              "to": "Spanish Wells",
+              "days": "Tue, Thu, Sat",
+              "departures": [
+                "8:00 AM"
+              ],
+              "return": "2:30 PM"
+            },
+            {
+              "from": "Nassau (Potter's Cay Dock)",
+              "to": "Governor's Harbour",
+              "days": "Fri only",
+              "departures": [
+                "7:00 AM"
+              ],
+              "return": "3:30 PM"
+            }
+          ]
+        }
+      },
+      "by_private_charter": {
+        "heading": "By Private Charter Boat or Yacht",
+        "description": "For those seeking a luxurious and flexible journey, private yacht charters are an unforgettable option. Departing from Nassau, you can cruise through crystal-clear waters to Eleuthera at your own pace while enjoying onboard comfort and privacy. Explore custom routes or book your yacht experience at [YachtLife](https://www.yachtlife.com/charter/yachts/nassau)."
+      },
+      "faqs": [
+        {
+          "q": "How do I get to Eleuthera from Nassau?",
+          "a": "You can reach Eleuthera from Nassau by plane or ferry. Flights take about 25 minutes; ferries about 2 hours."
+        },
+        {
+          "q": "Are there daily flights to Eleuthera?",
+          "a": "Yes, Bahamasair and Pineapple Air operate multiple flights per day to different airports across Eleuthera."
+        },
+        {
+          "q": "Can I bring a car on the ferry?",
+          "a": "Yes, but space is limited. Reserve early through Bahamas Ferries to secure your spot."
+        },
+        {
+          "q": "Which option is faster?",
+          "a": "Flying is significantly faster, while the ferry offers a scenic and relaxing alternative."
+        }
+      ]
+    }
+  },
+  {
+    "page": {
+      "title": "How to Get to Berlin from Moscow",
+      "slug": "how-to-get-to-berlin-from-moscow",
+      "intro": {
+        "headline": "How to Get to Berlin from Moscow",
+        "description": "The best ways to travel to Berlin from Moscow are by air, train, or bus. Each option offers different routes, schedules, and travel times, so you can choose the one that fits your plans. Use this guide to compare your choices and make your trip to Berlin as smooth as possible.",
+        "buttons": [
+          {
+            "text": "View Routes",
+            "action": "#routes"
+          },
+          {
+            "text": "Check Weather",
+            "action": "#weather"
+          }
+        ]
+      },
+      "route_overview": {
+        "distance": "1,600 km",
+        "duration": "~2.5 hrs by air | ~20 hrs by train",
+        "map": "/get-from-to-images/route-berlin.webp"
+      },
+      "weather": {
+        "moscow": {
+          "temp": "45°F",
+          "wind_speed": "8 mph",
+          "visibility": "12 miles"
+        },
+        "berlin": {
+          "temp": "50°F"
+        }
+      },
+      "general_info": {
+        "country": "Germany",
+        "population": "3.7 million",
+        "best_travel_time": "May – Sep",
+        "currency": "EUR (Euro)",
+        "language": "German",
+        "time_zone": "CET (UTC+1)",
+        "main_airport": "Berlin Brandenburg Airport (BER)"
+      },
+      "about_destination": {
+        "description": [
+          "Berlin is Germany's capital and cultural center, known for its historical significance, vibrant arts scene, and modern architecture. The city offers a unique blend of historical landmarks and contemporary culture.",
+          "From the Brandenburg Gate to the Berlin Wall Memorial, the city is rich with history while also being a hub for innovation and creativity."
+        ],
+        "images": [
+          "/get-from-to-images/berlin1.jpg",
+          "/get-from-to-images/berlin2.webp",
+          "/get-from-to-images/berlin3.webp"
+        ]
+      },
+      "top_things": [
+        {
+          "title": "Brandenburg Gate",
+          "image": "/get-from-to-images/brandenburg-gate.jpg",
+          "description": "Visit Berlin's most famous landmark, a symbol of German reunification and European history.",
+          "href": "https://www.visitberlin.de/en/brandenburg-gate"
+        },
+        {
+          "title": "Berlin Wall Memorial",
+          "image": "/get-from-to-images/berlin-wall.jpg",
+          "description": "Explore the preserved section of the Berlin Wall and learn about Cold War history.",
+          "href": "https://www.berlin.de/mauer/"
+        },
+        {
+          "title": "Museum Island",
+          "image": "/get-from-to-images/museum-island.jpg",
+          "description": "Discover five world-renowned museums on this UNESCO World Heritage site.",
+          "href": "https://www.visitberlin.de/en/museum-island-berlin"
+        },
+        {
+          "title": "Reichstag Building",
+          "image": "/get-from-to-images/reichstag.jpg",
+          "description": "Visit the German parliament building with its iconic glass dome offering panoramic city views.",
+          "href": "https://www.bundestag.de/en/visittheBundestag/dome/registration-245686"
+        }
+      ],
+      "places_to_stay": [
+        {
+          "title": "The Ritz-Carlton, Berlin",
+          "subtitle": "Luxury hotel in Potsdamer Platz with elegant rooms and premium amenities",
+          "description": [
+            "- Perfect for luxury travelers seeking premium service and central location"
+          ],
+          "image": "/get-from-to-images/ritz-carlton-berlin.jpg",
+          "href": "https://www.ritzcarlton.com/en/hotels/europe/berlin"
+        },
+        {
+          "title": "Adina Apartment Hotel Berlin",
+          "subtitle": "Modern apartment-style hotel with kitchen facilities, ideal for longer stays",
+          "description": [
+            "- Great for families or travelers wanting more space and self-catering options"
+          ],
+          "image": "/get-from-to-images/adina-berlin.jpg",
+          "href": "https://www.adinahotels.com/hotel/berlin-achim-von-arnim-way"
+        },
+        {
+          "title": "Michelberger Hotel",
+          "subtitle": "Boutique design hotel in trendy Friedrichshain with creative atmosphere",
+          "description": [
+            "- Ideal for creative travelers and those seeking unique, design-focused accommodation"
+          ],
+          "image": "/get-from-to-images/michelberger.jpg",
+          "href": "https://www.michelbergerhotel.com/"
+        }
+      ],
+      "best_overall_way": {
+        "heading": "Best Overall Way to Get to Berlin from Moscow",
+        "description": "The fastest and most convenient way to reach Berlin from Moscow is by plane. Direct flights take about 2.5 hours and are operated by several airlines including Aeroflot and Lufthansa."
+      },
+      "by_plane": {
+        "description": "Flying is the fastest way to reach Berlin from Moscow, with direct flights taking about 2.5 hours. Multiple airlines operate daily flights between Moscow and Berlin.",
+        "average_cost": "€200–€400 roundtrip",
+        "travel_time": "~2.5 hours",
+        "tip": "Book in advance for better prices, especially during peak season.",
+        "image": "/get-from-to-images/plane-berlin.webp",
+        "schedule": {
+          "airlines": [
+            {
+              "operator": "Aeroflot",
+              "routes": [
+                {
+                  "from": "Moscow (SVO)",
+                  "to": "Berlin (BER)",
+                  "days": "Daily",
+                  "departures": [
+                    "8:00 AM",
+                    "4:30 PM"
+                  ]
+                }
+              ]
+            },
+            {
+              "operator": "Lufthansa",
+              "routes": [
+                {
+                  "from": "Moscow (DME)",
+                  "to": "Berlin (BER)",
+                  "days": "Mon-Sat",
+                  "departures": [
+                    "10:15 AM",
+                    "7:45 PM"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "by_train": {
+        "description": "The train journey from Moscow to Berlin offers a scenic route through Eastern Europe. The journey takes approximately 20 hours with overnight options available.",
+        "operator": "Russian Railways / Deutsche Bahn",
+        "duration": "~20 hours",
+        "departure_location": "Moscow Belorussky Station",
+        "image": "/get-from-to-images/train-berlin.webp",
+        "schedule": {
+          "routes": [
+            {
+              "from": "Moscow Belorussky",
+              "to": "Berlin Hauptbahnhof",
+              "days": "Daily",
+              "departures": [
+                "7:00 PM"
+              ],
+              "return": "6:30 PM"
+            }
+          ]
+        }
+      },
+      "faqs": [
+        {
+          "q": "How long is the flight from Moscow to Berlin?",
+          "a": "Direct flights take approximately 2.5 hours."
+        },
+        {
+          "q": "Do I need a visa to travel to Berlin from Moscow?",
+          "a": "Yes, Russian citizens need a Schengen visa to visit Germany."
+        },
+        {
+          "q": "What's the best time to visit Berlin?",
+          "a": "May through September offers the most pleasant weather for exploring the city."
+        },
+        {
+          "q": "Is there a direct train from Moscow to Berlin?",
+          "a": "Yes, there is a direct overnight train that runs daily."
+        }
+      ]
+    }
+  }
+]

@@ -262,8 +262,10 @@ const router = useRouter();
 
             <nav className="nav-links" aria-label="Main navigation">
               <a href="/" onClick={(e) => handleNavigation(e, '/')}>Home</a>
+             <a href="/blog" onClick={(e) => handleNavigation(e, '/blog')}>Blog</a>
               <a href="/about" onClick={(e) => handleNavigation(e, '/about')}>About</a>
               <a href="/contact" onClick={(e) => handleNavigation(e, '/contact')}>Contact</a>
+              
             </nav>
 
             <button
@@ -293,6 +295,13 @@ const router = useRouter();
     Home
   </a>
   <a
+    href="/blog"
+    tabIndex={menuOpen ? 0 : -1}
+    onClick={(e) => handleNavigation(e, '/blog')}
+  >
+    Blog
+  </a>
+  <a
     href="/about"
     tabIndex={menuOpen ? 0 : -1}
     onClick={(e) => handleNavigation(e, '/about')}
@@ -306,6 +315,7 @@ const router = useRouter();
   >
     Contact
   </a>
+    
 </div>
 
       </header>
