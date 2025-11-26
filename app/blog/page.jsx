@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Clock, MapPin, Route } from 'lucide-react';
 import travelGuidesData from '../../data/cities_info1.json';
+import '../blog/blogcss.css';
 
 export default function BlogPage() {
   const [guides, setGuides] = useState([]);

@@ -827,97 +827,93 @@ export default function HowToGetToPage() {
           
           {/* 🗺️ TRAVEL ROUTE OVERVIEW */}
           <section className="bg-transparent mb-12">
-            <div className="compact-journey w-full">
-              <div className="journey-header">
-                <h2>Travel from {sourceName} to {destinationName}</h2>
-                <p>Choose your preferred option</p>
-              </div>
+           <div className="compact-journey w-full">
+  <div className="journey-header">
+    <h2>Travel from {sourceName} to {destinationName}</h2>
+    <p>Choose your preferred option</p>
+  </div>
 
-              <div className="options-grid w-full">
-                <div className="option-card best">
-                  <div className="card-header card5">
-                    <div className="icon-wrapper">
-                      <Crown className="icon" />
-                    </div>
-                    <div className="card-title ">
-                      <h3>Best Route</h3>
-                      <span className="badge">Recommended</span>
-                    </div>
-                  </div>
-                  <p className="card-description">Direct flights with:</p>
-                  <div className="tags">
-                    <a href="https://www.bahamasair.com/" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Bahamas Air</span>
-                    </a>
-                    <a href="https://www.westernairbahamas.com/" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Western Air</span>
-                    </a>
-                    <a href="https://www.southernaircharter.com/" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Southern Air</span>
-                    </a>
-                  </div>
-                </div>
+  <div className="options-grid w-full">
+    {/* Best Route */}
+    <div className="option-card best">
+      <div className="card-header card5">
+        <div className="icon-wrapper">
+          <Crown className="icon" />
+        </div>
+        <div className="card-title">
+          <h3>Best Route</h3>
+          <span className="badge">Recommended</span>
+        </div>
+      </div>
+      <p className="card-description">{pageData?.travel_options?.best_route?.description || "Direct flights with:"}</p>
+      <div className="tags">
+        {pageData?.travel_options?.best_route?.operators?.map((operator, index) => (
+          <a key={index} href={operator.url} target="_blank" rel="noopener noreferrer">
+            <span className="tag">{operator.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
 
-                <div className="option-card fastest">
-                  <div className="card-header">
-                    <div className="icon-wrapper">
-                      <Zap className="icon" />
-                    </div>
-                    <div className="card-title">
-                      <h3>Fastest</h3>
-                    </div>
-                  </div>
-                  <div className="time-display">
-                    <span className="time-label">When you travel to {destinationName} from {sourceName}, the fastest option is a 15–20 minute direct flight, making it the quickest and most reliable way to get there</span>
-                  </div>
-                </div>
+    {/* Fastest */}
+    <div className="option-card fastest">
+      <div className="card-header">
+        <div className="icon-wrapper">
+          <Zap className="icon" />
+        </div>
+        <div className="card-title">
+          <h3>Fastest</h3>
+        </div>
+      </div>
+      <div className="time-display">
+        <span className="time-label">
+          {pageData?.travel_options?.fastest?.description || `When you travel to ${destinationName} from ${sourceName}, the fastest option is a direct flight, making it the quickest and most reliable way to get there`}
+        </span>
+      </div>
+    </div>
 
-                <div className="option-card cheapest">
-                  <div className="card-header">
-                    <div className="icon-wrapper">
-                      <DollarSign className="icon" />
-                    </div>
-                    <div className="card-title">
-                      <h3>Cheapest</h3>
-                    </div>
-                  </div>
-                  <p className="card-description">Here are the top budget-friendly ways to travel to {destinationName} from {sourceName}:</p>
-                  <div className="ferry-list">
-                    <a href="https://www.briland.com/topmenu/mailboat.html" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Eleuthera Express</span>
-                    </a>
-                    <a href="https://www.bahamas.com/plan-your-trip/things-to-do/mv-current-pride-e" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Current Pride</span>
-                    </a>
-                    <a href="https://www.facebook.com/bahadaybreak/" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Bahamas Daybreak</span>
-                    </a>
-                    <a href="https://www.bahamasferries.com/" target="_blank" rel="noopener noreferrer">
-                      <span className="tag">Bahamas Fast Ferries</span>
-                    </a>
-                  </div>
-                </div>
+    {/* Cheapest */}
+    <div className="option-card cheapest">
+      <div className="card-header">
+        <div className="icon-wrapper">
+          <DollarSign className="icon" />
+        </div>
+        <div className="card-title">
+          <h3>Cheapest</h3>
+        </div>
+      </div>
+      <p className="card-description">
+        {pageData?.travel_options?.cheapest?.description || `Here are the top budget-friendly ways to travel to ${destinationName} from ${sourceName}:`}
+      </p>
+      <div className="ferry-list">
+        {pageData?.travel_options?.cheapest?.operators?.map((operator, index) => (
+          <a key={index} href={operator.url} target="_blank" rel="noopener noreferrer">
+            <span className="tag">{operator.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
 
-                <div className="option-card reliable">
-                  <div className="card-header">
-                    <div className="icon-wrapper">
-                      <Shield className="icon" />
-                    </div>
-                    <div className="card-title">
-                      <h3>Most Reliable</h3>
-                    </div>
-                  </div>
-                  <div className="reliability-info">
-                    <p>Direct flight</p>
-                    <div className="reliability-badge">
-                      <CheckCircle className="check-icon" />
-                      <span>99% on-time</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+    {/* Most Reliable */}
+    <div className="option-card reliable">
+      <div className="card-header">
+        <div className="icon-wrapper">
+          <Shield className="icon" />
+        </div>
+        <div className="card-title">
+          <h3>Most Reliable</h3>
+        </div>
+      </div>
+      <div className="reliability-info">
+        <p>{pageData?.travel_options?.most_reliable?.description || "Direct flight"}</p>
+        <div className="reliability-badge">
+          <CheckCircle className="check-icon" />
+          <span>{pageData?.travel_options?.most_reliable?.reliability || "99% on-time"}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div className="overflow-hidden rounded-lg shadow-md">
                 {/* Static map from imported image */}
