@@ -1306,11 +1306,7 @@ const fetchBackgroundImage = async () => {
                   </ul>
 
                   {/* Flight Schedules Dropdown */}
-                  <ScheduleDropdown
-                    type="plane"
-                    title="✈️ Flight Schedules & Timetables"
-                    data={by_plane}
-                  />
+                
                 </div>
 
                 {/* Image Section - Comes Second on Mobile */}
@@ -1324,6 +1320,11 @@ const fetchBackgroundImage = async () => {
                   />
                 </div>
               </div>
+                <ScheduleDropdown
+                    type="plane"
+                    title="✈️ Flight Schedules & Timetables"
+                    data={by_plane}
+                  />
             </section>
           )}
 
@@ -1382,13 +1383,15 @@ const fetchBackgroundImage = async () => {
                   </ul>
 
                   {/* Ferry Schedules Dropdown */}
-                  <ScheduleDropdown
+                  
+              </div>
+                </div>
+                
+                <ScheduleDropdown
                     type="ferry"
                     title="⛴️ Ferry Schedules & Timetables"
                     data={by_ferry}
                   />
-                </div>
-              </div>
             </section>
           )}
 
