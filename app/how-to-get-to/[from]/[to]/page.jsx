@@ -1449,13 +1449,13 @@ const fetchBackgroundImage = async () => {
                   </ul>
 
                   {/* Train Schedules Dropdown */}
-                  <ScheduleDropdown
+                
+                </div>
+              </div>  <ScheduleDropdown
                     type="train"
                     title="🚂 Train Schedules & Timetables"
                     data={by_train}
                   />
-                </div>
-              </div>
             </section>
           )}
 
