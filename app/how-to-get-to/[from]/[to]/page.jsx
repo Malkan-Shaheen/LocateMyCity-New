@@ -1485,21 +1485,17 @@ const fetchBackgroundImage = async () => {
 
                   <p className="text-gray-700 leading-relaxed">
                     {by_private_charter.description}
-                  </p>
+                 
+                  <a
+        href={button.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline hover:text-blue-800"
+      >
+        {button.text}
+      </a> </p>
                   <br/>
-                  {button && (
-  <div className="my-6">
-    <a
-      href={button.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="card5 inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:cursor-pointer"
-    >
-     
-      {button.text}
-    </a>
-  </div>
-)}
+                
                 </div>
 
                 {/* Image Section - Comes Second on Mobile */}
