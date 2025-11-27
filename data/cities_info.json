@@ -327,8 +327,13 @@
       },
       "by_private_charter": {
         "heading": "By Private Charter Boat or Yacht",
-        "description": "For those seeking a luxurious and flexible journey, private yacht charters are an unforgettable option. Departing from Nassau, you can cruise through crystal-clear waters to Eleuthera at your own pace while enjoying onboard comfort and privacy. Explore custom routes or book your yacht experience at [YachtLife](https://www.yachtlife.com/charter/yachts/nassau)."
+        "description": "For those seeking a luxurious and flexible journey, private yacht charters are an unforgettable option. Departing from Nassau, you can cruise through crystal-clear waters to Eleuthera at your own pace while enjoying onboard comfort and privacy. Explore custom routes or book your yacht experience at "
+      
       },
+      "button": {
+    "text": "YachtLife",
+    "url": "https://www.yachtlife.com/charter/yachts/nassau"
+  },
       "faqs": [
         {
           "q": "How do I get to Eleuthera from Nassau?",
