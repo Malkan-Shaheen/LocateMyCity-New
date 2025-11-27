@@ -1503,6 +1503,85 @@ const fetchBackgroundImage = async () => {
 
           <br/><br/><br/><br/>
 
+          {/* 📊 TRAVEL COMPARISON TABLE */}
+{pageData?.travel_comparison_table && (
+  <section className="bg-white rounded-2xl shadow-lg p-6 mb-12 mt-8">
+    <h2 className="card5 text-2xl font-bold text-gray-800 mb-6 text-center">
+      Compare Ways to Get from {sourceName} to {destinationName}
+    </h2>
+    
+    {/* Desktop Table */}
+    <div className="hidden md:block overflow-x-auto">
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="bg-blue-50">
+            <th className="p-4 text-left font-semibold text-blue-800 border-b card5">Mode</th>
+            <th className="p-4 text-left font-semibold text-blue-800 border-b card5">Travel Time</th>
+            <th className="p-4 text-left font-semibold text-blue-800 border-b card5">Average Cost</th>
+            <th className="p-4 text-left font-semibold text-blue-800 border-b card5">Departure & Arrival Points</th>
+            <th className="p-4 text-left font-semibold text-blue-800 border-b card5">Best For</th>
+            <th className="p-4 text-left font-semibold text-blue-800 border-b card5">Booking Tip</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pageData.travel_comparison_table.travelOptions.map((option, index) => (
+            <tr 
+              key={index} 
+              className={` card5border-b hover:bg-gray-50 transition-colors ${
+                index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+              }`}
+            >
+              <td className="card5 p-4 font-semibold text-gray-800">
+                {option.mode}
+              </td>
+              <td className="card5 p-4 text-gray-700">{option.travelTime}</td>
+              <td className="card5 p-4 text-gray-700">{option.averageCost}</td>
+              <td className="card5 p-4 text-gray-700">{option.departureArrival}</td>
+              <td className="card5 p-4 text-gray-700">{option.bestFor}</td>
+              <td className="card5 p-4 text-gray-600 text-sm">{option.bookingTip}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Mobile Cards */}
+    <div className="md:hidden space-y-4">
+      {pageData.travel_comparison_table.travelOptions.map((option, index) => (
+        <div key={index} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          <div className="flex justify-between items-start mb-3">
+            <h3 className="font-bold text-lg text-blue-800">{option.mode}</h3>
+            <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
+              {option.travelTime}
+            </span>
+          </div>
+          
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-gray-600 font-medium">Cost:</span>
+              <span className="text-gray-800">{option.averageCost}</span>
+            </div>
+            
+            <div>
+              <span className="text-gray-600 font-medium">Route:</span>
+              <p className="text-gray-800 text-sm mt-1">{option.departureArrival}</p>
+            </div>
+            
+            <div>
+              <span className="text-gray-600 font-medium">Best For:</span>
+              <p className="text-gray-800 text-sm mt-1">{option.bestFor}</p>
+            </div>
+            
+            <div className="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+              <span className="text-yellow-800 text-sm font-medium">💡 {option.bookingTip}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
           {/* 📖 ABOUT DESTINATION */}
           <section className="bg-transparent p-4 sm:p-8 mb-12 transition-all text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
@@ -2205,6 +2284,62 @@ const fetchBackgroundImage = async () => {
   transition: all 0.3s ease;
 padding: 1rem;
     border-left: 4px solid #4b9cd3;
+}
+    /* Table Styles */
+table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  border-color: #e5e7eb;
+}
+
+th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+/* Mobile card animations */
+@media (max-width: 768px) {
+  .mobile-travel-card {
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-travel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Ensure proper scrolling for wide tables */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
       `}</style>
     </div>

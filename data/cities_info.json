@@ -58,6 +58,42 @@
           "/get-from-to-images/eleuthera3.webp"
         ]
       },
+       "travel_comparison_table": {
+      "travelOptions": [
+        {
+          "mode": "Plane",
+          "travelTime": "~25 minutes",
+          "averageCost": "BSD $250-$400",
+          "departureArrival": "Nassau (NAS) → ELH, GHB, or RSD",
+          "bestFor": "Speed, reliability, short trips",
+          "bookingTip": "Book early for best prices; seats fill up fast on weekends."
+        },
+        {
+          "mode": "Ferry",
+          "travelTime": "~2 to 2.5 hours",
+          "averageCost": "BSD $90-$120",
+          "departureArrival": "Potter's Cay Dock → Harbour Island, Spanish Wells, or GHB",
+          "bestFor": "Scenic route, mid-range price",
+          "bookingTip": "Reserve online at Bahamas Ferries to guarantee a spot."
+        },
+        {
+          "mode": "Private Charter",
+          "travelTime": "Flexible (2-4 hrs)",
+          "averageCost": "$$$ (varies)",
+          "departureArrival": "Nassau marina → customizable destination in Eleuthera",
+          "bestFor": "Luxury, groups, special occasions",
+          "bookingTip": "Use sites like YachtLife for full-day charters."
+        },
+        {
+          "mode": "Mailboat",
+          "travelTime": "4-6+ hours",
+          "averageCost": "BSD $30-$60",
+          "departureArrival": "Nassau → various ports (infrequent schedules)",
+          "bestFor": "Cheapest, most local option",
+          "bookingTip": "Call or check Briland.com for latest schedules."
+        }
+      ]
+    },
       "travel_options": {
   "best_route": {
     "description": "Direct flights with:",
@@ -371,6 +407,42 @@
           "/get-from-to-images/berlin3.jpg"
         ]
       },
+       "travel_comparison_table": {
+      "travelOptions": [
+        {
+          "mode": "Plane",
+          "travelTime": "~25 minutes",
+          "averageCost": "BSD $250-$400",
+          "departureArrival": "Nassau (NAS) → ELH, GHB, or RSD",
+          "bestFor": "Speed, reliability, short trips",
+          "bookingTip": "Book early for best prices; seats fill up fast on weekends."
+        },
+        {
+          "mode": "Ferry",
+          "travelTime": "~2 to 2.5 hours",
+          "averageCost": "BSD $90-$120",
+          "departureArrival": "Potter's Cay Dock → Harbour Island, Spanish Wells, or GHB",
+          "bestFor": "Scenic route, mid-range price",
+          "bookingTip": "Reserve online at Bahamas Ferries to guarantee a spot."
+        },
+        {
+          "mode": "Private Charter",
+          "travelTime": "Flexible (2-4 hrs)",
+          "averageCost": "$$$ (varies)",
+          "departureArrival": "Nassau marina → customizable destination in Eleuthera",
+          "bestFor": "Luxury, groups, special occasions",
+          "bookingTip": "Use sites like YachtLife for full-day charters."
+        },
+        {
+          "mode": "Mailboat",
+          "travelTime": "4-6+ hours",
+          "averageCost": "BSD $30-$60",
+          "departureArrival": "Nassau → various ports (infrequent schedules)",
+          "bestFor": "Cheapest, most local option",
+          "bookingTip": "Call or check Briland.com for latest schedules."
+        }
+      ]
+    },
       "travel_options": {
   "best_route": {
     "description": "Direct flights with:",
@@ -406,6 +478,7 @@
     "reliability": "95% on-time"
   }
 },
+
       "top_things": [
         {
           "title": "Brandenburg Gate",
