@@ -728,14 +728,15 @@ const fetchBackgroundImage = async () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 ">
       <Head>
-        <title>{title} </title>
-        <meta name="description" content={intro.description} />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={`https://yourdomain.com/${slug}`} />
-        
-        {/* Preload critical resources */}
-        <link rel="preload" href={fallbackBackground} as="image" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
+
+          <title>{pageData?.title || `How to Get from ${sourceName} to ${destinationName}`}</title>
+  <meta name="description" content={intro.description} />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href={`https://yourdomain.com/${slug}`} />
+  
+  {/* Preload critical resources */}
+  <link rel="preload" href={fallbackBackground} as="image" />
+  <link rel="preconnect" href="https://images.unsplash.com" />
         
         {/* Inline critical CSS */}
         <style dangerouslySetInnerHTML={{
