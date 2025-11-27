@@ -331,7 +331,7 @@
       "route_overview": {
         "distance": "1,600 km",
         "duration": "~2.5 hrs by air | ~20 hrs by train",
-        "map": "/get-from-to-images/route-berlin.webp"
+        "map": "/get-from-to-images/route_from_moscow_to_berlin.png"
       },
       "weather": {
         "moscow": {
@@ -359,8 +359,8 @@
         ],
         "images": [
           "/get-from-to-images/berlin1.jpg",
-          "/get-from-to-images/berlin2.webp",
-          "/get-from-to-images/berlin3.webp"
+          "/get-from-to-images/Berlin2.jpg",
+          "/get-from-to-images/berlin3.jpg"
         ]
       },
       "travel_options": {
@@ -407,19 +407,19 @@
         },
         {
           "title": "Berlin Wall Memorial",
-          "image": "/get-from-to-images/berlin-wall.jpg",
+          "image": "/get-from-to-images/berlin_wall_memorial.jpg",
           "description": "Explore the preserved section of the Berlin Wall and learn about Cold War history.",
           "href": "https://www.berlin.de/mauer/"
         },
         {
           "title": "Museum Island",
-          "image": "/get-from-to-images/museum-island.jpg",
+          "image": "/get-from-to-images/musceu_island.jpg",
           "description": "Discover five world-renowned museums on this UNESCO World Heritage site.",
           "href": "https://www.visitberlin.de/en/museum-island-berlin"
         },
         {
           "title": "Reichstag Building",
-          "image": "/get-from-to-images/reichstag.jpg",
+          "image": "/get-from-to-images/reichstag_building.jpg",
           "description": "Visit the German parliament building with its iconic glass dome offering panoramic city views.",
           "href": "https://www.bundestag.de/en/visittheBundestag/dome/registration-245686"
         }
@@ -431,7 +431,7 @@
           "description": [
             "- Perfect for luxury travelers seeking premium service and central location"
           ],
-          "image": "/get-from-to-images/ritz-carlton-berlin.jpg",
+          "image": "/get-from-to-images/ritz_carton.jpg",
           "href": "https://www.ritzcarlton.com/en/hotels/europe/berlin"
         },
         {
@@ -440,7 +440,7 @@
           "description": [
             "- Great for families or travelers wanting more space and self-catering options"
           ],
-          "image": "/get-from-to-images/adina-berlin.jpg",
+          "image": "/get-from-to-images/adina_apartment_hotel.jpg",
           "href": "https://www.adinahotels.com/hotel/berlin-achim-von-arnim-way"
         },
         {
@@ -449,7 +449,7 @@
           "description": [
             "- Ideal for creative travelers and those seeking unique, design-focused accommodation"
           ],
-          "image": "/get-from-to-images/michelberger.jpg",
+          "image": "/get-from-to-images/michelberger_hotel.jpg",
           "href": "https://www.michelbergerhotel.com/"
         }
       ],
@@ -462,7 +462,7 @@
         "average_cost": "€200–€400 roundtrip",
         "travel_time": "~2.5 hours",
         "tip": "Book in advance for better prices, especially during peak season.",
-        "image": "/get-from-to-images/plane-berlin.webp",
+        "image": "/get-from-to-images/flying_fro_moscow_to_berlin.jpg",
         "schedule": {
           "airlines": [
             {
@@ -501,7 +501,7 @@
         "operator": "Russian Railways / Deutsche Bahn",
         "duration": "~20 hours",
         "departure_location": "Moscow Belorussky Station",
-        "image": "/get-from-to-images/train-berlin.webp",
+        "image": "/get-from-to-images/train_from_moscow_to_berlin.jpg",
         "schedule": {
           "routes": [
             {
