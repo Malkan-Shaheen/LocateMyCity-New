@@ -261,6 +261,14 @@ export default function HowToGetToPage() {
     } catch (error) {
       console.error('❌ [ERROR] Error fetching real-time weather:', error);
       
+
+      const fallbackImages = {
+  'eleuthera': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+  'berlin': 'https://images.unsplash.com/photo-1560930950-5cc20e5e10b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+  // Add more as needed
+};
+
+
       // Fallback to static weather data from JSON if API fails
       const fallbackWeather = {
         source: {

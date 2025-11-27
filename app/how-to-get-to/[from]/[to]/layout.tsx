@@ -3,13 +3,14 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 type Props = {
-  params: { from: string; to: string };
+  params: Promise<{ from: string; to: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { from, to } = params;
+  // ✅ AWAIT THE PARAMS
+  const { from, to } = await params;
   
-  // ✅ ADD DEBUG LOGS
+  // ✅ DEBUG LOGS
   console.log('🔍 [LAYOUT DEBUG] Layout params:', { from, to });
   console.log('🔍 [LAYOUT DEBUG] Current URL:', typeof window !== 'undefined' ? window.location.href : 'Server side');
   
@@ -31,8 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   console.log('✅ [LAYOUT DEBUG] Generating metadata for:', { fromCapitalized, toCapitalized });
   
   return {
-    title: `How to Get to ${fromCapitalized} from ${toCapitalized} | LocateMyCity`,
-  
+    title: `How to Get to ${toCapitalized} from ${fromCapitalized} | LocateMyCity`,
     description: `Discover the best ways to travel from ${fromCapitalized} to ${toCapitalized}. Compare flights, ferries, trains, and other transportation options with travel times and insider tips.`,
     keywords: [
       `${toCapitalized} travel`,
