@@ -857,8 +857,10 @@ const fetchBackgroundImage = async () => {
           <section className="bg-transparent mb-12">
            <div className="compact-journey w-full">
   <div className="journey-header">
-    <h2>Travel from {sourceName} to {destinationName}</h2>
-    <p>Choose your preferred option</p>
+    <h2>
+        {pageData?.journey_header?.title }
+      </h2>
+    {pageData?.journey_header?.subtitle}
   </div>
 
   <div className="options-grid w-full">
