@@ -288,30 +288,56 @@ export default function HowToGetToPage() {
   };
 
   // Function to fetch background image
-  const fetchBackgroundImage = async () => {
-    try {
-      setBackground(prev => ({ ...prev, isLoading: true, error: null }));
-      
-      const demoImageUrl = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setBackground({
-        imageUrl: demoImageUrl,
-        isLoading: false,
-        error: null
-      });
-      
-    } catch (error) {
-      console.error('Error fetching background image:', error);
-      setBackground({
-        imageUrl: '',
-        isLoading: false,
-        error: 'Failed to load background image'
-      });
+const fetchBackgroundImage = async () => {
+  try {
+    setBackground(prev => ({ ...prev, isLoading: true, error: null }));
+    
+    // Get background image from JSON data
+    let backgroundImageUrl = '';
+    
+    // Priority 1: Use the dedicated background_image from JSON
+    if (pageData?.background_image) {
+      backgroundImageUrl = pageData.background_image;
     }
-  };
-
+    // Priority 2: Fallback to about_destination images
+    else if (pageData?.about_destination?.images?.length > 0) {
+      backgroundImageUrl = pageData.about_destination.images[0];
+    }
+    // Priority 3: Ultimate fallback
+    else {
+      const destination = destinationName?.toLowerCase() || '';
+   
+      
+      backgroundImageUrl = fallbackImages[destination] ;
+    }
+    
+    // Simulate loading (remove this in production)
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // ✅ CORRECT: Use native JavaScript Image constructor
+    await new Promise((resolve, reject) => {
+      const img = new window.Image(); // Use native Image constructor
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('Failed to load background image'));
+      img.src = backgroundImageUrl;
+    });
+    
+    setBackground({
+      imageUrl: backgroundImageUrl,
+      isLoading: false,
+      error: null
+    });
+    
+  } catch (error) {
+    console.error('Error loading background image:', error);
+    
+    // Ultimate fallback
+    setBackground({
+      isLoading: false,
+      error: 'Using fallback image'
+    });
+  }
+};
   // Effect to fetch real-time weather data when page data is loaded
   useEffect(() => {
     console.log('🔍 [DEBUG] useEffect triggered - pageData:', pageData);
@@ -582,7 +608,7 @@ export default function HowToGetToPage() {
   );
 
   // Fallback background image
-  const fallbackBackground = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+  const fallbackBackground = 'places_to_stay_a.jpg';
   const backgroundImage = background.imageUrl || fallbackBackground;
 
   useEffect(() => {
@@ -640,6 +666,12 @@ export default function HowToGetToPage() {
     loadPageDataFromUrl();
     fetchBackgroundImage();
   }, []);
+
+  useEffect(() => {
+  if (pageData) {
+    fetchBackgroundImage();
+  }
+}, [pageData]);
 
   // Show 404 if page doesn't exist
   if (!isChecking && !pageExists) {
@@ -751,36 +783,32 @@ export default function HowToGetToPage() {
       <Header />
 
       <main className="flex-grow pt-16">
-        {/* 🏝️ HERO SECTION WITH DYNAMIC BACKGROUND */}
-        <section className="relative min-h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat">
-          {/* Background Image */}
-          <Image
-            src={fallbackBackground}
-            alt={`Beautiful view of ${destinationName}`}
-            className="absolute inset-0 w-full h-full object-cover"
-            priority={true}
-            fetchPriority="high"
-            fill
-            sizes="100vw"
-            quality={85}
-          />
 
-          {/* Blue overlay */}
-          <div className="absolute inset-0 bg-blue-900/40"></div> 
-          
-          {/* Loading State */}
-          {background.isLoading && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-              <div className="text-white text-lg">Loading beautiful view...</div>
-            </div>
-          )}
-          
-          {/* Error State */}
-          {background.error && !background.isLoading && (
-            <div className="absolute top-4 left-4 bg-red-100 border text-red-700 px-4 py-2 rounded text-sm">
-              {background.error}
-            </div>
-          )}
+
+<section 
+  className="relative min-h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: `url(${background.imageUrl || fallbackBackground})`
+  }}
+>
+  {/* Blue overlay */}
+  <div className="absolute inset-0 bg-black/40"></div> 
+  
+  {/* Loading State */}
+  {background.isLoading && (
+    <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+      <div className="text-white text-lg">Loading beautiful view...</div>
+    </div>
+  )}
+  
+  {/* Error State */}
+  {background.error && !background.isLoading && (
+    <div className="absolute top-4 left-4 bg-red-100 border text-red-700 px-4 py-2 rounded text-sm">
+      {background.error}
+    </div>
+  )}
+
+
 
           {/* Hero Content Container with proper spacing */}
           <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full">
