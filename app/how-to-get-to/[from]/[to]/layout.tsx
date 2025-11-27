@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   console.log('✅ [LAYOUT DEBUG] Generating metadata for:', { fromCapitalized, toCapitalized });
   
   return {
-    title: `How to Get to ${toCapitalized} from ${fromCapitalized} | LocateMyCity`,
+    title: `How to Get to ${fromCapitalized} from ${toCapitalized} | LocateMyCity`,
     description: `Discover the best ways to travel from ${fromCapitalized} to ${toCapitalized}. Compare flights, ferries, trains, and other transportation options with travel times and insider tips.`,
     keywords: [
       `${toCapitalized} travel`,
