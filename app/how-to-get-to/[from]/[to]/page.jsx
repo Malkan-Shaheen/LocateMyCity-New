@@ -1286,7 +1286,7 @@ const fetchBackgroundImage = async () => {
                 <div className="by-plane order-2 md:order-1">
                   <div className="flex items-center gap-3 mb-6">
                     <FaPlane className="text-blue-800 text-2xl" />
-                    <h2 className="text-2xl font-semibold text-gray-800">By Plane</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">How to get to {destinationName} from {sourceName} By Plane</h2>
                   </div>
 
                   <p className="text-gray-700 leading-relaxed mb-6">
@@ -1360,7 +1360,7 @@ const fetchBackgroundImage = async () => {
                 <div className="by-ferry">
                   <div className="flex items-center gap-3 mb-6">
                     <FaShip className="text-blue-800 text-2xl" />
-                    <h2 className="text-2xl font-semibold text-gray-800">By Ferry</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">How to get to {destinationName} from {sourceName} By Ferry</h2>
                   </div>
 
                   <p className="text-gray-700 leading-relaxed mb-6">
@@ -1423,7 +1423,7 @@ const fetchBackgroundImage = async () => {
                 <div className="by-train">
                   <div className="flex items-center gap-3 mb-6">
                     <FaTrain className="text-blue-800 text-2xl" />
-                    <h2 className="text-2xl font-semibold text-gray-800">By Train</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">How to get to {destinationName} from {sourceName} By Train</h2>
                   </div>
 
                   <p className="text-gray-700 leading-relaxed mb-6">
@@ -1477,8 +1477,8 @@ const fetchBackgroundImage = async () => {
                 <div className="order-2 md:order-1">
                   <div className="flex items-center gap-3 mb-6">
                     <FaPlane className="text-blue-800 text-2xl" />
-                    <h2 className="text-2xl font-semibold text-gray-800">
-                      {by_private_charter.heading || "By Private Charter"}
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      How to get to {destinationName} from {sourceName} By Private Charter
                     </h2>
                   </div>
 
