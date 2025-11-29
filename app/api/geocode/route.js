@@ -26,6 +26,14 @@ export async function GET(request) {
       }
     });
 
+    const convertToLocalTime = (timestamp, timezoneOffset) => {
+  return new Date((timestamp + timezoneOffset) * 1000).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC'
+  });
+};
+
     if (!response.ok) {
       // If we get 403, try with different approach
       if (response.status === 403) {

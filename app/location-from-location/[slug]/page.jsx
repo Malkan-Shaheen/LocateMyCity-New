@@ -147,64 +147,112 @@ useEffect(() => {
     setActiveFAQ(activeFAQ === index ? null : index);
   }, [activeFAQ]);
 
-  // ---- Fetch helpers - FIXED: Remove next: { revalidate } ----
-  // In your page component, update the fetchCountryData function:
 const fetchCountryData = useCallback(async (lat, lon) => {
   try {
-    const res = await fetch(
-      `/api/reverse-geocode?lat=${lat}&lon=${lon}`
-    );
+    console.log(`Fetching country data for lat: ${lat}, lon: ${lon}`);
     
-    const geoData = await res.json();
+    const res = await fetch(`/api/reverse-geocode?lat=${lat}&lon=${lon}`);
     
-    if (geoData.error) {
+    console.log('Reverse geocode response status:', res.status);
+    
+    if (!res.ok) {
+      console.error('Reverse geocode API failed with status:', res.status);
       return { currency: 'N/A', language: 'N/A' };
     }
 
-    const countryCode = geoData.country_code;
-    if (!countryCode) return { currency: 'N/A', language: 'N/A' };
+    const geoData = await res.json();
+    console.log('Full reverse geocode data:', geoData);
+    
+    if (geoData.error || !geoData.address) {
+      console.log('Reverse geocode returned error or no address');
+      return { currency: 'N/A', language: 'N/A' };
+    }
 
+    const countryCode = geoData.address.country_code;
+    console.log('Extracted country code:', countryCode);
+    
+    if (!countryCode) {
+      console.log('No country code found in address');
+      return { currency: 'N/A', language: 'N/A' };
+    }
+
+    console.log('Fetching currency and language for country:', countryCode);
+    
     const [currency, language] = await Promise.all([
       fetchCurrency(countryCode),
       fetchLanguage(countryCode),
     ]);
 
+    console.log('Final results - Currency:', currency, 'Language:', language);
+    
     return { currency, language };
-  } catch {
+  } catch (error) {
+    console.error('Error in fetchCountryData:', error);
     return { currency: 'N/A', language: 'N/A' };
   }
 }, []);
 
-  const fetchCurrency = useCallback(async (countryCode) => {
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/alpha/${countryCode}`
-      );
-      const data = await res.json();
-      if (data[0]?.currencies) {
-        const code = Object.keys(data[0].currencies)[0];
-        return `${code}`;
-      }
-      return 'N/A';
-    } catch {
+ const fetchCurrency = useCallback(async (countryCode) => {
+  try {
+    console.log(`Fetching currency for: ${countryCode}`);
+    const res = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
+    
+    if (!res.ok) {
+      console.error(`RestCountries API failed for ${countryCode}:`, res.status);
       return 'N/A';
     }
-  }, []);
+    
+    const data = await res.json();
+    console.log(`RestCountries data for ${countryCode}:`, data);
+    
+    if (!data[0]?.currencies) {
+      console.log(`No currency data for ${countryCode}`);
+      return 'N/A';
+    }
+    
+    const currencyCode = Object.keys(data[0].currencies)[0];
+    const currencyName = data[0].currencies[currencyCode]?.name;
+    const result = currencyName || currencyCode || 'N/A';
+    
+    console.log(`Currency result for ${countryCode}:`, result);
+    return result;
+    
+  } catch (error) {
+    console.error(`Error fetching currency for ${countryCode}:`, error);
+    return 'N/A';
+  }
+}, []);
 
-  const fetchLanguage = useCallback(async (countryCode) => {
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/alpha/${countryCode}`
-      );
-      const data = await res.json();
-      if (data[0]?.languages) {
-        return Object.values(data[0].languages)[0];
-      }
-      return 'N/A';
-    } catch {
+const fetchLanguage = useCallback(async (countryCode) => {
+  try {
+    console.log(`Fetching language for: ${countryCode}`);
+    const res = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
+    
+    if (!res.ok) {
+      console.error(`RestCountries API failed for ${countryCode}:`, res.status);
       return 'N/A';
     }
-  }, []);
+    
+    const data = await res.json();
+    
+    if (!data[0]?.languages) {
+      console.log(`No language data for ${countryCode}`);
+      return 'N/A';
+    }
+    
+    const languages = Object.values(data[0].languages);
+    const result = languages[0] || 'N/A';
+    
+    console.log(`Language result for ${countryCode}:`, result);
+    return result;
+    
+  } catch (error) {
+    console.error(`Error fetching language for ${countryCode}:`, error);
+    return 'N/A';
+  }
+}, []);
+
+  
 
   const fetchWeatherData = useCallback(
     async (src, dest) => {
