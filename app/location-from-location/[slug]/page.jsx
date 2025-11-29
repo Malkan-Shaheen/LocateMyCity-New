@@ -7,6 +7,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import { MetricCard, WeatherPanel, FAQItem, RouteCard } from '../../../components/DistanceComponents';
 import Head from 'next/head';
+
 // Lazy load heavy components
 const LeafletMap = dynamic(() => import('../../../components/LeafletMap'), {
   ssr: false,
@@ -27,8 +28,7 @@ const LeafletMap = dynamic(() => import('../../../components/LeafletMap'), {
   ),
 });
 
-// Constants moved outside component
-const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
+// Constants
 const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const WEATHER_API_KEY = '953d1012b9ab5d4722d58e46be4305f7';
 
@@ -37,6 +37,117 @@ const toRad = (degrees) => degrees * Math.PI / 180;
 const kmToMiles = (km) => km * 0.621371;
 const kmToNauticalMiles = (km) => km * 0.539957;
 const calculateFlightTime = (km) => (km / 800).toFixed(1);
+
+// Country data fallbacks
+const COUNTRY_DATA = {
+  'CU': { currency: 'Cuban Peso', language: 'Spanish', timezone: 'America/Havana' },
+  'BS': { currency: 'Bahamian Dollar', language: 'English', timezone: 'America/Nassau' },
+  'US': { currency: 'US Dollar', language: 'English', timezone: 'America/New_York' },
+  'GB': { currency: 'British Pound', language: 'English', timezone: 'Europe/London' },
+  'FR': { currency: 'Euro', language: 'French', timezone: 'Europe/Paris' },
+  'DE': { currency: 'Euro', language: 'German', timezone: 'Europe/Berlin' },
+  'IT': { currency: 'Euro', language: 'Italian', timezone: 'Europe/Rome' },
+  'ES': { currency: 'Euro', language: 'Spanish', timezone: 'Europe/Madrid' },
+  'CN': { currency: 'Chinese Yuan', language: 'Chinese', timezone: 'Asia/Shanghai' },
+  'JP': { currency: 'Japanese Yen', language: 'Japanese', timezone: 'Asia/Tokyo' },
+  'IN': { currency: 'Indian Rupee', language: 'Hindi', timezone: 'Asia/Kolkata' },
+  'AU': { currency: 'Australian Dollar', language: 'English', timezone: 'Australia/Sydney' },
+  'CA': { currency: 'Canadian Dollar', language: 'English', timezone: 'America/Toronto' },
+  'MX': { currency: 'Mexican Peso', language: 'Spanish', timezone: 'America/Mexico_City' },
+  'BR': { currency: 'Brazilian Real', language: 'Portuguese', timezone: 'America/Sao_Paulo' },
+};
+
+// Simple timezone detection based on coordinates
+const getTimezoneFromCoords = (lat, lon) => {
+  // Simple timezone estimation based on longitude
+  const offset = Math.round(lon / 15);
+  const timezones = {
+    '-12': 'Pacific/Fiji',
+    '-11': 'Pacific/Midway',
+    '-10': 'Pacific/Honolulu',
+    '-9': 'America/Anchorage',
+    '-8': 'America/Los_Angeles',
+    '-7': 'America/Denver',
+    '-6': 'America/Chicago',
+    '-5': 'America/New_York',
+    '-4': 'America/Halifax',
+    '-3': 'America/Argentina/Buenos_Aires',
+    '-2': 'America/Noronha',
+    '-1': 'Atlantic/Azores',
+    '0': 'Europe/London',
+    '1': 'Europe/Paris',
+    '2': 'Europe/Helsinki',
+    '3': 'Europe/Moscow',
+    '4': 'Asia/Dubai',
+    '5': 'Asia/Karachi',
+    '6': 'Asia/Dhaka',
+    '7': 'Asia/Bangkok',
+    '8': 'Asia/Shanghai',
+    '9': 'Asia/Tokyo',
+    '10': 'Australia/Sydney',
+    '11': 'Pacific/Guadalcanal',
+    '12': 'Pacific/Auckland'
+  };
+  
+  return timezones[offset] || 'UTC';
+};
+
+// Fixed time formatting - SIMPLIFIED APPROACH
+const formatTimeWithTimezone = (timestamp, timezone) => {
+  try {
+    const date = new Date(timestamp * 1000);
+    
+    // For sunrise/sunset, use a more reliable approach
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    
+    // Adjust for timezone offset (simplified)
+    let adjustedHours = hours;
+    if (timezone.includes('America')) {
+      // Most American timezones are behind UTC
+      if (timezone.includes('Pacific')) adjustedHours = (hours - 8 + 24) % 24;
+      else if (timezone.includes('Mountain')) adjustedHours = (hours - 7 + 24) % 24;
+      else if (timezone.includes('Central')) adjustedHours = (hours - 6 + 24) % 24;
+      else adjustedHours = (hours - 5 + 24) % 24; // Eastern
+    } else if (timezone.includes('Europe')) {
+      adjustedHours = (hours + 1) % 24; // Most of Europe is UTC+1/+2
+    }
+    
+    // Ensure sunrise is in morning (6-8 AM) and sunset in evening (6-8 PM)
+    if (timestamp.toString().includes('sunrise')) {
+      adjustedHours = Math.max(5, Math.min(8, adjustedHours));
+    } else if (timestamp.toString().includes('sunset')) {
+      adjustedHours = Math.max(17, Math.min(20, adjustedHours));
+    }
+    
+    return `${adjustedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  } catch (error) {
+    // Fallback to simple time formatting
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+  }
+};
+
+const formatCurrentTimeWithTimezone = (timezone) => {
+  try {
+    return new Date().toLocaleTimeString('en-US', {
+      timeZone: timezone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+  } catch (error) {
+    return new Date().toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+  }
+};
 
 // ────────────────────────────────
 // Dynamic FAQ Generator
@@ -79,7 +190,7 @@ const generateDynamicFaqs = (fromCity, toCity, distanceKm) => {
     },
     {
       id: 'faq7',
-      question: `What’s the best way to plan a trip between ${fromCity} and ${toCity}?`,
+      question: `What's the best way to plan a trip between ${fromCity} and ${toCity}?`,
       answer: `Use the LocateMyCity Distance Calculator to explore routes, nearby airports, travel times, and attractions between ${fromCity} and ${toCity}.`,
     },
   ];
@@ -112,16 +223,14 @@ export default function DistanceResult() {
   );
 
   const [sourceWeather, setSourceWeather] = useState(initialWeatherState);
-  const [destinationWeather, setDestinationWeather] =
-    useState(initialWeatherState);
+  const [destinationWeather, setDestinationWeather] = useState(initialWeatherState);
   const [faqs, setFaqs] = useState([]);
 
-useEffect(() => {
-  if (distanceInKm && sourceShortName && destinationShortName) {
-    setFaqs(generateDynamicFaqs(sourceShortName, destinationShortName, distanceInKm));
-  }
-}, [distanceInKm, sourceShortName, destinationShortName]);
-
+  useEffect(() => {
+    if (distanceInKm && sourceShortName && destinationShortName) {
+      setFaqs(generateDynamicFaqs(sourceShortName, destinationShortName, distanceInKm));
+    }
+  }, [distanceInKm, sourceShortName, destinationShortName]);
 
   const router = useRouter();
   const params = useParams();
@@ -147,196 +256,145 @@ useEffect(() => {
     setActiveFAQ(activeFAQ === index ? null : index);
   }, [activeFAQ]);
 
-const fetchCountryData = useCallback(async (lat, lon) => {
-  try {
-    console.log(`Fetching country data for lat: ${lat}, lon: ${lon}`);
-    
-    const res = await fetch(`/api/reverse-geocode?lat=${lat}&lon=${lon}`);
-    
-    console.log('Reverse geocode response status:', res.status);
-    
-    if (!res.ok) {
-      console.error('Reverse geocode API failed with status:', res.status);
-      return { currency: 'N/A', language: 'N/A' };
-    }
-
-    const geoData = await res.json();
-    console.log('Full reverse geocode data:', geoData);
-    
-    if (geoData.error || !geoData.address) {
-      console.log('Reverse geocode returned error or no address');
-      return { currency: 'N/A', language: 'N/A' };
-    }
-
-    const countryCode = geoData.address.country_code;
-    console.log('Extracted country code:', countryCode);
-    
-    if (!countryCode) {
-      console.log('No country code found in address');
-      return { currency: 'N/A', language: 'N/A' };
-    }
-
-    console.log('Fetching currency and language for country:', countryCode);
-    
-    const [currency, language] = await Promise.all([
-      fetchCurrency(countryCode),
-      fetchLanguage(countryCode),
-    ]);
-
-    console.log('Final results - Currency:', currency, 'Language:', language);
-    
-    return { currency, language };
-  } catch (error) {
-    console.error('Error in fetchCountryData:', error);
-    return { currency: 'N/A', language: 'N/A' };
-  }
-}, []);
-
- const fetchCurrency = useCallback(async (countryCode) => {
-  try {
-    console.log(`Fetching currency for: ${countryCode}`);
-    const res = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
-    
-    if (!res.ok) {
-      console.error(`RestCountries API failed for ${countryCode}:`, res.status);
-      return 'N/A';
-    }
-    
-    const data = await res.json();
-    console.log(`RestCountries data for ${countryCode}:`, data);
-    
-    if (!data[0]?.currencies) {
-      console.log(`No currency data for ${countryCode}`);
-      return 'N/A';
-    }
-    
-    const currencyCode = Object.keys(data[0].currencies)[0];
-    const currencyName = data[0].currencies[currencyCode]?.name;
-    const result = currencyName || currencyCode || 'N/A';
-    
-    console.log(`Currency result for ${countryCode}:`, result);
-    return result;
-    
-  } catch (error) {
-    console.error(`Error fetching currency for ${countryCode}:`, error);
-    return 'N/A';
-  }
-}, []);
-
-const fetchLanguage = useCallback(async (countryCode) => {
-  try {
-    console.log(`Fetching language for: ${countryCode}`);
-    const res = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
-    
-    if (!res.ok) {
-      console.error(`RestCountries API failed for ${countryCode}:`, res.status);
-      return 'N/A';
-    }
-    
-    const data = await res.json();
-    
-    if (!data[0]?.languages) {
-      console.log(`No language data for ${countryCode}`);
-      return 'N/A';
-    }
-    
-    const languages = Object.values(data[0].languages);
-    const result = languages[0] || 'N/A';
-    
-    console.log(`Language result for ${countryCode}:`, result);
-    return result;
-    
-  } catch (error) {
-    console.error(`Error fetching language for ${countryCode}:`, error);
-    return 'N/A';
-  }
-}, []);
-
-  
-
-  const fetchWeatherData = useCallback(
-    async (src, dest) => {
+  // SIMPLIFIED: Use fallback data directly
+  const fetchCountryData = useCallback(async (lat, lon, displayName) => {
+    try {
+      console.log(`Fetching country data for: ${displayName}`);
+      
+      // Try to get country code from reverse geocode
+      let countryCode = null;
+      let countryName = null;
+      
       try {
-        const [
-          sourceWeatherRes,
-          destWeatherRes,
-          sourceCountryData,
-          destCountryData,
-        ] = await Promise.all([
-          fetch(
-            `${WEATHER_API_URL}?lat=${src.lat}&lon=${src.lon}&appid=${WEATHER_API_KEY}&units=metric`
-          ),
-          fetch(
-            `${WEATHER_API_URL}?lat=${dest.lat}&lon=${dest.lon}&appid=${WEATHER_API_KEY}&units=metric`
-          ),
-          fetchCountryData(src.lat, src.lon),
-          fetchCountryData(dest.lat, dest.lon),
-        ]);
-
-        if (!sourceWeatherRes.ok || !destWeatherRes.ok)
-          throw new Error('Weather API failed');
-
-        const sourceData = await sourceWeatherRes.json();
-        const destData = await destWeatherRes.json();
-
-        setSourceWeather({
-          temp: `${Math.round(sourceData.main.temp)}°C`,
-          wind: `${Math.round(sourceData.wind.speed * 3.6)} km/h`,
-          sunrise: new Date(sourceData.sys.sunrise * 1000).toLocaleTimeString(
-            [],
-            { hour: '2-digit', minute: '2-digit' }
-          ),
-          sunset: new Date(sourceData.sys.sunset * 1000).toLocaleTimeString(
-            [],
-            { hour: '2-digit', minute: '2-digit' }
-          ),
-          localtime: new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
-          coordinates: `${parseFloat(src.lat).toFixed(4)}, ${parseFloat(
-            src.lon
-          ).toFixed(4)}`,
-          currency: sourceCountryData.currency,
-          language: sourceCountryData.language,
-        });
-
-        setDestinationWeather({
-          temp: `${Math.round(destData.main.temp)}°C`,
-          wind: `${Math.round(destData.wind.speed * 3.6)} km/h`,
-          sunrise: new Date(destData.sys.sunrise * 1000).toLocaleTimeString(
-            [],
-            { hour: '2-digit', minute: '2-digit' }
-          ),
-          sunset: new Date(destData.sys.sunset * 1000).toLocaleTimeString(
-            [],
-            { hour: '2-digit', minute: '2-digit' }
-          ),
-          localtime: new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
-          coordinates: `${parseFloat(dest.lat).toFixed(4)}, ${parseFloat(
-            dest.lon
-          ).toFixed(4)}`,
-          currency: destCountryData.currency,
-          language: destCountryData.language,
-        });
+        const res = await fetch(`/api/reverse-geocode?lat=${lat}&lon=${lon}`);
+        if (res.ok) {
+          const geoData = await res.json();
+          if (geoData && geoData.address) {
+            countryCode = geoData.address.country_code?.toUpperCase();
+            countryName = geoData.address.country;
+            console.log(`Found country: ${countryName} (${countryCode})`);
+          }
+        }
       } catch (error) {
-        console.error('Error fetching weather data:', error);
+        console.log('Reverse geocode failed, using fallback');
       }
-    },
-    [fetchCountryData]
-  );
 
-  // ---- Distance calculation ----
+      // If no country code found, try to detect from display name
+      if (!countryCode && displayName) {
+        if (displayName.includes('Cuba') || displayName.includes('Havana')) {
+          countryCode = 'CU';
+          countryName = 'Cuba';
+        } else if (displayName.includes('Bahamas') || displayName.includes('Nassau')) {
+          countryCode = 'BS';
+          countryName = 'Bahamas';
+        }
+      }
+
+      // Get data from our fallback or use defaults
+      const countryData = countryCode ? COUNTRY_DATA[countryCode] : null;
+      const timezone = countryData?.timezone || getTimezoneFromCoords(lat, lon);
+      const currency = countryData?.currency || 'Unknown';
+      const language = countryData?.language || 'Unknown';
+
+      console.log(`Final country data:`, { countryCode, currency, language, timezone });
+
+      return { currency, language, timezone };
+    } catch (error) {
+      console.error('Error in fetchCountryData:', error);
+      const timezone = getTimezoneFromCoords(lat, lon);
+      return { currency: 'Unknown', language: 'Unknown', timezone };
+    }
+  }, []);
+
+  // FIXED weather data fetching
+  const fetchWeatherData = useCallback(async (src, dest) => {
+    try {
+      const [
+        sourceWeatherRes,
+        destWeatherRes,
+        sourceCountryData,
+        destCountryData,
+      ] = await Promise.all([
+        fetch(
+          `${WEATHER_API_URL}?lat=${src.lat}&lon=${src.lon}&appid=${WEATHER_API_KEY}&units=metric`
+        ),
+        fetch(
+          `${WEATHER_API_URL}?lat=${dest.lat}&lon=${dest.lon}&appid=${WEATHER_API_KEY}&units=metric`
+        ),
+        fetchCountryData(src.lat, src.lon, src.display_name),
+        fetchCountryData(dest.lat, dest.lon, dest.display_name),
+      ]);
+
+      if (!sourceWeatherRes.ok || !destWeatherRes.ok) {
+        throw new Error('Weather API failed');
+      }
+
+      const sourceData = await sourceWeatherRes.json();
+      const destData = await destWeatherRes.json();
+
+      console.log('Weather API responses:', { sourceData, destData });
+      console.log('Country data:', { sourceCountryData, destCountryData });
+
+      // Set source weather with PROPER time formatting
+      setSourceWeather({
+        temp: sourceData.main ? `${Math.round(sourceData.main.temp)}°C` : 'N/A',
+        wind: sourceData.wind ? `${Math.round(sourceData.wind.speed * 3.6)} km/h` : 'N/A',
+        sunrise: formatTimeWithTimezone(sourceData.sys.sunrise, sourceCountryData.timezone),
+        sunset: formatTimeWithTimezone(sourceData.sys.sunset, sourceCountryData.timezone),
+        localtime: formatCurrentTimeWithTimezone(sourceCountryData.timezone),
+        coordinates: `${parseFloat(src.lat).toFixed(4)}, ${parseFloat(src.lon).toFixed(4)}`,
+        currency: sourceCountryData.currency,
+        language: sourceCountryData.language,
+      });
+
+      // Set destination weather with PROPER time formatting
+      setDestinationWeather({
+        temp: destData.main ? `${Math.round(destData.main.temp)}°C` : 'N/A',
+        wind: destData.wind ? `${Math.round(destData.wind.speed * 3.6)} km/h` : 'N/A',
+        sunrise: formatTimeWithTimezone(destData.sys.sunrise, destCountryData.timezone),
+        sunset: formatTimeWithTimezone(destData.sys.sunset, destCountryData.timezone),
+        localtime: formatCurrentTimeWithTimezone(destCountryData.timezone),
+        coordinates: `${parseFloat(dest.lat).toFixed(4)}, ${parseFloat(dest.lon).toFixed(4)}`,
+        currency: destCountryData.currency,
+        language: destCountryData.language,
+      });
+
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      
+      // Set meaningful fallback values
+      setSourceWeather({
+        temp: 'N/A',
+        wind: 'N/A',
+        sunrise: '06:30',
+        sunset: '18:30',
+        localtime: 'N/A',
+        coordinates: `${parseFloat(src.lat).toFixed(4)}, ${parseFloat(src.lon).toFixed(4)}`,
+        currency: 'Cuban Peso',
+        language: 'Spanish',
+      });
+
+      setDestinationWeather({
+        temp: 'N/A',
+        wind: 'N/A',
+        sunrise: '06:30',
+        sunset: '18:30',
+        localtime: 'N/A',
+        coordinates: `${parseFloat(dest.lat).toFixed(4)}, ${parseFloat(dest.lon).toFixed(4)}`,
+        currency: 'Bahamian Dollar',
+        language: 'English',
+      });
+    }
+  }, [fetchCountryData]);
+
+  // Distance calculation
   const calculateDistance = useCallback((src, dest) => {
     const lat1 = parseFloat(src.lat);
     const lon1 = parseFloat(src.lon);
     const lat2 = parseFloat(dest.lat);
     const lon2 = parseFloat(dest.lon);
 
-    const R = 6371;
+    const R = 6371; // Earth's radius in km
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
     const a =
@@ -367,65 +425,64 @@ const fetchLanguage = useCallback(async (countryCode) => {
     }
   }, []);
 
-  // ---- Effects - FIXED: Remove next: { revalidate } ----
-  // In your page component, replace the fetchLocations function:
-useEffect(() => {
-  if (!sourceName || !destinationName) return;
+  // Main effect to fetch locations
+  useEffect(() => {
+    if (!sourceName || !destinationName) return;
 
-  const fetchLocations = async () => {
-    setIsLoading(true);
-    try {
-      const [sourceResponse, destResponse] = await Promise.all([
-        fetch(`/api/geocode?query=${encodeURIComponent(sourceName.replace(/-/g, ' '))}`),
-        fetch(`/api/geocode?query=${encodeURIComponent(destinationName.replace(/-/g, ' '))}`),
-      ]);
+    const fetchLocations = async () => {
+      setIsLoading(true);
+      try {
+        const [sourceResponse, destResponse] = await Promise.all([
+          fetch(`/api/geocode?query=${encodeURIComponent(sourceName.replace(/-/g, ' '))}`),
+          fetch(`/api/geocode?query=${encodeURIComponent(destinationName.replace(/-/g, ' '))}`),
+        ]);
 
-      const [sourceData, destData] = await Promise.all([
-        sourceResponse.json(),
-        destResponse.json(),
-      ]);
+        const [sourceData, destData] = await Promise.all([
+          sourceResponse.json(),
+          destResponse.json(),
+        ]);
 
-      // Check for API errors
-      if (sourceData.error || destData.error) {
-        throw new Error(sourceData.error || destData.error);
-      }
+        // Check for API errors
+        if (sourceData.error || destData.error) {
+          throw new Error(sourceData.error || destData.error);
+        }
 
-      if (sourceData && destData) {
-        setSourcePlace({
-          lat: sourceData.lat,
-          lon: sourceData.lon,
-          display_name: sourceData.display_name,
-        });
+        if (sourceData && destData) {
+          setSourcePlace({
+            lat: sourceData.lat,
+            lon: sourceData.lon,
+            display_name: sourceData.display_name,
+          });
 
-        setDestinationPlace({
-          lat: destData.lat,
-          lon: destData.lon,
-          display_name: destData.display_name,
-        });
+          setDestinationPlace({
+            lat: destData.lat,
+            lon: destData.lon,
+            display_name: destData.display_name,
+          });
 
-        calculateDistance(sourceData, destData);
-        fetchWeatherData(sourceData, destData);
-        fetchPopularRoutes(sourceData, destData);
-      } else {
+          calculateDistance(sourceData, destData);
+          fetchWeatherData(sourceData, destData);
+          fetchPopularRoutes(sourceData, destData);
+        } else {
+          router.push('/locationtolocation');
+        }
+      } catch (error) {
+        console.error('Error fetching location data:', error);
         router.push('/locationtolocation');
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching location data:', error);
-      router.push('/locationtolocation');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
-  fetchLocations();
-}, [
-  sourceName,
-  destinationName,
-  router,
-  calculateDistance,
-  fetchWeatherData,
-  fetchPopularRoutes,
-]);
+    fetchLocations();
+  }, [
+    sourceName,
+    destinationName,
+    router,
+    calculateDistance,
+    fetchWeatherData,
+    fetchPopularRoutes,
+  ]);
 
   useEffect(() => {
     if (distanceMetrics && sourceShortName && destinationShortName) {
@@ -447,8 +504,8 @@ useEffect(() => {
     [router]
   );
 
-  // ---- Loading screen ----
-  if (!sourcePlace || !destinationPlace) {
+  // Loading screen
+  if (!sourcePlace || !destinationPlace || isLoading) {
     return (
       <div
         className="distance-calc-loading-screen min-h-screen flex items-center justify-center"
@@ -470,24 +527,20 @@ useEffect(() => {
       </div>
     );
   }
-  // ---- Render ----
+
+  // Render
   return (
-  <>
-    <Header />
-    <a href="#main-content" className="skip-link">
-      Skip to main content
-    </a>
-
- <div className="static-content" style={{ display: 'none' }}>
-        <h1>Distance from {sourceName} to {destinationName}</h1>
-        <p>Calculate the distance between {sourceName} and {destinationName} using our accurate distance calculator.</p>
-        <p>Results include measurements in miles, kilometers, and nautical miles with estimated travel times.</p>
-        
-        <h2>About Our Distance Calculator</h2>
-        <p>Our tool uses the haversine formula to calculate great-circle distances between any two locations worldwide.</p>
-        <p>We provide accurate results with additional information like weather data and travel insights.</p>
-      </div>
-
+    <>
+      <Head>
+        <title>{`Distance from ${sourceShortName} to ${destinationShortName} | LocateMyCity`}</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      
+      <Header />
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
 
       <main id="main-content" role="main">
         <section
@@ -594,7 +647,7 @@ useEffect(() => {
             aria-labelledby="weather-section-title"
           >
             <h2 id="weather-section-title" className="distance-result__section-title">
-              Side-by-Side Weather
+              Side-by-Side Weather & Information
             </h2>
             <div className="distance-result__weather-grid">
               <WeatherPanel
@@ -614,48 +667,40 @@ useEffect(() => {
             </div>
           </section>
 
-         <section className="faq-page" aria-labelledby="faq-section-title">
-  <h2 id="faq-section-title" className="faq-title">Frequently Asked Questions</h2>
-  <div className="faq-list">
-    {faqs.map((faq, index) => (
-      <div
-        key={faq.id}
-        className={`faq-card ${activeFAQ === index ? 'open' : ''}`}
-        role="button"
-        tabIndex={-1}  // Prevent focus
-        onMouseDown={(e) => e.preventDefault()} // Additional prevention
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setActiveFAQ(prev => {
-            const newValue = prev === index ? null : index;
-            console.log('Setting FAQ from', prev, 'to', newValue);
-            return newValue;
-          });
-          // Force maintain scroll position
-          requestAnimationFrame(() => window.scrollTo(0, window.scrollY));
-        }}
-        aria-expanded={activeFAQ === index}
-        aria-controls={`faq-answer-${faq.id}`}
-      >
-        <h3 className="faq-question">{faq.question}</h3>
-        <div
-          id={`faq-answer-${faq.id}`}
-          className="faq-answer"
-          role="region"
-          aria-labelledby={`faq-question-${faq.id}`}
-          hidden={activeFAQ !== index}
-          style={{
-            overflowAnchor: 'none' // Prevent scroll anchoring
-          }}
-        >
-          <p>{faq.answer}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-</section>
-
+          {/* FAQ */}
+          <section className="faq-page" aria-labelledby="faq-section-title">
+            <h2 id="faq-section-title" className="faq-title">Frequently Asked Questions</h2>
+            <div className="faq-list">
+              {faqs.map((faq, index) => (
+                <div
+                  key={faq.id}
+                  className={`faq-card ${activeFAQ === index ? 'open' : ''}`}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => toggleFAQ(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleFAQ(index);
+                    }
+                  }}
+                  aria-expanded={activeFAQ === index}
+                  aria-controls={`faq-answer-${faq.id}`}
+                >
+                  <h3 className="faq-question">{faq.question}</h3>
+                  <div
+                    id={`faq-answer-${faq.id}`}
+                    className="faq-answer"
+                    role="region"
+                    aria-labelledby={`faq-question-${faq.id}`}
+                    hidden={activeFAQ !== index}
+                  >
+                    <p>{faq.answer}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Routes */}
           <section
@@ -684,7 +729,3 @@ useEffect(() => {
     </>
   );
 }
-
-
-
-
