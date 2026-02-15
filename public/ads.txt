@@ -1,0 +1,4 @@
+# Ads.txt for locatemycity.com
+
+google.com, pub-4601969084104531, DIRECT, f08c47fec0942fa0
+ezoic.com, 19390, DIRECT

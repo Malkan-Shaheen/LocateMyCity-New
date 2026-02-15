@@ -1,0 +1,68 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.0
+2 info using node@v22.11.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:E:\LocateMyCity-15feb\.npmrc
+5 silly config load:file:C:\Users\MALKii\.npmrc
+6 silly config load:file:C:\Users\MALKii\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm exec create-next-app@latest . --use-npm --yes
+8 verbose argv "exec" "--" "create-next-app@latest" "." "--use-npm" "--yes"
+9 verbose logfile logs-max:10 dir:E:\LocateMyCity-15feb\.npm-cache\_logs\2026-02-15T10_08_59_718Z-
+10 verbose logfile E:\LocateMyCity-15feb\.npm-cache\_logs\2026-02-15T10_08_59_718Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2148270080 maxSize:537067520 maxEntrySize:268533760
+13 http fetch GET 200 https://registry.npmjs.org/npm 766ms
+14 http fetch GET 200 https://registry.npmjs.org/create-next-app 1060ms (cache miss)
+15 verbose type system
+16 verbose stack FetchError: Invalid response body while trying to fetch https://registry.npmjs.org/create-next-app: EPERM: operation not permitted, unlink 'E:\LocateMyCity-15feb\.npm-cache\_cacache\tmp\d076906e'
+16 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:170:15
+16 verbose stack     at async Response.json (C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:75:17)
+16 verbose stack     at async RegistryFetcher.packument (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:98:25)
+16 verbose stack     at async RegistryFetcher.manifest (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:128:23)
+16 verbose stack     at async getManifest (C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:27:22)
+16 verbose stack     at async missingFromTree (C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:65:22)
+16 verbose stack     at async C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:182:32
+16 verbose stack     at async Promise.all (index 0)
+16 verbose stack     at async exec (C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:180:3)
+16 verbose stack     at async Npm.exec (C:\Program Files\nodejs\node_modules\npm\lib\npm.js:207:9)
+17 error code EPERM
+18 error syscall unlink
+19 error path E:\LocateMyCity-15feb\.npm-cache\_cacache\tmp\d076906e
+20 error errno EPERM
+21 error FetchError: Invalid response body while trying to fetch https://registry.npmjs.org/create-next-app: EPERM: operation not permitted, unlink 'E:\LocateMyCity-15feb\.npm-cache\_cacache\tmp\d076906e'
+21 error     at C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:170:15
+21 error     at async Response.json (C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:75:17)
+21 error     at async RegistryFetcher.packument (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:98:25)
+21 error     at async RegistryFetcher.manifest (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:128:23)
+21 error     at async getManifest (C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:27:22)
+21 error     at async missingFromTree (C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:65:22)
+21 error     at async C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:182:32
+21 error     at async Promise.all (index 0)
+21 error     at async exec (C:\Program Files\nodejs\node_modules\npm\node_modules\libnpmexec\lib\index.js:180:3)
+21 error     at async Npm.exec (C:\Program Files\nodejs\node_modules\npm\lib\npm.js:207:9) {
+21 error   code: 'EPERM',
+21 error   errno: 'EPERM',
+21 error   syscall: 'unlink',
+21 error   path: 'E:\\LocateMyCity-15feb\\.npm-cache\\_cacache\\tmp\\d076906e',
+21 error   type: 'system'
+21 error }
+22 error
+22 error The operation was rejected by your operating system.
+22 error It's possible that the file was already in use (by a text editor or antivirus),
+22 error or that you lack permissions to access it.
+22 error
+22 error If you believe this might be a permissions issue, please double-check the
+22 error permissions of the file and its containing directories, or try running
+22 error the command again as root/Administrator.
+23 verbose cwd E:\LocateMyCity-15feb
+24 verbose os Windows_NT 10.0.19045
+25 verbose node v22.11.0
+26 verbose npm  v10.9.0
+27 notice
+27 notice New major version of npm available! 10.9.0 -> 11.10.0
+27 notice Changelog: https://github.com/npm/cli/releases/tag/v11.10.0
+27 notice To update run: npm install -g npm@11.10.0
+27 notice  { force: true, [Symbol(proc-log.meta)]: true }
+28 verbose exit 1
+29 verbose code 1
+30 error A complete log of this run can be found in: E:\LocateMyCity-15feb\.npm-cache\_logs\2026-02-15T10_08_59_718Z-debug-0.log

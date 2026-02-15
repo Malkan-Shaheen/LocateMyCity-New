@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://locatemycity.com/sitemap-0001.xml
+Sitemap: https://locatemycity.com/sitemap-0002.xml
+Sitemap: https://locatemycity.com/sitemaptest/sitemap-0001.xml
+Sitemap: https://locatemycity.com/sitemaptest/sitemap-0002.xml

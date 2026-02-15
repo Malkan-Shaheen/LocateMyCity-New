@@ -1,0 +1,234 @@
+{
+  "beach": {
+    "pageTitle": "U.S. Locations with \"Beach\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that include the word \"Beach\" in their name. Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-beach-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"Beach\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"Beach,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Include \"Beach\" in Their Name",
+      "paragraphs": [
+        "Many locations across the United States include the word \"Beach\" in their name, reflecting their proximity to coastlines, lakes, or water features. These places range from famous coastal destinations to small communities near bodies of water.",
+        "Today, these \"Beach\" locations include major resort cities, quiet coastal towns, and rural communities. Each one reflects unique stories shaped by geography, tourism, and local culture.",
+        "This resource offers a complete directory of every U.S. location containing \"Beach,\" along with state-by-state listings, naming insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Miami Beach, FL", "description": "Famous Resort City" },
+      { "name": "Virginia Beach, VA", "description": "Major Coastal City" },
+      { "name": "Long Beach, CA", "description": "Historic Port City" },
+      { "name": "West Palm Beach, FL", "description": "Tourist Destination" }
+    ]
+  },
+  "fort": {
+    "pageTitle": "U.S. Locations with \"Fort\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that include the word \"Fort\" in their name. Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-fort-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"Fort\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"Fort,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Include \"Fort\" in Their Name",
+      "paragraphs": [
+        "Many locations across the United States include the word \"Fort\" in their name, reflecting their historical origins as military installations or defensive positions. These places often have rich histories tied to American expansion and military strategy.",
+        "Today, these \"Fort\" locations range from major metropolitan areas to small towns. Many have evolved from military posts into thriving communities while preserving their historical significance.",
+        "This resource offers a complete directory of every U.S. location containing \"Fort,\" along with state-by-state listings, historical insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Fort Worth, TX", "description": "Major Metropolitan City" },
+      { "name": "Fort Lauderdale, FL", "description": "Coastal Destination" },
+      { "name": "Fort Wayne, IN", "description": "Historic City" },
+      { "name": "Fort Collins, CO", "description": "Mountain City" }
+    ]
+  },
+  "lake": {
+    "pageTitle": "U.S. Locations with \"Lake\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that include the word \"Lake\" in their name. Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-lake-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"Lake\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"Lake,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Include \"Lake\" in Their Name",
+      "paragraphs": [
+        "Many locations across the United States include the word \"Lake\" in their name, reflecting their proximity to lakes, reservoirs, or water features. These places often developed around bodies of water that provided resources and transportation.",
+        "Today, these \"Lake\" locations include major cities, resort towns, and rural communities. Each one reflects unique stories shaped by geography, recreation, and local economy.",
+        "This resource offers a complete directory of every U.S. location containing \"Lake,\" along with state-by-state listings, geographic insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Salt Lake City, UT", "description": "State Capital" },
+      { "name": "Lake Tahoe, CA/NV", "description": "Famous Resort Area" },
+      { "name": "Lake Charles, LA", "description": "Major City" },
+      { "name": "Lake Placid, NY", "description": "Historic Destination" }
+    ]
+  },
+  "new": {
+    "pageTitle": "Cities with \"New\" in Their Name (USA) | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that begin with the word \"New.\" Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-new-in-the-name",
+    "hero": {
+      "title": "Cities with \"New\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"New,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Cities That Begin With \"New\"",
+      "paragraphs": [
+        "Many cities across the United States begin with the word \"New,\" a naming tradition rooted in early colonial history. Settlers often named new towns after familiar European locations—adding \"New\" to represent a fresh beginning while honoring the original city, such as New York or New London.",
+        "Today, these \"New\" cities range from small rural communities to major metropolitan hubs with significant cultural, economic, and historical influence. Each one reflects unique stories shaped by migration, regional development, and American place-naming patterns.",
+        "This resource offers a complete directory of every U.S. location beginning with \"New,\" along with state-by-state listings, naming insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "New York, NY", "description": "Major City" },
+      { "name": "New Orleans, LA", "description": "Cultural Hub" },
+      { "name": "New Haven, CT", "description": "Historic" },
+      { "name": "New Braunfels, TX", "description": "Destination" }
+    ]
+  },
+  "old": {
+    "pageTitle": "U.S. Locations with \"Old\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that include the word \"Old\" in their name. Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-old-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"Old\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"Old,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Include \"Old\" in Their Name",
+      "paragraphs": [
+        "Many locations across the United States include the word \"Old\" in their name, often reflecting historical significance, age, or distinction from newer settlements. These places often have deep roots in American history.",
+        "Today, these \"Old\" locations include historic towns, rural communities, and places that have maintained their character over generations. Each one reflects unique stories shaped by history, tradition, and local identity.",
+        "This resource offers a complete directory of every U.S. location containing \"Old,\" along with state-by-state listings, historical insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Old Town, ME", "description": "Historic Town" },
+      { "name": "Old Forge, NY", "description": "Mountain Community" },
+      { "name": "Old Saybrook, CT", "description": "Coastal Town" },
+      { "name": "Old Bridge, NJ", "description": "Suburban Community" }
+    ]
+  },
+  "port": {
+    "pageTitle": "U.S. Locations with \"Port\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that include the word \"Port\" in their name. Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-port-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"Port\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"Port,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Include \"Port\" in Their Name",
+      "paragraphs": [
+        "Many locations across the United States include the word \"Port\" in their name, reflecting their historical or current role as ports, harbors, or transportation hubs. These places often developed around water access for trade and commerce.",
+        "Today, these \"Port\" locations include major seaports, river ports, and communities that have maintained their maritime heritage. Each one reflects unique stories shaped by trade, transportation, and economic development.",
+        "This resource offers a complete directory of every U.S. location containing \"Port,\" along with state-by-state listings, maritime insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Portland, OR", "description": "Major City" },
+      { "name": "Portland, ME", "description": "Historic Port" },
+      { "name": "Port Arthur, TX", "description": "Industrial Port" },
+      { "name": "Port St. Lucie, FL", "description": "Coastal City" }
+    ]
+  },
+  "river": {
+    "pageTitle": "U.S. Locations with \"River\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that include the word \"River\" in their name. Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-river-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"River\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that includes the word \"River,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Include \"River\" in Their Name",
+      "paragraphs": [
+        "Many locations across the United States include the word \"River\" in their name, reflecting their proximity to rivers that provided water, transportation, and resources. These places often developed along waterways that shaped their growth.",
+        "Today, these \"River\" locations include major cities, small towns, and communities that have maintained their connection to waterways. Each one reflects unique stories shaped by geography, transportation, and local economy.",
+        "This resource offers a complete directory of every U.S. location containing \"River,\" along with state-by-state listings, geographic insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Colorado River, TX", "description": "Major River" },
+      { "name": "Red River, NM", "description": "Historic Town" },
+      { "name": "White River, AR", "description": "Rural Community" },
+      { "name": "Black River, WI", "description": "Small Town" }
+    ]
+  },
+  "san": {
+    "pageTitle": "U.S. Locations with \"San\" in Their Name | LocateMyCity",
+    "metaDescription": "Explore all U.S. cities and towns that start with \"San.\" Browse maps, statistics, notable locations, state lists, and distance tools.",
+    "canonicalUrl": "https://locatemycity.com/us-locations-with-san-in-the-name",
+    "hero": {
+      "title": "U.S. Locations with \"San\" in Their Name",
+      "subtitle": "Discover every U.S. city and town that starts with \"San,\" complete with map tools, state filters, and detailed insights."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Locations That Start With \"San\"",
+      "paragraphs": [
+        "Many locations across the United States start with \"San,\" reflecting Spanish colonial heritage and Catholic mission influence. These names often honor saints and reflect the Spanish exploration and settlement of the Americas.",
+        "Today, these \"San\" locations include major metropolitan areas, historic mission towns, and communities that preserve their Spanish heritage. Each one reflects unique stories shaped by colonization, religion, and cultural identity.",
+        "This resource offers a complete directory of every U.S. location starting with \"San,\" along with state-by-state listings, historical insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "San Francisco, CA", "description": "Major City" },
+      { "name": "San Diego, CA", "description": "Coastal Metropolis" },
+      { "name": "San Antonio, TX", "description": "Historic City" },
+      { "name": "San Jose, CA", "description": "Tech Hub" }
+    ]
+  },
+  "rock": {
+    "pageTitle": "Cities with \"Rock\" in the Name (USA) | LocateMyCity",
+    "metaDescription": "Discover and explore U.S. cities with 'Rock' in their names. Interactive map, statistics, and detailed information about these unique locations.",
+    "canonicalUrl": "https://locatemycity.com/cities-with-rock-in-their-name",
+    "hero": {
+      "title": "Cities with \"Rock\" in the Name",
+      "subtitle": "Discover all U.S. cities and towns that have 'Rock' in their name. Explore detailed listings with states, population insights, and more."
+    },
+    "explainer": {
+      "title": "Understanding U.S. Cities That Include \"Rock\" in Their Name",
+      "paragraphs": [
+        "Many cities across the United States include the word \"Rock\" in their name, often reflecting geological features, landmarks, or historical significance. These places may be named after rock formations, cliffs, or other natural features.",
+        "Today, these \"Rock\" cities range from major metropolitan areas to small rural communities. Each one reflects unique stories shaped by geography, history, and local identity.",
+        "This resource offers a complete directory of every U.S. location containing \"Rock,\" along with state-by-state listings, geographic insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Little Rock, AR", "description": "State Capital" },
+      { "name": "Rockville, MD", "description": "DC Suburb" },
+      { "name": "Rock Springs, WY", "description": "Historic" },
+      { "name": "Rock Hill, SC", "description": "Major City" }
+    ]
+  },
+  "spring": {
+    "pageTitle": "Cities with \"Spring\" in the Name (USA) | LocateMyCity",
+    "metaDescription": "Discover and explore U.S. cities with 'Spring' in their names. Interactive map, statistics, and detailed information about these unique locations.",
+    "canonicalUrl": "https://locatemycity.com/cities-with-spring-in-their-name",
+    "hero": {
+      "title": "Cities with \"Spring\" in the Name",
+      "subtitle": "Discover unique U.S. locations with \"Spring\" in their name"
+    },
+    "explainer": {
+      "title": "Understanding U.S. Cities That Include \"Spring\" in Their Name",
+      "paragraphs": [
+        "Many cities across the United States include the word \"Spring\" in their name, often reflecting natural springs, water sources, or seasonal characteristics. These places may be named after mineral springs, hot springs, or other water features.",
+        "Today, these \"Spring\" cities range from famous resort destinations to small rural communities. Each one reflects unique stories shaped by geography, natural resources, and local culture.",
+        "This resource offers a complete directory of every U.S. location containing \"Spring,\" along with state-by-state listings, geographic insights, and an interactive map to help you explore them easily."
+      ]
+    },
+    "notableLocations": [
+      { "name": "Hot Springs, AR", "description": "Historic Spa Town" },
+      { "name": "Sulphur Springs, TX", "description": "Famous for minerals" },
+      { "name": "Palm Springs, CA", "description": "Desert resort" },
+      { "name": "Coral Springs, FL", "description": "Master-planned city" }
+    ]
+  }
+}
+
+

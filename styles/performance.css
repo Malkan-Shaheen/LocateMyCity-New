@@ -1,0 +1,205 @@
+/* Styles for traditional individual marker maps */
+
+/* Map container optimizations */
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.map-container .leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* Loading states */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 200px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #317EFB;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Location list for traditional maps */
+.location-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+}
+
+.location-summary {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+}
+
+/* State group optimizations */
+.state-group {
+  margin-bottom: 2rem;
+  break-inside: avoid;
+}
+
+.state-group-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+  border-bottom: 2px solid #317EFB;
+  padding-bottom: 0.5rem;
+}
+
+.countries-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.country-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.country-item:hover {
+  border-color: #317EFB;
+  box-shadow: 0 2px 8px rgba(49, 126, 251, 0.1);
+}
+
+.country-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.view-map-btn {
+  background: #317EFB;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.view-map-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* Map section for traditional individual markers */
+.map-section {
+  position: relative;
+  margin: 2rem 0;
+}
+
+.map-section .loading-container {
+  min-height: 500px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Individual marker popup styles */
+.leaflet-popup-content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.leaflet-popup-content strong {
+  color: #317EFB;
+  font-weight: 600;
+}
+
+/* Responsive optimizations for traditional maps */
+@media (max-width: 768px) {
+  .map-container {
+    height: 400px;
+  }
+  
+  .countries-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .country-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .view-map-btn {
+    width: 100%;
+  }
+  
+  .location-list-container {
+    max-height: 300px;
+  }
+}
+
+/* Performance hints for traditional maps */
+.location-list-container {
+  contain: layout style paint;
+}
+
+.state-group {
+  contain: layout;
+}
+
+.country-item {
+  contain: layout style;
+}
+
+.map-container {
+  contain: layout style paint;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+  
+  .country-item,
+  .view-map-btn {
+    transition: none;
+  }
+  
+  .location-list-container {
+    scroll-behavior: auto;
+  }
+  
+  .map-container {
+    transition: none;
+  }
+}
