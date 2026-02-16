@@ -205,7 +205,7 @@ export default async function DistanceLayout({ children, params }) {
         "@type": "ListItem",
         position: 2,
         name: "Distance Calculator",
-        item: `${base}/location-from-location`,
+        item: `${base}/explore`,
       },
       {
         "@type": "ListItem",
