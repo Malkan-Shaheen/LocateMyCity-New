@@ -1,7 +1,7 @@
 'use client';
 import { FaGlobe, FaPlane, FaAnchor, FaMapMarkerAlt, FaExchangeAlt } from 'react-icons/fa';
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { notFound, useRouter, useParams, usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
@@ -997,6 +997,11 @@ export default function DistanceResult() {
 
   const router = useRouter();
   const params = useParams();
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/location-from-location/') || pathname?.startsWith('/location-from-me/')) {
+    notFound();
+  }
 
   const slug = Array.isArray(params.slug) ? params.slug : [params.slug];
   const [sourceName, destinationName] =

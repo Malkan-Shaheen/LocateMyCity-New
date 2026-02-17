@@ -205,7 +205,15 @@ export default function LocationFromMePage() {
 
   // Clean up URL if needed
   useEffect(() => {
-    if (typeof window !== 'undefined' && pathname?.includes('/how-far-is-') && pathname.split('/').length > 3) {
+    if (typeof window === 'undefined' || !pathname) return;
+
+    // If the path is under legacy prefixes, do NOT canonicalize – leave as-is
+    if (pathname.startsWith('/location-from-me/') || pathname.startsWith('/location-from-location/')) {
+      return;
+    }
+
+    // For other overly-nested /how-far-is- URLs, canonicalize to the first 3 segments
+    if (pathname.includes('/how-far-is-') && pathname.split('/').length > 3) {
       const cleanPath = pathname.split('/').slice(0, 3).join('/');
       window.history.replaceState(null, '', cleanPath);
     }
