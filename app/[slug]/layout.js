@@ -23,8 +23,13 @@ export async function generateMetadata({ params }) {
     }
   }
   if (slug.endsWith('-from-me')) {
-    const mod = await import('../location-from-me/[slug]/layout');
-    return mod.generateMetadata({ params });
+    // No longer using location-from-me/[slug]/layout - routes are handled directly
+    // Return basic metadata for from-me pages
+    const destination = slug.replace('how-far-is-', '').replace('-from-me', '').replace(/-/g, ' ');
+    return {
+      title: `How Far is ${destination} from Me? | LocateMyCity`,
+      description: `Calculate the exact distance from your current location to ${destination}. Get precise coordinates, travel information, and detailed geographical data.`,
+    };
   }
   const mod = await import('../location-from-location/[slug]/layout');
   return mod.generateMetadata({ params });
@@ -41,8 +46,9 @@ export default async function SlugLayout({ children, params }) {
     return <>{children}</>;
   }
   if (slug.endsWith('-from-me')) {
-    const LayoutFromMe = (await import('../location-from-me/[slug]/layout')).default;
-    return <LayoutFromMe params={params}>{children}</LayoutFromMe>;
+    // No longer using location-from-me/[slug]/layout - routes are handled directly
+    // LocationFromMePage component handles its own layout/structured data
+    return <>{children}</>;
   }
   const LayoutFromLocation = (await import('../location-from-location/[slug]/layout')).default;
   return <LayoutFromLocation params={params}>{children}</LayoutFromLocation>;
