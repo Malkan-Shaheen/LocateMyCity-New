@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import { MetricCard, WeatherPanel, FAQItem, RouteCard } from '../../../components/DistanceComponents';
-import Head from 'next/head';
 import AdUnit from '@/components/AdUnit';
 
 
@@ -1409,35 +1408,29 @@ export default function DistanceResult() {
     );
   }
 
-  // Render
+  // Render — title, description, canonical, robots, openGraph, twitter are set in layout generateMetadata (in <head>)
   return (
     <>
-      <Head>
-        <title>{`Distance from ${sourceShortName} to ${destinationShortName} | LocateMyCity`}</title>
-        <meta name="description" content={metaDescription} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        {/* ✅ FAQ Structured Data - Single source to avoid duplicates */}
-        {faqs.length > 0 && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": faqs.map(faq => ({
-                  "@type": "Question",
-                  "name": faq.question,
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": faq.answer
-                  }
-                }))
-              })
-            }}
-          />
-        )}
-      </Head>
+      {/* FAQ JSON-LD in body is valid and crawlable */}
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.answer
+                }
+              }))
+            })
+          }}
+        />
+      )}
 
       <Header />
       <a href="#main-content" className="skip-link">
