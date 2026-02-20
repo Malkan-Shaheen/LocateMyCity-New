@@ -45,6 +45,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
+      site: "@locatemycity",
       title: title,
       description: description,
       images: [ogImage],

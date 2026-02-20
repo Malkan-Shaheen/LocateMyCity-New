@@ -18,6 +18,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@locatemycity",
     title: "Rock Cities FAQ | LocateMyCity",
     description: "Frequently asked questions about U.S. cities with 'Rock' in their name.",
     images: [ogImage],

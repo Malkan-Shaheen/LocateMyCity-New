@@ -38,6 +38,11 @@ const toRad = (degrees) => degrees * Math.PI / 180;
 const kmToMiles = (km) => km * 0.621371;
 const kmToNauticalMiles = (km) => km * 0.539957;
 const calculateFlightTime = (km) => (km / 800).toFixed(1);
+// Format slug part for display (e.g. "new-york" -> "New York") so H1 is always visible for SEO/crawlers
+const formatSlugPart = (str) =>
+  (str || '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
 // Country data fallbacks
 const COUNTRY_DATA = {
@@ -1384,27 +1389,44 @@ export default function DistanceResult() {
     [router]
   );
 
-  // Loading screen
+  // Loading screen: still render Header + main + H1 so crawlers/audit see proper structure and title
   if (!sourcePlace || !destinationPlace || isLoading) {
+    const fromLabel = formatSlugPart(sourceName);
+    const toLabel = formatSlugPart(destinationName);
     return (
-      <div
-        className="distance-calc-loading-screen min-h-screen flex items-center justify-center"
-        role="status"
-        aria-live="polite"
-      >
-        <div className="distance-calc-loading-content text-center">
+      <>
+        <Header />
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <main id="main-content" role="main">
+          <section className="distance-result__header" role="banner" aria-labelledby="distance-header">
+            <div className="distance-result__header-content">
+              <h1 id="distance-header" className="distance-result__title">
+                How far is {fromLabel || 'here'} from {toLabel || 'there'}?
+              </h1>
+            </div>
+          </section>
           <div
-            className="distance-calc-spinner spinner border-4 border-blue-500 border-t-transparent rounded-full w-12 h-12 animate-spin mx-auto"
-            aria-hidden="true"
-          ></div>
-          <p className="distance-calc-loading-text mt-4 text-lg">
-            Loading location data...
-          </p>
-          <div className="sr-only">
-            Loading distance information, please wait
+            className="distance-calc-loading-screen min-h-[50vh] flex items-center justify-center"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="distance-calc-loading-content text-center">
+              <div
+                className="distance-calc-spinner spinner border-4 border-blue-500 border-t-transparent rounded-full w-12 h-12 animate-spin mx-auto"
+                aria-hidden="true"
+              />
+              <p className="distance-calc-loading-text mt-4 text-lg">
+                Loading location data...
+              </p>
+              <div className="sr-only">
+                Loading distance information, please wait
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </main>
+      </>
     );
   }
 

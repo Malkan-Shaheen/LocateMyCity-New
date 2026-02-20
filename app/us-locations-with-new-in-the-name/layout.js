@@ -17,6 +17,7 @@ export async function generateMetadata() {
     },
     twitter: {
       card: "summary_large_image",
+      site: "@locatemycity",
       title: "U.S. Cities with 'New' in Their Name | LocateMyCity",
       description:
         "Explore a full list of U.S. places that include 'New' in the name, complete with mapping tools and geographic insights.",

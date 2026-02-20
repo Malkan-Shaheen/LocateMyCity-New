@@ -24,6 +24,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@locatemycity',
     title: 'Travel Guides - How to Get There | LocateMyCity',
     description: 'Comprehensive travel guides on how to reach different islands and destinations. Find the best routes, transportation options, and travel tips.',
     images: [ogImage],

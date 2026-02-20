@@ -26,8 +26,8 @@ export async function generateMetadata({ params }) {
     // No longer using location-from-me/[slug]/layout - routes are handled directly
     // Return basic metadata for from-me pages
     const destination = slug.replace('how-far-is-', '').replace('-from-me', '').replace(/-/g, ' ');
-    const base = process.env.NEXT_PUBLIC_SITE_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://locatemycity.com');
+    // Always use production domain for canonical and OG so crawlers/indexing see correct URLs
+    const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://locatemycity.com';
     const canonical = `${base}/${slug}`;
     const title = `How Far is ${destination} from Me? | LocateMyCity`;
     const description = `Calculate the exact distance from your current location to ${destination}. Get precise coordinates, travel information, and detailed geographical data.`;
@@ -47,6 +47,7 @@ export async function generateMetadata({ params }) {
       },
       twitter: {
         card: 'summary_large_image',
+        site: '@locatemycity',
         title,
         description,
         images: [ogImage],

@@ -17,6 +17,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@locatemycity",
     title: "Cities with 'Color' in the Name (USA) | LocateMyCity",
     description: "Discover and explore U.S. cities with color names. Interactive map and detailed information.",
     images: [ogImage],

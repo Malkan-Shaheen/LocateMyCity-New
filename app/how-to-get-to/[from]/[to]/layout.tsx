@@ -62,6 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
+      site: "@locatemycity",
       title: `How to Get to ${toCapitalized} from ${fromCapitalized}`,
       description: `Travel guide: Best ways to get from ${fromCapitalized} to ${toCapitalized}. Compare flights, ferries, and more.`,
       images: [

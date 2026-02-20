@@ -18,6 +18,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@locatemycity",
     title: "New Cities FAQ | LocateMyCity",
     description: "FAQ about U.S. cities with 'New' in their name.",
     images: [ogImage],

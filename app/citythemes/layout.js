@@ -19,6 +19,7 @@ export async function generateMetadata() {
     },
     twitter: {
       card: 'summary_large_image',
+      site: '@locatemycity',
       title: 'City Themes | LocateMyCity',
       description:
         'Explore themed collections of U.S. cities organized by naming patterns. Discover beaches, forts, lakes, ports, and more.',

@@ -22,6 +22,11 @@ const defaultOgImage = `${baseUrl}/images/og-default.jpg`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   title: {
     default: "LocateMyCity - Distance Calculator & Location Finder",
     template: "%s | LocateMyCity",
@@ -51,6 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@locatemycity",
     title: "LocateMyCity - Distance Calculator & Location Finder",
     description:
       "Calculate distances between locations worldwide. Find how far cities, towns, and landmarks are from your current location or any starting point.",

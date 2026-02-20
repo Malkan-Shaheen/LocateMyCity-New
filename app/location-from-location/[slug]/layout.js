@@ -146,8 +146,8 @@ export async function generateMetadata({ params }) {
   // Keep description under ~155 chars to avoid "Description too long" and improve snippets
   const metaDescription = `Distance from ${capitalize(displayFrom)} to ${capitalize(displayTo)}: ~${miles} mi (${km} km). Compare routes and explore with LocateMyCity.`;
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://locatemycity.com");
+  // Always use production domain for canonical and OG so crawlers/indexing see correct URLs
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://locatemycity.com";
   const canonical = `${base}/${slug}`;
   const ogImage = `${base}/og-images/${slug}.jpg`;
 
@@ -166,6 +166,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
+      site: "@locatemycity",
       title: pageTitle,
       description: metaDescription,
       images: [ogImage],

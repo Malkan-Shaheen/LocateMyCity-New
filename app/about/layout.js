@@ -24,6 +24,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@locatemycity',
     title: 'About Us | LocateMyCity',
     description: 'LocateMyCity offers fast, accurate, and simple tools to explore the world. Verify city status, calculate distances, discover ghost towns, and search global locations with ease.',
     images: [ogImage],

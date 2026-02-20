@@ -17,6 +17,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@locatemycity",
     title: "Lake Cities FAQ | LocateMyCity",
     description: "FAQ about U.S. cities and towns with 'Lake' in their name.",
     images: [ogImage],
