@@ -143,14 +143,11 @@ export async function generateMetadata({ params }) {
   const pageTitle = `How Far is ${capitalize(
     displayFrom
   )} from ${capitalize(displayTo)}?`;
-  const metaDescription = `The distance from ${capitalize(
-    displayFrom
-  )} to ${capitalize(
-    displayTo
-  )} is approximately ${miles} miles (${km} km / ${nauticalMiles} nautical miles). Use LocateMyCity's Distance Calculator to measure distances, compare routes, and explore nearby attractions.`;
+  // Keep description under ~155 chars to avoid "Description too long" and improve snippets
+  const metaDescription = `Distance from ${capitalize(displayFrom)} to ${capitalize(displayTo)}: ~${miles} mi (${km} km). Compare routes and explore with LocateMyCity.`;
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://locatemycity.com');
+  const base = process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://locatemycity.com");
   const canonical = `${base}/${slug}`;
   const ogImage = `${base}/og-images/${slug}.jpg`;
 
@@ -172,6 +169,7 @@ export async function generateMetadata({ params }) {
       title: pageTitle,
       description: metaDescription,
       images: [ogImage],
+      creator: "@locatemycity",
     },
     alternates: { canonical },
     other: { fromLat, fromLon, toLat, toLon, km, miles, nauticalMiles },

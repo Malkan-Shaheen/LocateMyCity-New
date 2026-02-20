@@ -21,6 +21,7 @@ const baseUrl = "https://locatemycity.com";
 const defaultOgImage = `${baseUrl}/images/og-default.jpg`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
     default: "LocateMyCity - Distance Calculator & Location Finder",
     template: "%s | LocateMyCity",
