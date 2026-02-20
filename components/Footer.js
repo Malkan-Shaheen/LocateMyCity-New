@@ -17,18 +17,42 @@ export default function Footer() {
               target="_blank" 
               rel="noopener noreferrer"
               className="social-link1"
-              aria-label="Follow us on Facebook"
+              aria-label="Follow LocateMyCity on Facebook"
             >
-              <FaFacebook className="social-icon" />
+              <FaFacebook className="social-icon" aria-hidden="true" />
+              <span style={{
+                position: 'absolute',
+                width: '1px',
+                height: '1px',
+                padding: 0,
+                margin: '-1px',
+                overflow: 'hidden',
+                clip: 'rect(0, 0, 0, 0)',
+                border: 0,
+              }}>
+                Follow LocateMyCity on Facebook
+              </span>
             </a>
             <a 
               href="https://www.instagram.com/locatemycitynow" 
               target="_blank" 
               rel="noopener noreferrer"
               className="social-link1"
-              aria-label="Follow us on Instagram"
+              aria-label="Follow LocateMyCity on Instagram"
             >
-              <FaInstagram className="social-icon" />
+              <FaInstagram className="social-icon" aria-hidden="true" />
+              <span style={{
+                position: 'absolute',
+                width: '1px',
+                height: '1px',
+                padding: 0,
+                margin: '-1px',
+                overflow: 'hidden',
+                clip: 'rect(0, 0, 0, 0)',
+                border: 0,
+              }}>
+                Follow LocateMyCity on Instagram
+              </span>
             </a>
           </div>
         </div>
