@@ -2,35 +2,35 @@ import { getNewCities } from '@/actions';
 
 export async function generateMetadata() {
   return {
-    title: "U.S. Cities with 'New' in Their Name | LocateMyCity",
+    title: "U.S. Cities with 'San' in Their Name | LocateMyCity",
     description:
-      "Explore a complete list of U.S. cities and towns that include the word 'New' in their name. View locations, states, and interactive map tools.",
+      "Explore a complete list of U.S. cities and towns that include the word 'San' in their name. View locations, states, and interactive map tools.",
     robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     openGraph: {
-      title: "U.S. Cities with 'New' in Their Name | LocateMyCity",
+      title: "U.S. Cities with 'San' in Their Name | LocateMyCity",
       description:
-        "Browse every U.S. city or town featuring 'New' in the name. Includes maps, detailed listings, and state-by-state browsing.",
-      url: "https://locatemycity.com/us-locations-with-new-in-the-name",
+        "Browse every U.S. city or town featuring 'San' in the name. Includes maps, detailed listings, and state-by-state browsing.",
+      url: "https://locatemycity.com/us-locations-with-san-in-the-name",
       type: "website",
       siteName: "LocateMyCity",
       locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: "U.S. Cities with 'New' in Their Name | LocateMyCity",
+      title: "U.S. Cities with 'San' in Their Name | LocateMyCity",
       description:
-        "Explore a full list of U.S. places that include 'New' in the name, complete with mapping tools and geographic insights.",
+        "Explore a full list of U.S. places that include 'San' in the name, complete with mapping tools and geographic insights.",
     },
     alternates: {
-      canonical: "https://locatemycity.com/us-locations-with-new-in-the-name",
+      canonical: "https://locatemycity.com/us-locations-with-san-in-the-name",
     },
     keywords: [
-      "cities with new in the name",
-      "towns with new",
-      "US cities new",
-      "places named new",
-      "new locations usa",
-      "LocateMyCity new dataset",
+      "cities with san in the name",
+      "towns with san",
+      "US cities san",
+      "places named san",
+      "san locations usa",
+      "LocateMyCity san dataset",
     ],
   };
 }

@@ -48,7 +48,6 @@ export default function RockFAQPage() {
           name="description"
           content="Frequently asked questions about U.S. cities with 'Rock' in their name — data updates, map tools, filters, and distance features."
         />
-        <link rel="canonical" href="https://locatemycity.com/cities-with-rock/faq" />
       </Head>
 
       <main className="flex-grow py-16 px-6 sm:px-10 max-w-5xl mx-auto">

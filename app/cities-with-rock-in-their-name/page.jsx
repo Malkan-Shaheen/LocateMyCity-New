@@ -187,8 +187,6 @@ export default function RockyLocationsExplorer() {
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="author" content="LocateMyCity" />
         
-        <link rel="canonical" href="https://locatemycity.com/cities-with-rock" />
-        
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://locatemycity.com/cities-with-rock" />
         <meta property="og:title" content="Cities with 'Rock' in the Name (USA) | LocateMyCity" />

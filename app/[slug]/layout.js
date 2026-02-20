@@ -26,14 +26,30 @@ export async function generateMetadata({ params }) {
     // No longer using location-from-me/[slug]/layout - routes are handled directly
     // Return basic metadata for from-me pages
     const destination = slug.replace('how-far-is-', '').replace('-from-me', '').replace(/-/g, ' ');
-    const base = process.env.NEXT_PUBLIC_SITE_URL || 
+    const base = process.env.NEXT_PUBLIC_SITE_URL ||
       (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://locatemycity.com');
     const canonical = `${base}/${slug}`;
+    const title = `How Far is ${destination} from Me? | LocateMyCity`;
+    const description = `Calculate the exact distance from your current location to ${destination}. Get precise coordinates, travel information, and detailed geographical data.`;
+    const ogImage = `${base}/og-images/${slug}.jpg`;
     return {
-      title: `How Far is ${destination} from Me? | LocateMyCity`,
-      description: `Calculate the exact distance from your current location to ${destination}. Get precise coordinates, travel information, and detailed geographical data.`,
-      alternates: {
-        canonical: canonical,
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: {
+        title,
+        description,
+        url: canonical,
+        type: 'website',
+        siteName: 'LocateMyCity',
+        locale: 'en_US',
+        images: [{ url: ogImage, width: 1200, height: 630, alt: `Distance to ${destination} from your location` }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [ogImage],
       },
     };
   }

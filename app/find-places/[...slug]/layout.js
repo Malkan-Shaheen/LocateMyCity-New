@@ -25,6 +25,9 @@ export async function generateMetadata({ params }) {
   const title = `Cities and towns within ${radius} miles of ${capitalizedLocation} | LocateMyCity`;
   const description = `Discover cities, towns, and parks within ${radius} miles of ${capitalizedLocation}. Find distances, coordinates, and explore nearby locations with interactive maps.`;
   
+  const canonicalUrl = `https://locatemycity.com/places-${radius}-miles-from-${location.replace(/\s+/g, '-').toLowerCase()}`;
+  const ogImage = "https://locatemycity.com/images/og-default.jpg";
+
   return {
     title: title,
     description: description,
@@ -35,17 +38,19 @@ export async function generateMetadata({ params }) {
       title: title,
       description: description,
       type: "website",
-      url: `https://locatemycity.com/places-${radius}-miles-from-${location.replace(/\s+/g, '-').toLowerCase()}`,
+      url: canonicalUrl,
       siteName: "LocateMyCity",
       locale: "en_US",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `Places within ${radius} miles of ${capitalizedLocation}` }],
     },
     twitter: {
       card: "summary_large_image",
       title: title,
       description: description,
+      images: [ogImage],
     },
     alternates: {
-      canonical: `https://locatemycity.com/places-${radius}-miles-from-${location.replace(/\s+/g, '-').toLowerCase()}`,
+      canonical: canonicalUrl,
     },
   };
 }

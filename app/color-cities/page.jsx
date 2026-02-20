@@ -194,8 +194,6 @@ export default function ColorLocationsExplorer() {
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="author" content="LocateMyCity" />
         
-        <link rel="canonical" href="https://locatemycity.com/color-cities" />
-        
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://locatemycity.com/color-cities" />
         <meta property="og:title" content="Cities with 'Color' in the Name (USA) | LocateMyCity" />

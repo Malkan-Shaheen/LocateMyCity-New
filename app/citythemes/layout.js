@@ -1,3 +1,6 @@
+const baseUrl = 'https://locatemycity.com';
+const ogImage = `${baseUrl}/images/og-default.jpg`;
+
 export async function generateMetadata() {
   return {
     title: 'City Themes | LocateMyCity',
@@ -8,19 +11,21 @@ export async function generateMetadata() {
       title: 'City Themes | LocateMyCity',
       description:
         'Browse themed collections of U.S. cities - from beach towns to historic forts. Interactive maps and detailed location information for each theme.',
-      url: 'https://locatemycity.com/citythemes',
+      url: `${baseUrl}/citythemes`,
       type: 'website',
       siteName: 'LocateMyCity',
       locale: 'en_US',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: 'LocateMyCity City Themes' }],
     },
     twitter: {
       card: 'summary_large_image',
       title: 'City Themes | LocateMyCity',
       description:
         'Explore themed collections of U.S. cities organized by naming patterns. Discover beaches, forts, lakes, ports, and more.',
+      images: [ogImage],
     },
     alternates: {
-      canonical: 'https://locatemycity.com/citythemes',
+      canonical: `${baseUrl}/citythemes`,
     },
     keywords: [
       'city themes',

@@ -185,7 +185,6 @@ export default function NewLocationsExplorer() {
       <Head>
         <title>{metadata.pageTitle}</title>
         <meta name="description" content={metadata.metaDescription} />
-        <link rel="canonical" href={metadata.canonicalUrl} />
       </Head>
 
       <div className="sr-only" aria-live="polite">

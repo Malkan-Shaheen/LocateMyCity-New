@@ -59,10 +59,6 @@ export default function NewCitiesFAQPage() {
           name="description"
           content="SEO-optimized FAQ about U.S. cities with 'New' in their name — historical background, common names, data updates, state filters, and distance tools."
         />
-        <link
-          rel="canonical"
-          href="https://locatemycity.com/us-locations-with-new-in-the-name/faq"
-        />
       </Head>
 
       <main className="flex-grow py-16 px-6 sm:px-10 max-w-5xl mx-auto">

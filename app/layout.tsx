@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
   preload: true,
 });
 
+const baseUrl = "https://locatemycity.com";
+const defaultOgImage = `${baseUrl}/images/og-default.jpg`;
+
 export const metadata: Metadata = {
   title: {
     default: "LocateMyCity - Distance Calculator & Location Finder",
@@ -27,6 +30,30 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  openGraph: {
+    type: "website",
+    siteName: "LocateMyCity",
+    locale: "en_US",
+    url: baseUrl,
+    title: "LocateMyCity - Distance Calculator & Location Finder",
+    description:
+      "Calculate distances between locations worldwide. Find how far cities, towns, and landmarks are from your current location or any starting point.",
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: "LocateMyCity - Distance Calculator & Location Finder",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LocateMyCity - Distance Calculator & Location Finder",
+    description:
+      "Calculate distances between locations worldwide. Find how far cities, towns, and landmarks are from your current location or any starting point.",
+    images: [defaultOgImage],
   },
 };
 

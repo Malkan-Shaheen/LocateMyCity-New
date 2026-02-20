@@ -244,8 +244,6 @@ export default function SpringLocationsExplorer() {
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="author" content="LocateMyCity" />
         
-        <link rel="canonical" href="https://locatemycity.com/cities-with-spring" />
-        
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://locatemycity.com/cities-with-spring" />
         <meta property="og:title" content="Cities with 'Spring' in the Name (USA) | LocateMyCity" />
