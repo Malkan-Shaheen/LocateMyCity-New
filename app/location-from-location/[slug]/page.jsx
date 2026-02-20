@@ -1623,7 +1623,7 @@ export default function DistanceResult() {
                           }}
                           className="distance-result__nearby-routes-link"
                         >
-                          {group.cityName} → {dest}
+                          Calculate distance from {group.cityName} to {dest}
                         </a>
                       </li>
                     ))}
@@ -1684,7 +1684,7 @@ export default function DistanceResult() {
                       }}
                       className="distance-result__nearby-routes-link"
                     >
-                      {sourceShortName} → {dest}
+                      Find distance from {sourceShortName} to {dest}
                     </a>
                   </li>
                 ))}
@@ -1895,7 +1895,7 @@ export default function DistanceResult() {
                 <p className="distance-result__reverse-route-intro">Looking for the opposite direction?</p>
                 <ul className="distance-result__reverse-route-list">
                 <li>
-                  <a
+                    <a
                     href={`/how-far-is-${toLocationSlug(destinationShortName)}-from-${toLocationSlug(sourceShortName)}`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -1903,7 +1903,7 @@ export default function DistanceResult() {
                     }}
                     className="distance-result__reverse-route-link"
                   >
-                    {destinationShortName} → {sourceShortName}
+                    Calculate reverse route from {destinationShortName} to {sourceShortName}
                   </a>
                   — see the distance, travel time, and route details.
                 </li>
@@ -1971,7 +1971,13 @@ export default function DistanceResult() {
                     }}
                     className={`distance-result__more-routes-card distance-result__more-routes-card--${idx % 4}`}
                   >
-                    <span className="distance-result__more-routes-card-route">{src} → {dest}</span>
+                    <span className="distance-result__more-routes-card-route">
+                      {idx % 3 === 0 
+                        ? `Distance from ${src} to ${dest}`
+                        : idx % 3 === 1
+                        ? `How far is ${dest} from ${src}?`
+                        : `Calculate ${src} to ${dest} distance`}
+                    </span>
                   </a>
                 ))}
               </div>

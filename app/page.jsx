@@ -68,7 +68,7 @@ export default function Home() {
         />
       </Head>
 
-      <main>
+      <main id="main-content">
         <Header />
         <Hero />
 

@@ -61,7 +61,7 @@ export default function NotFound() {
           <div style={{ fontSize: '0.9rem', margin: '0 0 0 0', color: '#666', lineHeight: '1.6', textAlign: 'left' }}>
             <p style={{ margin: '4px 0' }}>• <Link href="/find-places" style={{ color: '#158bf5', textDecoration: 'underline' }}>Search a city or town</Link> to see distance, location details, or nearby places</p>
             <p style={{ margin: '4px 0' }}>• <Link href="/find-places" style={{ color: '#158bf5', textDecoration: 'underline' }}>Find cities within a radius</Link> (50, 100, 500, or 1000 miles)</p>
-            <p style={{ margin: '4px 0' }}>• <Link href="/citythemes" style={{ color: '#158bf5', textDecoration: 'underline' }}>s themed city </Link> lists (cities with "Spring," "Rock," "Lake," and more in the name)</p><br/>
+            <p style={{ margin: '4px 0' }}>• <Link href="/citythemes" style={{ color: '#158bf5', textDecoration: 'underline' }}>Browse themed city</Link> lists (cities with "Spring," "Rock," "Lake," and more in the name)</p><br/>
               </div>
             </div>
 

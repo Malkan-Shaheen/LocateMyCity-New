@@ -23,7 +23,7 @@ export default function ContactPage() {
       <div className="contact-page">
         <Header />
         
-        <main>
+        <main id="main-content">
         {/* Hero Section */}
         <section className="contact-hero">
           <div className="hero-overlay"></div>
@@ -89,6 +89,12 @@ export default function ContactPage() {
             <p>
               Your feedback helps us improve LocateMyCity for everyone. We appreciate every message we receive.
             </p>
+            <div style={{ marginTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+              <a href="/explore" style={{ color: '#158bf5', textDecoration: 'underline' }}>Explore Distance Calculators</a>
+              <a href="/find-places" style={{ color: '#158bf5', textDecoration: 'underline' }}>Search Places</a>
+              <a href="/citythemes" style={{ color: '#158bf5', textDecoration: 'underline' }}>Browse City Themes</a>
+              <a href="/about" style={{ color: '#158bf5', textDecoration: 'underline' }}>Learn More About Us</a>
+            </div>
           </div>
          
         </section>

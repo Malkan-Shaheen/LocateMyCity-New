@@ -1007,7 +1007,13 @@ export default function LocationFromMePage() {
               href={`/how-far-is-${citySlug}-from-${destSlug}`}
               prefetch={false}
             >
-              {city} to {destinationName ? destinationName.split(',')[0] : 'this location'}
+              {index === 0 
+                ? `Calculate distance from ${city} to ${destinationName ? destinationName.split(',')[0] : 'this location'}`
+                : index === 1
+                ? `How far is ${city} from ${destinationName ? destinationName.split(',')[0] : 'this location'}?`
+                : index === 2
+                ? `Find distance between ${city} and ${destinationName ? destinationName.split(',')[0] : 'this location'}`
+                : `Measure distance from ${city} to ${destinationName ? destinationName.split(',')[0] : 'this location'}`}
             </Link>
           </li>
         );

@@ -147,7 +147,7 @@ export default function BlogPage() {
 
       <Header />
 
-      <main className="blog-main">
+      <main id="main-content" className="blog-main">
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-container">

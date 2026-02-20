@@ -71,7 +71,7 @@ export default function DistanceCalculator() {
         />
       </Head>
 
-      <main className="main2">
+      <main id="main-content" className="main2">
         <div className="card2">
           <div className="card-border-top2" />
           <div className="card-content2">

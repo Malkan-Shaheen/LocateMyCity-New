@@ -41,7 +41,7 @@ const AboutPage = () => {
 </meta>
       </Head>
 
-      <main className="about-main">
+      <main id="main-content" className="about-main">
         {/* Hero */}
         <section className="about-hero">
           <h1>About <span>LocateMyCity</span></h1>
@@ -89,12 +89,20 @@ const AboutPage = () => {
         <section className="about-cta">
       <h3>Start Exploring Today</h3>
       <p>Dive into the world with LocateMyCity — where every location tells a story.</p>
-      <button
-        onClick={() => router.push("/")}
-        aria-label="Try our location tools and calculators"
-      >
-        Try Our Tools Now
-      </button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center', marginTop: '1.5rem' }}>
+        <button
+          onClick={() => router.push("/")}
+          aria-label="Try our location tools and calculators"
+        >
+          Try Our Tools Now
+        </button>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', marginTop: '1rem' }}>
+          <a href="/explore" style={{ color: '#158bf5', textDecoration: 'underline' }}>Explore Distance Calculators</a>
+          <a href="/find-places" style={{ color: '#158bf5', textDecoration: 'underline' }}>Find Places & Cities</a>
+          <a href="/citythemes" style={{ color: '#158bf5', textDecoration: 'underline' }}>Browse City Themes</a>
+          <a href="/location-from-me" style={{ color: '#158bf5', textDecoration: 'underline' }}>Distance From Me Calculator</a>
+        </div>
+      </div>
     </section>
       </main>
 

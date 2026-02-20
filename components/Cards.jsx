@@ -17,7 +17,7 @@ export default function Features() {
       icon: "/Images/map.png",
       title: "Location to Location",
       desc: "Measure the distance between two locations of your choice.",
-      link: "/location-from-location",
+      link: "/explore",
       btn: "Compare Locations",
     },
     {

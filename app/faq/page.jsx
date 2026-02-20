@@ -50,7 +50,7 @@ export default function FAQPage() {
         <link rel="preload" href="/globals.css" as="style" />
         <meta name="robots" content="index, follow"></meta>
       </Head>
-      <main className="faq-page">
+      <main id="main-content" className="faq-page">
         <h1 className="faq-title">Frequently Asked Questions</h1>
         <div className="faq-list">
           {faqs.map((faq, index) => (
@@ -74,10 +74,33 @@ export default function FAQPage() {
                 aria-labelledby={`faq-question-${index}`}
                 hidden={openIndex !== index}
               >
-                {openIndex === index && <p>{faq.answer}</p>}
+                {openIndex === index && (
+                  <div>
+                    <p>{faq.answer}</p>
+                    {index === 1 && (
+                      <p style={{ marginTop: '1rem' }}>
+                        Try our <a href="/explore" style={{ color: '#158bf5', textDecoration: 'underline' }}>distance calculator tools</a> or <a href="/find-places" style={{ color: '#158bf5', textDecoration: 'underline' }}>search for places</a> to get started.
+                      </p>
+                    )}
+                    {index === 2 && (
+                      <p style={{ marginTop: '1rem' }}>
+                        Visit our <a href="/explore" style={{ color: '#158bf5', textDecoration: 'underline' }}>explore page</a> to compare distances between multiple cities and locations.
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
+        </div>
+        <div style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#f5f5f5', borderRadius: '8px', textAlign: 'center' }}>
+          <h2 style={{ marginBottom: '1rem' }}>Explore Our Tools</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+            <a href="/explore" style={{ color: '#158bf5', textDecoration: 'underline' }}>Browse Distance Calculators</a>
+            <a href="/find-places" style={{ color: '#158bf5', textDecoration: 'underline' }}>Find Places & Cities</a>
+            <a href="/citythemes" style={{ color: '#158bf5', textDecoration: 'underline' }}>City Themes Explorer</a>
+            <a href="/location-from-me" style={{ color: '#158bf5', textDecoration: 'underline' }}>Distance From Me</a>
+          </div>
         </div>
       </main>
       <Footer />
