@@ -34,7 +34,7 @@ export default function TermsConditionsPage() {
       <div className="terms-page">
         <Header />
 
-        <main>
+        <main id="main-content">
           {/* Hero Section */}
           <section className="contact-hero">
             <div className="hero-overlay"></div>

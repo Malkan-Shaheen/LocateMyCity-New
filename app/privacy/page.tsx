@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
       <div className="privacy-page">
         <Header />
 
-        <main>
+        <main id="main-content">
           {/* Hero Section */}
           <section className="contact-hero">
             <div className="hero-overlay"></div>

@@ -285,11 +285,11 @@ const router = useRouter();
 
             <div className="header-right">
               <nav className="nav-links" aria-label="Main navigation">
-                <a href="/" onClick={(e) => handleNavigation(e, '/')}>Home – Distance Tools</a>
-                <a href="/citythemes" onClick={(e) => handleNavigation(e, '/citythemes')}>City Themes Explorer</a>
-                <a href="/blog" onClick={(e) => handleNavigation(e, '/blog')}>Travel Guides Blog</a>
-                <a href="/about" onClick={(e) => handleNavigation(e, '/about')}>About LocateMyCity</a>
-                <a href="/contact" onClick={(e) => handleNavigation(e, '/contact')}>Contact LocateMyCity</a>
+                <a href="/" onClick={(e) => handleNavigation(e, '/')}>Home</a>
+                <a href="/citythemes" onClick={(e) => handleNavigation(e, '/citythemes')}>City Themes</a>
+                <a href="/blog" onClick={(e) => handleNavigation(e, '/blog')}>Blog</a>
+                <a href="/about" onClick={(e) => handleNavigation(e, '/about')}>About</a>
+                <a href="/contact" onClick={(e) => handleNavigation(e, '/contact')}>Contact</a>
               </nav>
 
               <button
@@ -317,35 +317,35 @@ const router = useRouter();
     tabIndex={menuOpen ? 0 : -1}
     onClick={(e) => handleNavigation(e, '/')}
   >
-    Home – Distance Tools
+    Home
   </a>
   <a
     href="/citythemes"
     tabIndex={menuOpen ? 0 : -1}
     onClick={(e) => handleNavigation(e, '/citythemes')}
   >
-    City Themes Explorer
+    City Themes
   </a>
   <a
     href="/blog"
     tabIndex={menuOpen ? 0 : -1}
     onClick={(e) => handleNavigation(e, '/blog')}
   >
-    Travel Guides Blog
+    Blog
   </a>
   <a
     href="/about"
     tabIndex={menuOpen ? 0 : -1}
     onClick={(e) => handleNavigation(e, '/about')}
   >
-    About LocateMyCity
+    About
   </a>
   <a
     href="/contact"
     tabIndex={menuOpen ? 0 : -1}
     onClick={(e) => handleNavigation(e, '/contact')}
   >
-    Contact LocateMyCity
+    Contact
   </a>
     
 </div>

@@ -46,9 +46,28 @@ export default async function SlugLayout({ children, params }) {
     return <>{children}</>;
   }
   if (slug.endsWith('-from-me')) {
-    // No longer using location-from-me/[slug]/layout - routes are handled directly
-    // LocationFromMePage component handles its own layout/structured data
-    return <>{children}</>;
+    // From‑me distance pages: add a tiny, hidden nav so crawlers
+    // see outgoing internal links, but keep the visual UI unchanged.
+    return (
+      <>
+        <nav
+          aria-label="Hidden internal navigation"
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            top: "auto",
+            width: "1px",
+            height: "1px",
+            overflow: "hidden",
+          }}
+        >
+          <a href="/explore">Explore distance calculators</a>
+          <a href="/find-places">Find nearby places</a>
+          <a href="/citythemes">Browse city themes</a>
+        </nav>
+        {children}
+      </>
+    );
   }
   const LayoutFromLocation = (await import('../location-from-location/[slug]/layout')).default;
   return <LayoutFromLocation params={params}>{children}</LayoutFromLocation>;

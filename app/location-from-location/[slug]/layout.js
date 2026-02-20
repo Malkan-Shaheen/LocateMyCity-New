@@ -290,6 +290,26 @@ export default async function DistanceLayout({ children, params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+
+      {/* Visually hidden internal links so distance result pages
+          always have crawlable outgoing links without changing
+          the visible UI. */}
+      <nav
+        aria-label="Hidden internal navigation"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          top: "auto",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        <a href="/explore">Explore distance calculators</a>
+        <a href="/find-places">Find nearby places</a>
+        <a href="/citythemes">Browse city themes</a>
+      </nav>
+
       {/* ❌ REMOVED: FAQ Schema - now handled in page component to avoid duplicates */}
       {children}
     </>

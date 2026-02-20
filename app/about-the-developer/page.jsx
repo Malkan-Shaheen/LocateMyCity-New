@@ -51,6 +51,7 @@ const AboutDeveloperPage = () => {
       </Head>
 
       <main
+        id="main-content"
         className="about-developer-main"
         style={{ display: 'flex', justifyContent: 'center' }}
       >
