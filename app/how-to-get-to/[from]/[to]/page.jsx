@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useMemo, useRef, lazy, Suspense } from "react";
 import React from 'react';
-import Head from 'next/head';
 import Header from '../../../../components/Header';
 import { FaPlane, FaShip, FaMapMarkerAlt, FaChevronDown, FaChevronUp, FaTrain } from 'react-icons/fa';
 import Link from 'next/link';
@@ -644,7 +643,7 @@ const fetchBackgroundImage = async () => {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50 card5">
         <Header />
-        <main className="flex-grow pt-16 flex items-center justify-center card5">
+        <main id="main-content" className="flex-grow pt-16 flex items-center justify-center card5">
           <div className="text-center card5">
             <h1 className="text-4xl font-bold text-gray-800 mb-4 card5">404 - Page Not Found</h1>
             <p className="text-gray-600 mb-8">
@@ -662,7 +661,7 @@ const fetchBackgroundImage = async () => {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
-        <main className="flex-grow pt-16 flex items-center justify-center">
+        <main id="main-content" className="flex-grow pt-16 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading travel information...</p>
@@ -694,66 +693,59 @@ const fetchBackgroundImage = async () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 ">
-      <Head>
-
-          <title>{pageData?.title || `How to Get from ${sourceName} to ${destinationName}`}</title>
-  <meta name="description" content={intro.description} />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href={`https://yourdomain.com/${slug}`} />
-  
-  {/* Preload critical resources */}
-  {background.imageUrl && (
-    <link rel="preload" href={background.imageUrl} as="image" fetchPriority="high" />
-  )}
-  <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      {/* Metadata (title, description, canonical, robots) is handled by layout's generateMetadata */}
+      {/* Preload critical resources */}
+      {background.imageUrl && (
+        <link rel="preload" href={background.imageUrl} as="image" fetchPriority="high" />
+      )}
+      <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://images.unsplash.com" />
         
-        {/* Inline critical CSS */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            /* Critical above-the-fold styles */
-            .flex { display: flex; }
-            .hidden { display: none; }
-            .min-h-screen { min-height: 100vh; }
-            .bg-gray-50 { background-color: #f9fafb; }
-            .pt-16 { padding-top: 4rem; }
-            .relative { position: relative; }
-            .z-10 { z-index: 10; }
-            .w-full { width: 100%; }
-            .max-w-6xl { max-width: 72rem; }
-            .mx-auto { margin-left: auto; margin-right: auto; }
-            .px-4 { padding-left: 1rem; padding-right: 1rem; }
-            .absolute { position: absolute; }
-            .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-            .object-cover { object-fit: cover; }
-            .bg-blue-900\\/40 { background-color: rgba(30, 58, 138, 0.4); }
-            .text-white { color: white; }
-            .text-3xl { font-size: 1.875rem; }
-            .font-extrabold { font-weight: 800; }
-            .mb-6 { margin-bottom: 1.5rem; }
-            
-            /* Non-critical styles loaded after page render */
-            .non-critical {
-              display: none;
-            }
-          `
-        }} />
+      {/* Inline critical CSS */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          /* Critical above-the-fold styles */
+          .flex { display: flex; }
+          .hidden { display: none; }
+          .min-h-screen { min-height: 100vh; }
+          .bg-gray-50 { background-color: #f9fafb; }
+          .pt-16 { padding-top: 4rem; }
+          .relative { position: relative; }
+          .z-10 { z-index: 10; }
+          .w-full { width: 100%; }
+          .max-w-6xl { max-width: 72rem; }
+          .mx-auto { margin-left: auto; margin-right: auto; }
+          .px-4 { padding-left: 1rem; padding-right: 1rem; }
+          .absolute { position: absolute; }
+          .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+          .object-cover { object-fit: cover; }
+          .bg-blue-900\\/40 { background-color: rgba(30, 58, 138, 0.4); }
+          .text-white { color: white; }
+          .text-3xl { font-size: 1.875rem; }
+          .font-extrabold { font-weight: 800; }
+          .mb-6 { margin-bottom: 1.5rem; }
+          
+          /* Non-critical styles loaded after page render */
+          .non-critical {
+            display: none;
+          }
+        `
+      }} />
         
-        {/* Defer non-critical CSS */}
-        <link 
-          rel="stylesheet" 
-          href="/css/c4483bb45b5d37ff.css" 
-          media="print" 
-          onLoad="this.media='all'" 
-        />
-        <noscript>
-          <link rel="stylesheet" href="/css/c4483bb45b5d37ff.css" />
-        </noscript>
-      </Head>
+      {/* Defer non-critical CSS */}
+      <link 
+        rel="stylesheet" 
+        href="/css/c4483bb45b5d37ff.css" 
+        media="print" 
+        onLoad="this.media='all'" 
+      />
+      <noscript>
+        <link rel="stylesheet" href="/css/c4483bb45b5d37ff.css" />
+      </noscript>
 
       <Header />
 
-      <main className="flex-grow pt-16">
+      <main id="main-content" className="flex-grow pt-16">
 
 
 <section 
