@@ -1452,15 +1452,7 @@ export default function DistanceResult() {
         >
           <div className="distance-result__header-content">
             <h1 id="distance-header" className="distance-result__title">
-              How far is{' '}
-              <span className="distance-result__highlight">
-                {sourceShortName}
-              </span>{' '}
-              from{' '}
-              <span className="distance-result__highlight">
-                {destinationShortName}
-              </span>
-              ?
+              How far is {sourceShortName} from {destinationShortName}?
             </h1>
 
             {!isLoading && geographicContext && sourceGeoContext && destinationGeoContext && (

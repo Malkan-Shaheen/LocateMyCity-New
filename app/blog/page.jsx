@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from "react";
-import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Image from 'next/image';
@@ -139,12 +138,7 @@ export default function BlogPage() {
 
   return (
     <div className="blog-page">
-      <Head>
-        <title>Travel Guides - How to Get There | LocateMyCity</title>
-        <meta name="description" content="Comprehensive travel guides on how to reach different islands and destinations. Find the best routes, transportation options, and travel tips." />
-        <meta name="robots" content="index, follow" />
-      </Head>
-
+      {/* Metadata is handled by layout.js */}
       <Header />
 
       <main id="main-content" className="blog-main">

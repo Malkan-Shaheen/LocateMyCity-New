@@ -777,7 +777,7 @@ const fetchBackgroundImage = async () => {
           <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center h-full">
             <div className="max-w-2xl bg-opacity-20 rounded-xl p-6 sm:p-8 mx-auto hero1">
               <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-lg text-left">
-                How to Get to <span className="text-yellow-400">{destinationName}</span>  from<span className="block"></span> <span className="text-yellow-400">{sourceName}</span> 
+                How to Get to {destinationName} from {sourceName}
               </h1>
 
               <p className="text-sm sm:text-base md:text-xl text-gray-200 leading-relaxed max-w-3xl mb-10 drop-shadow-md text-left">

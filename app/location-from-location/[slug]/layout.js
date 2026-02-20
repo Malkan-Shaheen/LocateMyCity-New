@@ -149,8 +149,10 @@ export async function generateMetadata({ params }) {
     displayTo
   )} is approximately ${miles} miles (${km} km / ${nauticalMiles} nautical miles). Use LocateMyCity's Distance Calculator to measure distances, compare routes, and explore nearby attractions.`;
 
-  const canonical = `https://locatemycity.com/${slug}`;
-  const ogImage = `https://locatemycity.com/og-images/${slug}.jpg`;
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://locatemycity.com');
+  const canonical = `${base}/${slug}`;
+  const ogImage = `${base}/og-images/${slug}.jpg`;
 
   return {
     title: pageTitle,

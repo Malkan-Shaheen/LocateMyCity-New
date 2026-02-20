@@ -1310,7 +1310,7 @@ export default function LocationFromMePage() {
 
         <div className="cards-container" style={{ minHeight: '400px', contain: 'layout style' }}>
           <div className="info-card" style={{ minHeight: '350px', contain: 'layout style' }}>
-            <h1 style={{ minHeight: '40px', contain: 'layout style' }}>Distance to Destination</h1>
+            <h2 style={{ minHeight: '40px', contain: 'layout style' }}>Distance to Destination</h2>
             
             <div className="distance-value" role="status" aria-live="polite" style={{ minHeight: '100px', contain: 'layout style' }}>
               {distanceDisplay}
@@ -1355,7 +1355,7 @@ export default function LocationFromMePage() {
         <div className="cards-container" style={{ minHeight: '600px', contain: 'layout style' }}>
           {/* Weather Card */}
           <div className="info-card weather-card" style={{ minHeight: '400px', contain: 'layout style' }}>
-            <h3 style={{ minHeight: '30px', contain: 'layout style' }}>Current Weather</h3>
+            <h2 style={{ minHeight: '30px', contain: 'layout style' }}>Current Weather</h2>
             <div className="weather-display" style={{ minHeight: '200px', contain: 'layout style' }}>
               {weatherIcon}
               {!weather.loading && !weather.error && (
@@ -1459,7 +1459,7 @@ export default function LocationFromMePage() {
 
         {/* Wikipedia Info Card */}
         <div className="info-card" style={{ minHeight: '400px', contain: 'layout style' }}>
-          <h3 style={{ minHeight: '30px', contain: 'layout style' }}>About {destinationName}</h3>
+          <h2 style={{ minHeight: '30px', contain: 'layout style' }}>About {destinationName}</h2>
 
           <div style={{ minHeight: '350px', contain: 'layout style' }}>
             {wiki.loading ? (

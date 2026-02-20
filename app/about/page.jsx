@@ -2,7 +2,6 @@
 import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import Head from 'next/head';
 import { useRouter } from "next/navigation";
 
 
@@ -29,22 +28,13 @@ const AboutPage = () => {
   return (
     <div className="about-page">
       <Header />
-      <Head>
-        <title>{`About Us | Locatemycity`}</title>
-         <meta
-    name="description"
-    content="LocateMyCity offers fast, accurate, and simple tools to explore the world. 
-    Verify city status, calculate distances, discover ghost towns, and search global locations with ease."
-  />
-     <link rel="preload" href="/globals.css" as="style" />
-     <meta name="robots" content="index, follow">
-</meta>
-      </Head>
+      {/* Metadata is handled by layout.js */}
+      <link rel="preload" href="/globals.css" as="style" />
 
       <main id="main-content" className="about-main">
         {/* Hero */}
         <section className="about-hero">
-          <h1>About <span>LocateMyCity</span></h1>
+          <h1>About LocateMyCity</h1>
           <p>Discover the world — one location at a time. Whether you're exploring ghost towns, 
           checking distance to a tropical island, or verifying a city's status — our tools make it simple.</p>
         </section>

@@ -27,7 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   //   };
   // }
   
-  const pageUrl = `https://www.locatemycity.com/how-to-get-to-${from}-from-${to}`;
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://locatemycity.com');
+  // Route structure is /how-to-get-to/[from]/[to], not /how-to-get-to-{from}-from-{to}
+  const pageUrl = `${base}/how-to-get-to/${from}/${to}`;
   
   console.log('✅ [LAYOUT DEBUG] Generating metadata for:', { fromCapitalized, toCapitalized });
   
